@@ -34,3 +34,30 @@
 @media(max-width:900px){.sg-home .utilities{display:none}.sg-home .mobile-menu{display:block}.sg-shell{margin:72px 0 0}.sg-home header{height:72px;padding:0 20px}.sg-rail{position:relative;top:auto;left:auto;width:100%;min-width:0;bottom:auto;background:#e9e7e5!important;display:none}.sg-home.mobile-open .sg-rail{display:block}.sg-nav{padding:20px;display:grid;grid-template-columns:1fr 1fr}.sg-nav a,.sg-home:not(.scrolled) .sg-nav a{color:#073d53;text-shadow:none}.sg-hero{height:680px}.sg-hero-copy{left:28%;top:35%}.sg-latest{width:100%}.sg-news{margin:0;padding:30px 20px}}
 @media(max-width:600px){.sg-hero{height:650px}.sg-hero>img{object-position:43% center}.sg-shade{background:linear-gradient(90deg,#17202888,#17202844)}.sg-hero-copy{left:18%;right:18%;top:30%}.sg-hero-copy h1{font-size:45px}.sg-latest{grid-template-columns:1fr 1fr;padding:15px 20px}.sg-news article{display:flex;flex-direction:column-reverse;align-items:stretch;gap:22px;padding:45px 0}.sg-news article:nth-child(even) .sg-news-copy{order:0}}
 @media(prefers-reduced-motion:reduce){.sg-hero>img{animation:none}}
+
+
+/* Silent Gliss-inspired feature layout for Sarvagelli */
+.sg-home header{height:100px;padding:0 2.7vw;background:#fff;border:0;box-shadow:none}
+.sg-home .brand img{width:205px;height:66px}
+.sg-home .utilities{display:flex;align-items:center;gap:25px;margin-left:auto;color:#958b85;font:16px Georgia,serif}
+.sg-home .utilities a{color:inherit}
+.sg-home .mobile-menu{display:none}
+.sg-shell{position:relative;display:block;margin:132px 2.6vw 0;min-height:700px;background:#f4f3f2;overflow:hidden}
+.sg-rail{position:absolute;z-index:3;top:0;left:0;bottom:auto;width:25%;height:700px;min-width:0;overflow:auto;pointer-events:auto;background:#e9e7e5!important}
+.sg-nav{display:flex;flex-direction:column;gap:0;padding:118px 16% 55px}
+.sg-nav a,.sg-home:not(.scrolled) .sg-nav a{display:block;padding:13px 0;color:#958d88;text-shadow:none;font-size:17px;line-height:1.2;letter-spacing:.08em}
+.sg-nav a:hover,.sg-nav a.active{color:#073d53}
+.sg-home:not(.scrolled) .sg-rail{background:#e9e7e5!important}
+.sg-hero{position:relative;margin-left:28%;width:68%;height:700px;min-height:0;background:#d8c28f;overflow:hidden}
+.sg-hero>img{object-position:center;animation:none}
+.sg-shade{background:linear-gradient(90deg,#21190d18,#21190d05)}
+.sg-hero-copy{top:5%;left:5%;right:auto;text-align:left;text-shadow:none}
+.sg-hero-copy p{display:inline-block;margin:0;padding:9px 12px;background:#202124;color:#fff;font:16px/1.2 Arial,sans-serif}
+.sg-hero-copy h1,.sg-hero-copy>a{display:none}
+.sg-latest{display:none}
+.sg-news{margin:0 4% 0 28%;padding:32px 0 55px;background:#f4f3f2}
+.sg-news article{min-height:280px;padding:35px 0;margin:0 0 30px;grid-template-columns:1fr 1fr;gap:30px}
+.sg-home footer{margin:0;padding:35px 4.8%;background:#f4f3f2}
+@media(max-width:900px){.sg-home header{height:82px;padding:0 24px}.sg-home .brand img{width:165px}.sg-home .utilities{gap:14px;font-size:14px}.sg-home .mobile-menu{display:block}.sg-shell{margin:106px 20px 0;min-height:620px}.sg-rail{width:27%;height:620px}.sg-nav{padding:90px 12% 35px}.sg-nav a,.sg-home:not(.scrolled) .sg-nav a{font-size:14px}.sg-hero{margin-left:30%;width:67%;height:620px}.sg-news{margin-left:30%}}
+@media(max-width:600px){.sg-home header{height:72px;padding:0 18px}.sg-home .brand img{width:145px;height:48px}.sg-home .utilities{display:none}.sg-home .mobile-menu{display:grid}.sg-shell{margin:88px 12px 0;min-height:0;overflow:visible}.sg-rail{position:fixed;z-index:70;top:72px;left:0;right:0;bottom:0;width:auto;height:auto;min-width:0;display:none;background:#e9e7e5!important}.sg-home.mobile-open .sg-rail{display:block}.sg-nav{padding:28px 30px}.sg-nav a,.sg-home:not(.scrolled) .sg-nav a{font-size:17px}.sg-hero{margin:0;width:100%;height:clamp(430px,68svh,570px)}.sg-hero-copy{top:16px;left:16px}.sg-news{margin:0;padding:25px 18px}.sg-news article{grid-template-columns:1fr;min-height:0;gap:20px;padding:30px 0}.sg-news article>img{order:-1}}
+@media(prefers-reduced-motion:reduce){.sg-hero>img{animation:none}}
