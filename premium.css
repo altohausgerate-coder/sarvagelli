@@ -60,3 +60,13 @@
 .sg-inspiration .sg-feature-copy>p:not(.sg-feature-kicker){font-size:18px;line-height:1.65}
 .sg-inspiration .sg-feature-visual img{aspect-ratio:1.55;object-position:center}
 @media(max-width:640px){.sg-home h1{font-size:clamp(32px,9vw,48px)}.sg-home h2{font-size:28px}.sg-inspiration .sg-feature-copy>p:not(.sg-feature-kicker){font-size:16px}}
+
+.sg-hero-image{position:absolute;z-index:0;inset:0;width:100%;height:100%;object-fit:cover}
+.sg-video-section{margin:0 0 0 28%;padding:72px 4.5% 82px;background:#fff;color:#073f59}
+.sg-video-copy{max-width:660px;margin:0 0 28px}
+.sg-video-kicker{margin:0 0 14px;color:#8b817b;font-size:13px!important;font-weight:600;letter-spacing:.08em!important}
+.sg-video-section h2{margin:0 0 14px}
+.sg-video-section p:not(.sg-video-kicker){margin:0;font-size:16px;line-height:1.6}
+.sg-video-section video{display:block;width:100%;aspect-ratio:16/9;background:#222;object-fit:cover}
+@media(max-width:1000px){.sg-video-section{margin-left:30%;padding:55px 4.5%}}
+@media(max-width:640px){.sg-video-section{margin:0;padding:42px 20px 50px}.sg-video-copy{margin-bottom:20px}}
