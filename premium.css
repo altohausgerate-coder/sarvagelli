@@ -1,22 +1,4 @@
 :root{--ink:#173f4d;--sand:#f1eee8;--night:#102f3a}
-/* Refined editorial typography and motion; the Silent Gliss inspired layout stays intact. */
-@font-face{font-family:SGText;src:url('assets/brandon-400.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
-@font-face{font-family:SGText;src:url('assets/brandon-700.woff2') format('woff2');font-style:normal;font-weight:700;font-display:swap}
-@font-face{font-family:SGDisplay;src:url('assets/8fe135171f4e5fca.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
-.premium-home{font-family:SGText,'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.65;letter-spacing:.005em;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
-.premium-home h1,.premium-home h2,.premium-home h3,.premium-home .kicker,.premium-home .lead,.premium-home .cinema-copy h1,.premium-home .manifesto h2,.premium-home .lab-copy h2,.premium-home .collection-intro h2,.premium-home .motion-copy h2,.premium-home .project-copy h2,.premium-home .final-cta h2,.premium-home .editorial-card h3{font-family:SGDisplay,Georgia,serif;font-weight:400;font-kerning:normal;text-wrap:balance}
-.premium-home p{ text-wrap:pretty }
-.premium-nav,.eyebrow,.section-index,.hero-topline,.scroll-cue,.card-no,.editorial-card>p,.track-demo>p,.premium-footer .copyright{font-family:SGText,'Helvetica Neue',Arial,sans-serif;font-weight:400;letter-spacing:.14em}
-.premium-nav{font-size:12px}.hero-lead,.manifesto-grid p,.lab-copy>p:not(.section-index),.motion-copy>p:not(.section-index),.project-copy>p:not(.section-index),.premium-footer p{font-size:16px;line-height:1.75}
-.cinema-copy h1{letter-spacing:-.025em;line-height:1.02}.manifesto h2,.lab-copy h2,.collection-intro h2,.motion-copy h2,.project-copy h2,.final-cta h2{letter-spacing:-.02em}
-.premium-home .reveal{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
-.js .premium-home .reveal:not(.seen){opacity:0;transform:translate3d(0,34px,0)}
-.editorial-card img{transform:scale(1.015);transition:transform 1.25s cubic-bezier(.2,.65,.25,1),filter 1.1s}.editorial-card:hover img{transform:scale(1.065);filter:saturate(1.04)}
-.cinema-hero video{animation:hero-settle 1.8s cubic-bezier(.2,.65,.25,1) both}.cinema-overlay{transition:opacity 1.2s ease}.cinema-hero:hover .cinema-overlay{opacity:.92}
-.button-light,.button-ghost,.button-dark,.round-link,.consult-pill{transition:transform .45s cubic-bezier(.2,.8,.2,1),background-color .35s,color .35s,border-color .35s}
-.lab-curtain{transition:width .12s linear;will-change:width}.track-line span{transition:left .12s linear;will-change:left}
-@keyframes hero-settle{from{transform:scale(1.09);filter:brightness(.76)}to{transform:scale(1.035);filter:brightness(1)}}
-@media(prefers-reduced-motion:reduce){.premium-home .reveal,.editorial-card img,.cinema-hero video,.lab-curtain,.track-line span{transition:none!important;animation:none!important}.js .premium-home .reveal:not(.seen){opacity:1;transform:none}}
 .premium-home{background:var(--sand);color:var(--ink);font-family:Brandon,Ysabeau,sans-serif}
 .premium-home .premium-header{height:88px;background:#f8f6f1e8;backdrop-filter:blur(18px);border-bottom:1px solid #173f4d19;padding:0 4vw}
 .premium-header .brand img{width:170px;height:56px}.premium-nav{display:flex;gap:2.6vw;font-size:13px;letter-spacing:.08em;text-transform:uppercase}.premium-nav a{position:relative;padding:8px 0}.premium-nav a:after{content:"";position:absolute;left:0;right:100%;bottom:2px;height:1px;background:currentColor;transition:right .35s}.premium-nav a:hover:after{right:0}.header-actions{display:flex;align-items:center;gap:18px}.consult-pill{border:1px solid var(--ink);border-radius:99px;padding:10px 18px;font-size:13px}.premium-rail{display:none}.premium-main{margin:0;padding:0}.scroll-progress{position:fixed;z-index:100;top:0;left:0;width:var(--scroll,0%);height:2px;background:#a67c52}
@@ -29,24 +11,3 @@
 @keyframes cue{0%,100%{transform:scaleX(.2);opacity:.4}50%{transform:scaleX(1);opacity:1}}
 @media(max-width:900px){.premium-nav{display:none}.premium-home .mobile-menu{display:block}.premium-home.mobile-open .premium-rail{display:block;position:fixed;inset:72px 0 0;width:100%;background:#f1eee8!important;color:var(--ink)!important;z-index:80}.premium-rail .main-nav{display:flex;flex-direction:column;gap:24px;padding:50px 8vw;font-size:22px}.motion-story,.project-strip{grid-template-columns:1fr}.premium-footer{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){.premium-home .premium-header{height:72px;padding:0 18px}.premium-header .brand img{width:145px}.consult-pill{display:none}.cinema-copy{left:20px;right:20px}.cinema-copy h1{font-size:49px}.hero-ctas{flex-direction:column;align-items:flex-start}.manifesto{padding:100px 20px}.manifesto-grid{margin:50px 0 0;grid-template-columns:1fr}.lab-copy{left:20px;right:20px}.collection-intro{padding:100px 20px 60px;grid-template-columns:1fr}.editorial-grid{padding:0 20px 100px;display:block}.editorial-card,.card-wide{width:100%;margin:0 0 70px}.editorial-card>div,.card-tall>div,.card-wide>div{aspect-ratio:1.08}.motion-story{padding:90px 20px;min-height:auto}.track-demo{height:470px}.project-image img{min-height:430px}.project-copy{padding:80px 20px}.final-cta{padding:110px 20px}.premium-footer{padding:60px 20px 30px;grid-template-columns:1fr}}
-
-
-/* 2026-11: visible typography and motion refinement */
-.premium-home,.premium-home p,.premium-home a,.premium-home button,.premium-home nav{font-family:Ysabeau,'Helvetica Neue',Arial,sans-serif}
-.premium-home{font-size:18px;line-height:1.72;letter-spacing:.01em}
-.premium-home .premium-nav,.premium-home .eyebrow,.premium-home .section-index,.premium-home .hero-topline,.premium-home .scroll-cue,.premium-home .editorial-card>p,.premium-home .track-demo>p{font-family:Ysabeau,sans-serif;font-weight:700;letter-spacing:.16em}
-.premium-home .premium-nav{font-size:13px}
-.premium-home .cinema-copy h1,.premium-home .manifesto h2,.premium-home .lab-copy h2,.premium-home .collection-intro h2,.premium-home .motion-copy h2,.premium-home .project-copy h2,.premium-home .final-cta h2,.premium-home .editorial-card h3{font-family:Basilia,Georgia,serif;font-weight:400}
-.premium-home .cinema-copy h1{font-size:clamp(58px,7.4vw,118px);line-height:.94;letter-spacing:-.045em}
-.premium-home .hero-lead,.premium-home .manifesto-grid p,.premium-home .lab-copy>p:not(.section-index),.premium-home .motion-copy>p:not(.section-index),.premium-home .project-copy>p:not(.section-index){font-size:19px;line-height:1.8}
-.premium-home .reveal{transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
-.js .premium-home .reveal:not(.seen){opacity:0;transform:translate3d(0,58px,0)}
-.premium-home .editorial-card:nth-child(2){transition-delay:.08s}.premium-home .editorial-card:nth-child(3){transition-delay:.16s}.premium-home .editorial-card:nth-child(4){transition-delay:.24s}
-.premium-home .editorial-card img{transform:scale(1);transition:transform 1.4s cubic-bezier(.16,1,.3,1),filter 1s}
-.premium-home .editorial-card:hover img{transform:scale(1.075);filter:saturate(1.08)}
-.premium-home .button-light,.premium-home .button-ghost,.premium-home .button-dark,.premium-home .round-link,.premium-home .consult-pill{transition:transform .55s cubic-bezier(.16,1,.3,1),background-color .35s,color .35s,border-color .35s}
-.premium-home .cinema-copy .eyebrow,.premium-home .cinema-copy h1,.premium-home .cinema-copy .hero-lead,.premium-home .cinema-copy .hero-ctas{animation:copy-arrive 1s cubic-bezier(.16,1,.3,1) both}
-.premium-home .cinema-copy h1{animation-delay:.1s}.premium-home .cinema-copy .hero-lead{animation-delay:.22s}.premium-home .cinema-copy .hero-ctas{animation-delay:.34s}
-@keyframes copy-arrive{from{opacity:0;transform:translate3d(0,26px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
-@media(max-width:640px){.premium-home{font-size:16px}.premium-home .cinema-copy h1{font-size:clamp(46px,12vw,64px)}}
-@media(prefers-reduced-motion:reduce){.premium-home .cinema-copy .eyebrow,.premium-home .cinema-copy h1,.premium-home .cinema-copy .hero-lead,.premium-home .cinema-copy .hero-ctas{animation:none}}
