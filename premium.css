@@ -48,3 +48,15 @@
 .sg-feature-visual:hover img{transform:scale(1.025)}
 @media(max-width:1000px){.sg-feature{margin-left:30%;padding:70px 4.5%;gap:26px}.sg-feature-copy>p:not(.sg-feature-kicker){font-size:18px}}
 @media(max-width:640px){.sg-feature{margin:0;padding:48px 20px;grid-template-columns:1fr;gap:28px}.sg-feature-kicker{margin-bottom:20px}.sg-feature h2{font-size:28px;margin-bottom:16px}.sg-feature-copy>p:not(.sg-feature-kicker){font-size:18px;margin-bottom:25px}.sg-feature-visual{order:-1}}
+
+/* One clear corporate type system across the homepage. */
+.sg-home,.sg-home *{font-family:"Segoe UI",Arial,Helvetica,sans-serif!important;letter-spacing:normal}
+.sg-home{font-size:16px;line-height:1.55}
+.sg-home p,.sg-home a,.sg-home li,.sg-home button,.sg-home nav{font-size:16px;line-height:1.55}
+.sg-home h1{font-size:clamp(36px,5vw,64px);line-height:1.12;font-weight:600}
+.sg-home h2{font-size:clamp(26px,3vw,38px);line-height:1.25;font-weight:600}
+.sg-home h3{font-size:20px;line-height:1.35;font-weight:600}
+.sg-feature.sg-inspiration{margin-top:0}
+.sg-inspiration .sg-feature-copy>p:not(.sg-feature-kicker){font-size:18px;line-height:1.65}
+.sg-inspiration .sg-feature-visual img{aspect-ratio:1.55;object-position:center}
+@media(max-width:640px){.sg-home h1{font-size:clamp(32px,9vw,48px)}.sg-home h2{font-size:28px}.sg-inspiration .sg-feature-copy>p:not(.sg-feature-kicker){font-size:16px}}
