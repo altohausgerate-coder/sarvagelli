@@ -35,3 +35,5 @@ html{scroll-behavior:smooth;scroll-padding-top:110px}body{background:var(--paper
 .js .hero-image{animation:none!important}.js .hero-curtain.curtain-left{animation-duration:1.5s;animation-delay:.08s}.js .hero-curtain.curtain-right{animation-duration:1.5s;animation-delay:.08s}.js .hero-copy>.eyebrow{animation-delay:1.62s}.js .hero-copy>h1{animation-delay:1.74s}.js .hero-copy>.hero-lead{animation-delay:1.86s}.js .hero-brandmark{animation-delay:1.62s}
 @media(prefers-reduced-motion:reduce){.js .hero-image,.js .hero-curtain,.js .hero-copy,.js .hero-copy>*,.js .hero-brandmark{animation:none!important}.js .hero-copy>*,.js .hero-brandmark{opacity:1}.js .hero-copy>*{transform:none}}
 @media(min-width:641px){.sg-home .rail.sg-rail{display:none!important}}
+.section-heading .eyebrow{grid-column:1/-1;margin:0 0 12px}.section-heading h2,.section-heading>p{position:relative;z-index:1}
+@media(max-width:640px){.section-heading .eyebrow{grid-column:auto;margin:0 0 6px}}
