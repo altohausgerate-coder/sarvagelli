@@ -37,7 +37,7 @@
 }
 .bark-page .project-overlay b {
   max-width: 100%;
-  font-size: clamp(21px, 2.3vw, 36px);
+  font-size: clamp(19px, 2vw, 32px);
   font-weight: 600;
   line-height: 1.13;
   text-wrap: balance;
@@ -54,7 +54,7 @@
 @media (max-width: 640px) {
   .bark-page h1 { font-size: clamp(30px, 9vw, 46px); }
   .bark-page .project-filters { margin-inline: 0; padding-inline: 0; }
-  .bark-page .project-overlay b { font-size: clamp(21px, 6vw, 29px); }
+  .bark-page .project-overlay b { font-size: clamp(19px, 5.4vw, 26px); }
   .bark-menu { gap: 12px; }
   .bark-main { overflow-wrap: anywhere; }
 }
