@@ -121,3 +121,17 @@ html{scroll-behavior:smooth;scroll-padding-top:110px}body{background:var(--paper
 .intro-about .text-link{justify-self:start;margin:0;font-size:10px;letter-spacing:.09em;text-transform:uppercase}
 @media(max-width:900px){.intro-band{grid-template-columns:minmax(150px,.65fr) minmax(0,1.35fr)}.intro-copy,.intro-about{grid-column:2}.intro-about{justify-self:start;max-width:480px}}
 @media(max-width:640px){.intro-band{grid-template-columns:1fr;gap:14px}.intro-band>.eyebrow,.intro-copy,.intro-about{grid-column:1}.intro-band h2{font-size:34px}.intro-about p{font-size:13px;line-height:1.7}}
+
+/* Keep the internal page menus predictable and compact. */
+.internal .flyout[hidden]{display:none!important}
+.internal .flyout:not([hidden]){display:grid}
+.internal .flyout{width:min(340px,calc(100vw - 32px));max-height:min(62svh,520px);grid-template-columns:minmax(0,1fr);overflow-x:hidden;overflow-y:auto;padding:14px 20px}
+.internal .flyout a{white-space:normal;overflow-wrap:anywhere;line-height:1.45}
+/* Compact about note and a single supporting image on the homepage. */
+.intro-band{display:block;padding:62px var(--gutter);background:var(--paper)}
+.intro-band-inner{width:min(1120px,100%);margin-left:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(170px,260px);gap:clamp(28px,5vw,76px);align-items:center}
+.intro-about{max-width:620px}
+.intro-about p{margin:0 0 18px;color:var(--muted);font-size:14px;line-height:1.75}
+.intro-about .text-link{justify-self:start;margin:0;font-size:10px;letter-spacing:.09em;text-transform:uppercase}
+.intro-image{width:100%;aspect-ratio:1.28;object-fit:cover}
+@media(max-width:640px){.intro-band{padding:46px var(--gutter)}.intro-band-inner{grid-template-columns:1fr;gap:22px}.intro-about p{font-size:13px;line-height:1.7}.intro-image{width:min(58%,230px);justify-self:end}}
