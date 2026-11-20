@@ -58,3 +58,37 @@
   .bark-menu { gap: 12px; }
   .bark-main { overflow-wrap: anywhere; }
 }
+
+/* The page opens behind two fabric panels while the navigation stays available. */
+@media (prefers-reduced-motion: no-preference) {
+  .bark-page.curtain-entry::before,
+  .bark-page.curtain-entry::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 50.5%;
+    z-index: 69;
+    pointer-events: none;
+    background: linear-gradient(90deg, #352e23, #867455 14%, #514534 28%,
+      #b6a27c 44%, #60513a 60%, #9c8965 77%, #3c3326);
+    background-size: clamp(110px, 14vw, 230px) 100%;
+    box-shadow: inset 0 0 44px #1a171180;
+    animation: section-curtain-open .85s cubic-bezier(.65, 0, .3, 1) both;
+  }
+  .bark-page.curtain-entry::before {
+    left: 0;
+    transform-origin: left center;
+    --curtain-exit: -105%;
+  }
+  .bark-page.curtain-entry::after {
+    right: 0;
+    transform-origin: right center;
+    --curtain-exit: 105%;
+  }
+}
+
+@keyframes section-curtain-open {
+  from { transform: translateX(0) scaleX(1); }
+  to { transform: translateX(var(--curtain-exit)) scaleX(.74); visibility: hidden; }
+}
