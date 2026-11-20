@@ -74,7 +74,7 @@
       #b6a27c 44%, #60513a 60%, #9c8965 77%, #3c3326);
     background-size: clamp(110px, 14vw, 230px) 100%;
     box-shadow: inset 0 0 44px #1a171180;
-    animation: section-curtain-open .85s cubic-bezier(.65, 0, .3, 1) both;
+    animation: section-curtain-open 1.4s cubic-bezier(.65, 0, .3, 1) both;
   }
   .bark-page.curtain-entry::before {
     left: 0;
