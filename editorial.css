@@ -194,3 +194,65 @@ html{scroll-behavior:smooth;scroll-padding-top:110px}body{background:var(--paper
   .intro-band-inner { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .intro-image { width: min(76%, 280px); justify-self: end; }
 }
+
+@media (max-width: 640px) {
+  .sg-home .editorial-hero {
+    height: 100vh;
+    height: 100svh;
+    min-height: 0;
+  }
+  .sg-home .hero-image { object-position: 55% center; }
+  .sg-home .hero-overlay {
+    background: linear-gradient(180deg, #121a17a8 0%, transparent 28%, transparent 35%, #121a1794 72%, #101713ed 100%);
+  }
+  .sg-home .editorial-hero .hero-copy {
+    top: auto;
+    bottom: max(clamp(24px, 8vh, 78px), env(safe-area-inset-bottom));
+  }
+  .sg-home .hero-brandmark { display: none; }
+  .sg-home .curtain-left { transform-origin: left center; }
+  .sg-home .curtain-right { transform-origin: right center; }
+  .sg-home.js .hero-curtain.curtain-left { animation-name: mobile-curtain-left; }
+  .sg-home.js .hero-curtain.curtain-right { animation-name: mobile-curtain-right; }
+}
+
+@keyframes mobile-curtain-left {
+  0% { transform: translateX(0) scaleX(1); }
+  64% { transform: translateX(-46%) scaleX(.8); }
+  100% { transform: translateX(-102%) scaleX(.66); }
+}
+@keyframes mobile-curtain-right {
+  0% { transform: translateX(0) scaleX(1); }
+  64% { transform: translateX(46%) scaleX(.8); }
+  100% { transform: translateX(102%) scaleX(.66); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sg-home .intro-band.reveal { opacity: 1; transform: none; }
+  .sg-home .intro-band-inner {
+    transition: opacity .65s var(--ease), transform .65s var(--ease);
+  }
+  .sg-home.js .intro-band:not(.seen) .intro-band-inner {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .sg-home .new-product-track.reveal,
+  .sg-home .catalog-card.reveal {
+    transition-property: opacity, transform, clip-path;
+  }
+  .sg-home .new-product-track.reveal,
+  .sg-home .catalog-card.reveal { clip-path: inset(0); }
+  .sg-home.js .new-product-track.reveal:not(.seen),
+  .sg-home.js .catalog-card.reveal:not(.seen) {
+    clip-path: inset(8% 0 0);
+    transform: translateY(15px);
+  }
+  .sg-home.js .intro-band:focus-within .intro-band-inner,
+  .sg-home.js .new-product-track.reveal:focus-within,
+  .sg-home.js .catalog-card.reveal:focus-within {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+}
