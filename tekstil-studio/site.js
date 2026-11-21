@@ -30,6 +30,55 @@ if (entrance && masthead && 'IntersectionObserver' in window) {
   window.addEventListener('resize', observeHeader, { passive: true });
 }
 
+const projectSequence = document.querySelector('.project-sequence');
+if (projectSequence) {
+  const stacks = [...projectSequence.querySelectorAll('.project-stack')].map(stack =>
+    [...stack.querySelectorAll('.project-frame')]);
+  const motionPreference = matchMedia('(prefers-reduced-motion: no-preference)');
+  let scheduledFrame = 0;
+
+  function paintProjectFrames() {
+    scheduledFrame = 0;
+    if (!motionPreference.matches) return;
+    const viewport = window.innerHeight;
+    const maxInset = window.innerWidth <= 760 ? 4.5 : 9;
+    const geometry = stacks.map(stack => stack.map(frame => frame.getBoundingClientRect()));
+    for (const [index, stack] of stacks.entries()) {
+      for (const [frameIndex, frame] of stack.entries()) {
+        const rect = geometry[index][frameIndex];
+        const next = geometry[index][frameIndex + 1];
+        const visible = Math.max(0, Math.min(rect.bottom, viewport) - Math.max(rect.top, 0));
+        const handoff = next ? Math.min(1, Math.max(0, 1 - next.top / viewport)) : 0;
+        const ownEntry = Math.min(1, Math.max(0, 1 - rect.top / viewport));
+
+        frame.classList.toggle('caption-in-view', visible >= Math.min(rect.height, viewport) * .58 && handoff < .47);
+        if (next) {
+          frame.style.setProperty('--project-light', (1 - .56 * handoff).toFixed(3));
+          frame.style.setProperty('--project-scale', (1 + .04 * handoff).toFixed(3));
+        }
+        if (frameIndex) {
+          const spread = Math.max(0, (ownEntry - .17) / .83);
+          frame.style.setProperty('--project-inset', `${(maxInset * (1 - spread * spread * (3 - 2 * spread))).toFixed(2)}%`);
+        }
+      }
+    }
+  }
+
+  function requestProjectFrame() {
+    if (motionPreference.matches && !scheduledFrame) scheduledFrame = requestAnimationFrame(paintProjectFrames);
+  }
+
+  function syncProjectMotion() {
+    projectSequence.classList.toggle('scroll-projects', motionPreference.matches);
+    requestProjectFrame();
+  }
+
+  window.addEventListener('scroll', requestProjectFrame, { passive: true });
+  window.addEventListener('resize', requestProjectFrame, { passive: true });
+  motionPreference.addEventListener('change', syncProjectMotion);
+  syncProjectMotion();
+}
+
 if ('IntersectionObserver' in window && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
   const observer = new IntersectionObserver(entries => {
     for (const entry of entries) {

@@ -13,6 +13,7 @@
   --photo-hover-duration: 600ms;
   --hero-zoom-duration: 14s;
   --hero-caption-delay: 720ms;
+  --project-caption-duration: 750ms;
 }
 
 .visually-hidden {
@@ -266,6 +267,23 @@
   @keyframes portfolio-caption-in { from { opacity: 0; } }
   .project-frame { position: sticky; top: 0; }
   .project-frame:focus-within { z-index: 1; }
+  .scroll-projects .project-frame {
+    overflow: clip;
+    clip-path: inset(0 var(--project-inset, 0%));
+  }
+  .scroll-projects .project-frame + .project-frame { margin-top: min(16svh, 155px); }
+  .scroll-projects .project-frame img {
+    transform: scale(var(--project-scale, 1));
+    opacity: var(--project-light, 1);
+  }
+  .scroll-projects .project-frame figcaption {
+    opacity: 0;
+    translate: 0 12px;
+    transition: opacity var(--project-caption-duration) ease, translate var(--project-caption-duration) var(--photo-reveal-ease);
+  }
+  .scroll-projects .project-frame:is(.caption-in-view, :focus-within) figcaption { opacity: 1; translate: none; }
+  .scroll-projects .project-frame:focus-within { clip-path: none; }
+  .project-text.reveal { transition-duration: var(--project-caption-duration); }
   .collection .reveal { transition-duration: var(--photo-reveal-duration); transition-timing-function: var(--photo-reveal-ease); transition-delay: var(--reveal-delay, 0ms); }
   .motion .collection .reveal:not(.seen):not(:focus-within) { transform: translateY(var(--photo-reveal-distance)); }
 }
