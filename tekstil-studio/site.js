@@ -43,6 +43,11 @@ if (tools) {
   const projects = [...document.querySelectorAll('.project-gallery [data-category]')];
   const { category, location, query } = tools.elements;
   const count = tools.querySelector('output');
+  const pageUrl = new URL(window.location.href);
+  for (const field of [category, location, query].filter(Boolean)) {
+    const saved = pageUrl.searchParams.get(field.name);
+    if (saved !== null) field.value = saved;
+  }
 
   function filterProjects() {
     const term = query.value.trim().toLocaleLowerCase('az');
@@ -52,14 +57,24 @@ if (tools) {
       const matchesLocation = !location?.value || project.dataset.location === location.value;
       const matchesTerm = project.dataset.search.toLocaleLowerCase('az').includes(term);
       project.hidden = !(matchesCategory && matchesLocation && matchesTerm);
-      if (!project.hidden) visible++;
+      if (!project.hidden) {
+        project.style.setProperty('--tile-delay', `${(visible % 3) * 65}ms`);
+        visible++;
+      }
     }
     count.value = visible ? visible + ' layihə' : 'Layihə tapılmadı';
   }
 
   tools.hidden = false;
   tools.addEventListener('submit', event => event.preventDefault());
-  tools.addEventListener('input', filterProjects);
+  tools.addEventListener('input', () => {
+    filterProjects();
+    for (const field of [category, location, query].filter(Boolean)) {
+      if (field.value.trim()) pageUrl.searchParams.set(field.name, field.value.trim());
+      else pageUrl.searchParams.delete(field.name);
+    }
+    history.replaceState(history.state, '', pageUrl);
+  });
   filterProjects();
 }
 
@@ -69,7 +84,8 @@ if (inquiry) {
   inquiry.addEventListener('submit', event => {
     event.preventDefault();
     const fields = new FormData(inquiry);
+    const subject = `Sarvagelli · ${fields.get('topic') || 'Layihə sorğusu'}`;
     const body = `Ad: ${fields.get('name')}\nE-poçt: ${fields.get('email')}\n\n${fields.get('message')}`;
-    window.location.href = `mailto:info@sarvagelli.com?subject=Sarvagelli%20layih%C9%99%20sor%C4%9Fusu&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:info@sarvagelli.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   });
 }

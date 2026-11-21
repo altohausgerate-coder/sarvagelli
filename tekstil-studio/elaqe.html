@@ -14,7 +14,9 @@
   <meta property="og:title" content="Əlaqə | Sarvagelli">
   <meta property="og:description" content="Sarvagelli-nin əlaqə məlumatları, telefon və ünvanı.">
   <meta property="og:image" content="https://altohausgerate-coder.github.io/sarvagelli/tekstil-studio/media/portfolio-giris.webp">
-  <script src="site.js?v=7" defer></script>
+  <link rel="stylesheet" href="interactions.css?v=1">
+  <script src="site.js?v=8" defer></script>
+  <script src="interactions.js?v=1" defer></script>
 </head>
 <body>
   <a class="skip" href="#content">Məzmuna keç</a>
@@ -27,19 +29,28 @@
     </details>
   </header>
   <main id="content">
-    <section class="detail wrap">
-      <div class="detail-copy"><h1>Əlaqə</h1><p>Layihəniz, ölçü görüşü və ya material nümunəsi barədə bizə yazın.</p><address>186 Əhməd Rəcəbli küçəsi<br>Black Pearl Plaza, Bakı</address><p><a href="tel:+994505551787">+994 50 555 17 87</a><br><a href="mailto:info@sarvagelli.com">info@sarvagelli.com</a></p><a class="action" href="https://wa.me/994506661787">WhatsApp-da yaz <span aria-hidden="true">↗</span></a></div>
-      <div class="detail-photo reveal"><img src="../assets/category-design-textiles.jpg" alt="İnteryer və tekstil nümunəsi" width="1600" height="1067" fetchpriority="high" decoding="async"></div>
+    <section class="wrap editorial-intro">
+      <h1>Əlaqə</h1>
+      <p>Layihəniz, ölçü görüşü və ya material nümunələri barədə bizə yazın.</p>
     </section>
-    <section class="wrap inquiry-section" aria-labelledby="inquiry-title">
-      <h2 id="inquiry-title">Layihə sorğusu</h2>
-      <form class="inquiry-form" hidden>
-        <label>Adınız<input name="name" autocomplete="name" maxlength="100" required></label>
-        <label>E-poçt<input name="email" type="email" autocomplete="email" maxlength="200" required></label>
-        <label>Layihəniz barədə<textarea name="message" rows="5" maxlength="1000" required></textarea></label>
-        <button type="submit" class="action">E-poçt qaralamasını aç <span aria-hidden="true">↗</span></button>
-      </form>
-    </section>
+    <div class="wrap contact-layout">
+      <div>
+        <img src="media/ana-sehife/atelye-960.webp" alt="Atelyedə kətan pərdənin tikilişi" width="960" height="640" loading="lazy" decoding="async">
+        <address>186 Əhməd Rəcəbli küçəsi<br>Black Pearl Plaza, Bakı</address>
+        <p><a href="tel:+994505551787">+994 50 555 17 87</a><br><a href="mailto:info@sarvagelli.com">info@sarvagelli.com</a></p>
+        <a class="action" href="https://wa.me/994506661787">WhatsApp-da yaz <span aria-hidden="true">↗</span></a>
+      </div>
+      <section class="inquiry-section" aria-labelledby="inquiry-title">
+        <h2 id="inquiry-title">Layihə sorğusu</h2>
+        <form class="inquiry-form" hidden>
+          <label>Ad və soyad<input name="name" autocomplete="name" maxlength="100" required></label>
+          <label>E-poçt<input name="email" type="email" autocomplete="email" maxlength="200" required></label>
+          <label>Müraciətin növü<select name="topic"><option>Layihə sorğusu</option><option>Ölçü görüşü</option><option>Material nümunəsi</option><option>Digər</option></select></label>
+          <label>Müraciətiniz<textarea name="message" rows="4" maxlength="1000" required></textarea></label>
+          <button type="submit" class="action">E-poçt qaralamasını aç <span aria-hidden="true">↗</span></button>
+        </form>
+      </section>
+    </div>
   </main>
   <footer class="footer">
     <div><p class="eyebrow">SARVAGELLİ · 1979</p><p class="footer-line">Məkanınıza uyğun<br>tekstil həlləri.</p></div>
