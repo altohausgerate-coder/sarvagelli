@@ -61,6 +61,16 @@
 .collection > .section-head { padding-top: 0; }
 .collection .eyebrow { margin-bottom: 9px; color: #6d522d; }
 .project-sequence { isolation: isolate; margin: 0 0 clamp(36px, 7vw, 100px); }
+.project-stack { isolation: isolate; }
+.project-text {
+  display: grid;
+  grid-template-columns: minmax(10rem, .4fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 12px clamp(28px, 7vw, 112px);
+  padding-block: clamp(42px, 7.5vw, 128px);
+}
+.project-text h3 { max-width: 23ch; font-size: clamp(28px, 4.5vw, 67px); }
+.project-text p:not(.eyebrow) { max-width: 52ch; margin-block: 12px; color: var(--muted); }
 .project-frame {
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
@@ -69,7 +79,7 @@
   padding: 0 var(--gutter);
   background: var(--paper);
 }
-.project-frame:nth-child(even) { padding-inline: max(var(--gutter), 12vw); }
+.project-frame--inset { padding-inline: max(var(--gutter), 12vw); }
 .project-frame img { width: 100%; height: 100%; object-fit: cover; }
 .project-frame figcaption {
   display: flex;
@@ -159,7 +169,8 @@
 }
 @media (max-width: 760px) {
   :root { --frame-height: min(64svh, calc(78vw + 48px)); }
-  .project-frame:nth-child(even) { padding-inline: var(--gutter); }
+  .project-frame--inset { padding-inline: var(--gutter); }
+  .project-text { grid-template-columns: 1fr; }
   .mobile-nav summary { position: relative; z-index: 2; }
   .mobile-nav[open] summary { color: var(--ink); }
   .mobile-nav nav {
