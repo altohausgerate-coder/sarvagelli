@@ -141,7 +141,9 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
     syncTriggers();
     drawer.classList.add('drawer-closing');
     const animation = activePanel.animate(
-      motion.matches ? [{ opacity: 1 }, { opacity: 0 }] : [{ transform: 'none' }, { transform: 'translateX(100%)' }],
+      motion.matches ? [{ opacity: 1 }, { opacity: 0 }] : [
+        { transform: 'none' }, { transform: 'none', offset: .1 }, { transform: 'translateX(100%)' },
+      ],
       { duration: parseFloat(token(motion.matches ? '--menu-reduced-duration' : '--menu-close-duration')), easing: token('--menu-ease'), fill: 'both' },
     );
     animation.finished.then(() => drawer.close(), () => drawer.close());
@@ -154,6 +156,10 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
       return;
     }
     if (!drawer.open) opener = trigger;
+    else if (trigger.closest('.drawer-top')) {
+      const matchingTrigger = editorialHeader.querySelector('[data-group="' + key + '"]');
+      if (matchingTrigger?.getClientRects().length) opener = matchingTrigger;
+    }
     const previous = activePanel;
     activeKey = key;
     drawer.querySelector('#sarvagelli-panel-' + key)?.remove();
@@ -197,6 +203,17 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
   editorialHeader.classList.add('has-editorial-menu');
 
   for (const element of [scrim, roundClose, closeText]) element.addEventListener('click', closeMenu);
+  drawer.addEventListener('keydown', event => {
+    if (event.key !== 'Tab') return;
+    const controls = [...drawer.querySelectorAll('a[href], button:not([disabled]), input:not([disabled])')]
+      .filter(control => control.getClientRects().length && !control.closest('[inert]'));
+    const first = controls[0];
+    const last = controls.at(-1);
+    if (event.shiftKey ? document.activeElement === first : document.activeElement === last) {
+      event.preventDefault();
+      (event.shiftKey ? last : first).focus();
+    }
+  });
   drawer.addEventListener('click', event => {
     if (event.target.closest('a') && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) drawer.close();
   });
