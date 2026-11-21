@@ -9,15 +9,25 @@ if (navigation) {
 
 const entrance = document.querySelector('.entrance');
 const masthead = document.querySelector('.masthead');
-if (masthead && document.querySelector('.project-sequence') && 'ResizeObserver' in window) {
-  new ResizeObserver(() => {
-    document.documentElement.style.setProperty('--masthead-height', `${masthead.offsetHeight}px`);
-  }).observe(masthead);
-}
 if (entrance && masthead && 'IntersectionObserver' in window) {
-  new IntersectionObserver(([entry]) => {
-    masthead.classList.toggle('over-entrance', entry.isIntersecting);
-  }, { rootMargin: '-76px 0px 0px' }).observe(entrance);
+  const photoSections = [entrance, ...document.querySelectorAll('.project-stack')];
+  let headerObserver;
+  function observeHeader() {
+    headerObserver?.disconnect();
+    const visible = new Set();
+    const band = Math.round(masthead.offsetHeight / 2);
+    const below = Math.max(0, window.innerHeight - band - 1);
+    headerObserver = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) visible.add(entry.target);
+        else visible.delete(entry.target);
+      }
+      masthead.classList.toggle('over-entrance', visible.size > 0);
+    }, { rootMargin: `-${band}px 0px -${below}px 0px` });
+    photoSections.forEach(section => headerObserver.observe(section));
+  }
+  observeHeader();
+  window.addEventListener('resize', observeHeader, { passive: true });
 }
 
 if ('IntersectionObserver' in window && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
@@ -36,6 +46,40 @@ if ('IntersectionObserver' in window && matchMedia('(prefers-reduced-motion: no-
     });
   });
   document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+}
+
+const solutions = document.querySelector('.solution-browser');
+if (solutions) {
+  const panel = solutions.querySelector('.solution-panel');
+  const description = panel.querySelector('p');
+  const photo = panel.querySelector('img');
+  const details = panel.querySelector('a');
+  let active;
+
+  for (const link of solutions.querySelectorAll('.solution-list a')) {
+    const option = document.createElement('button');
+    option.type = 'button';
+    option.textContent = link.textContent;
+    option.setAttribute('aria-controls', panel.id);
+    option.setAttribute('aria-pressed', String(active === undefined));
+    if (!active) active = option;
+    option.addEventListener('click', () => {
+      if (option === active) return;
+      active.setAttribute('aria-pressed', 'false');
+      option.setAttribute('aria-pressed', 'true');
+      active = option;
+      description.textContent = link.dataset.description;
+      photo.src = link.dataset.image;
+      photo.alt = link.dataset.alt;
+      details.href = link.href;
+      details.setAttribute('aria-label', `${link.textContent} — ətraflı bax`);
+      if (matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+        panel.animate([{ opacity: .48, transform: 'translateY(7px)' }, { opacity: 1, transform: 'none' }],
+          { duration: 320, easing: 'cubic-bezier(.22, 1, .36, 1)' });
+      }
+    });
+    link.replaceWith(option);
+  }
 }
 
 const tools = document.querySelector('.project-tools');
