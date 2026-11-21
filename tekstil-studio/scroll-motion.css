@@ -34,6 +34,11 @@
 .project-placeholder { aspect-ratio: 4 / 5; background: #e6dfd4; }
 [data-parallax] img { transform: none; }
 
+@media (scripting: enabled) {
+  [data-scroll-motion] .project-catalog .project-tools[hidden] { display: grid !important; visibility: hidden; }
+  [data-scroll-motion] .project-tools output { min-height: 1lh; }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   [data-scroll-motion] .masthead { transition: transform var(--motion-header-duration) var(--motion-ease-in-out), background-color var(--motion-header-color-duration) ease, color var(--motion-header-color-duration) ease; }
   [data-scroll-motion] .masthead.header-away:not(:focus-within) { transform: translateY(-100%); }
