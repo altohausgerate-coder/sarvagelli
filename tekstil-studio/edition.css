@@ -105,6 +105,14 @@
   width: 100%;
   gap: 18px clamp(25px, 4vw, 70px);
 }
+.project-frame--quiet::after {
+  background: linear-gradient(180deg, #18161150, transparent 25%, transparent 72%, #181611a8);
+}
+.project-frame--quiet figcaption {
+  display: block;
+  font-size: clamp(11px, 1.1vw, 15px);
+  letter-spacing: .025em;
+}
 .project-frame-name { max-width: 19ch; font: 400 clamp(36px, 5.5vw, 92px)/.99 var(--serif); letter-spacing: -.035em; }
 .project-frame .action { margin-top: 14px; padding-inline: 15px; border: 1px solid currentColor; }
 .project-meta {
