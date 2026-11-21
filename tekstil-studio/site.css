@@ -4,8 +4,10 @@
   --accent: #d9bb7c;
   --line: #283b3350;
   --gutter: clamp(22px, 5.2vw, 88px);
-  --serif: Georgia, "Segoe UI", serif;
-  --sans: system-ui, "Segoe UI", sans-serif;
+  --serif: Newsreader, "Iowan Old Style", Georgia, serif;
+  --sans: Manrope, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+  --ease-sheet: cubic-bezier(.32, .72, 0, 1);
   color: var(--ink);
   background: var(--paper);
   font: 16px / 1.6 var(--sans);
@@ -30,21 +32,25 @@ button, input, select { font: inherit; }
   gap: 18px;
   min-height: 76px;
   padding: 12px var(--gutter);
-  color: #fcf7eb;
-  background: var(--ink);
-  border-bottom: 1px solid #e0c58f40;
+  color: var(--ink);
+  background: #efece3ef;
+  border-bottom: 1px solid #283b3328;
+  -webkit-backdrop-filter: blur(16px) saturate(118%);
+  backdrop-filter: blur(16px) saturate(118%);
+  transition: background-color 180ms var(--ease-out), color 180ms var(--ease-out);
 }
 .brand img { width: clamp(132px, 15vw, 208px); height: auto; }
 .desktop-nav { display: flex; gap: clamp(15px, 2.6vw, 42px); }
 .masthead nav a { text-decoration: none; font-size: 14px; }
-.masthead nav a:hover, .masthead [aria-current] { color: var(--accent); }
+.masthead nav a:hover, .masthead [aria-current] { color: #775424; }
 .mobile-nav { display: none; }
 .eyebrow { font: 650 11px / 1.4 var(--sans); letter-spacing: .14em; text-transform: uppercase; }
 h1, h2, h3, .footer-line {
   font-family: var(--serif);
+  font-optical-sizing: auto;
   font-weight: 400;
   line-height: 1.05;
-  letter-spacing: -.045em;
+  letter-spacing: -.035em;
   text-wrap: balance;
 }
 h1 { font-size: clamp(42px, 7vw, 116px); }
@@ -65,30 +71,53 @@ h3 { font-size: clamp(30px, 3.4vw, 55px); }
 .action:hover span { transform: translate(3px, -3px); }
 
 .entrance {
-  min-height: calc(100svh - 76px);
-  display: grid;
-  grid-template-columns: 1fr minmax(300px, 410px);
-  gap: clamp(30px, 8vw, 150px);
-  align-items: center;
-  padding: clamp(38px, 6vw, 92px) var(--gutter);
-  background: linear-gradient(108deg, #1a2c25 32%, #304339 100%);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: end;
+  justify-content: space-between;
+  align-items: end;
+  gap: 25px;
+  min-height: 100svh;
+  padding: 115px var(--gutter) clamp(40px, 8vw, 112px);
+  background: #1a2c25;
   color: #fff8e9;
 }
-.entrance-copy { margin-left: clamp(0px, 4vw, 90px); }
+.entrance-backdrop, .entrance::after { position: absolute; inset: 0; width: 100%; height: 100%; }
+.entrance-backdrop { z-index: -2; object-fit: cover; object-position: 60% 55%; }
+.entrance::after { content: ""; z-index: -1; background: linear-gradient(95deg, #15201990, transparent 76%), linear-gradient(0deg, #111c16b0, transparent 65%); }
+.studio-home .masthead { position: fixed; inset: 0 0 auto; }
+.studio-home .masthead.over-entrance { color: #fff8e9; background: #25302945; border-color: #ffffff38; }
+.studio-home .masthead.over-entrance [aria-current], .studio-home .masthead.over-entrance a:hover { color: var(--accent); }
 .entrance-copy .eyebrow { color: var(--accent); margin-bottom: 20px; }
-.entrance-copy h1 { margin-bottom: 24px; }
+.entrance-copy h1 { margin-bottom: 24px; font-size: clamp(58px, 8vw, 126px); line-height: .91; }
 .entrance-copy > p:not(.eyebrow) { max-width: 35ch; color: #e7dec9; }
 .entrance-copy .action { color: var(--accent); margin-top: 20px; }
-.entrance-media { width: 100%; }
-.entrance-media iframe {
-  display: block;
-  width: 100%;
-  height: clamp(440px, 68svh, 690px);
-  border: 1px solid #d9bb7c80;
-  background: #ebe3d2 url("../assets/category-design-textiles.jpg") center / cover;
+.entrance-film {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding-inline: 18px;
+  border: 1px solid #f5e7bb78;
+  border-radius: 40px;
+  color: #fff8e9;
+  background: #28362c8c;
+  backdrop-filter: blur(12px);
+  font-size: 13px;
+  text-decoration: none;
+  transition: transform 160ms var(--ease-out), background-color 180ms var(--ease-out);
 }
-.entrance-media figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 7px; margin-top: 8px; color: #e7dec9; font-size: 12px; }
-.entrance-media figcaption a { text-underline-offset: 3px; }
+.entrance-film:hover { background-color: #223329; }
+.entrance-film:active { transform: scale(.97); }
+.entrance-player { width: min(480px, calc(100% - 24px)); max-height: calc(100svh - 22px); border: 1px solid var(--line); border-radius: 18px; padding: 13px; background: var(--paper); color: var(--ink); }
+.entrance-player::backdrop { background: #18261ddc; backdrop-filter: blur(6px); }
+.player-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.player-head h2 { font-size: 26px; }
+.player-head button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: transparent; color: inherit; cursor: pointer; font-size: 23px; }
+.player-frame iframe { display: block; width: 100%; height: min(66svh, 650px); border: 0; background: #fff; }
+.entrance-player > a { display: inline-block; margin-top: 12px; font-size: 13px; }
 
 .manifesto, .page-intro {
   display: grid;
@@ -173,6 +202,9 @@ h3 { font-size: clamp(30px, 3.4vw, 55px); }
   .motion .reveal:not(.seen):not(:focus-within) { transform: translateY(21px); opacity: 0; }
   .entrance-copy { animation: entrance-rise .8s cubic-bezier(.22,.62,.26,1) both; }
   @keyframes entrance-rise { from { opacity: 0; transform: translateY(18px); } }
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root) { animation-duration: 170ms; }
+  ::view-transition-new(root) { animation-duration: 240ms; animation-timing-function: var(--ease-out); }
 }
 @media (max-width: 760px) {
   .masthead { min-height: 64px; }
@@ -181,14 +213,12 @@ h3 { font-size: clamp(30px, 3.4vw, 55px); }
   .mobile-nav summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; gap: 9px; list-style: none; }
   .mobile-nav summary::-webkit-details-marker { display: none; }
   .mobile-nav[open] summary span { transform: rotate(45deg); }
-  .mobile-nav nav { position: absolute; inset: 100% 0 auto; display: grid; background: var(--ink); padding: 12px var(--gutter) 20px; }
-  .mobile-nav nav a { padding: 11px 0; border-top: 1px solid #e0c58f40; }
-  .entrance { grid-template-columns: minmax(0, 1fr); padding-top: 30px; gap: 30px; }
-  .entrance-copy { margin: 0; }
-  .entrance-copy h1 { font-size: clamp(45px, 10vw, 74px); margin-bottom: 14px; }
+  .mobile-nav nav { position: absolute; inset: 100% 0 auto; display: grid; background: var(--paper); color: var(--ink); padding: 12px var(--gutter) 20px; }
+  .mobile-nav nav a { padding: 11px 0; border-top: 1px solid var(--line); }
+  .entrance { flex-direction: column; justify-content: end; align-items: start; padding-top: 94px; gap: 20px; }
+  .entrance-backdrop { object-position: 59% center; }
+  .entrance-copy h1 { font-size: clamp(48px, 12vw, 76px); margin-bottom: 14px; }
   .entrance-copy .eyebrow { margin-bottom: 14px; }
-  .entrance-media { max-width: 460px; }
-  .entrance-media iframe { height: clamp(410px, 65svh, 600px); }
   .manifesto, .page-intro, .detail, .footer { grid-template-columns: 1fr; gap: 18px; }
   .feature, .feature:nth-of-type(even) { grid-template-columns: 1fr; min-height: 0; gap: 14px; }
   .feature:nth-of-type(even) .feature-photo { order: initial; }
@@ -204,5 +234,12 @@ h3 { font-size: clamp(30px, 3.4vw, 55px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .feature-copy { position: static; }
-  .action span, .product-card img, .project-index a { transition: none; }
+  .action span, .product-card img, .project-index a, .masthead, .entrance-film { transition: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mobile-nav[open] nav { animation: menu-appear 180ms var(--ease-out) both; }
+  .entrance-player[open] { animation: player-appear 240ms var(--ease-sheet) both; }
+  @keyframes menu-appear { from { opacity: 0; transform: translateY(-5px) scaleY(.985); } }
+  @keyframes player-appear { from { opacity: 0; transform: translateY(10px) scale(.98); } }
 }
