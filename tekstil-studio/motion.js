@@ -645,7 +645,7 @@ if (gallery) {
 }
 
 if (new URLSearchParams(location.search).get('tune') === '1') {
-  import('./motion-tuner.js?v=2').then(({ mountTuner }) => mountTuner(CONFIG, () => {
+  import('./motion-tuner.js?v=3').then(({ mountTuner }) => mountTuner(CONFIG, () => {
     bindWheel();
     if (!CONFIG.smoothScroll) wheelTarget = undefined;
     watchReveals();

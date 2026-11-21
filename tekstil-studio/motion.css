@@ -66,7 +66,7 @@
 .project-batch-controls button { padding: 0; background: transparent; color: inherit; border: 0; border-bottom: 1px solid; cursor: pointer; }
 .project-batch-controls button:disabled { cursor: default; }
 .project-batch-controls p { color: var(--muted); font-size: 13px; }
-.project-placeholder { aspect-ratio: 4 / 5; background: #e6dfd4; }
+.project-placeholder { position: relative; overflow: clip; aspect-ratio: 4 / 5; background: #e6dfd4; }
 .product-grid .project-placeholder { aspect-ratio: 3 / 2; }
 .motion-timeline { position: relative; }
 .motion-timeline::before { position: absolute; content: ""; inset: 0 auto var(--section-gap) var(--gutter); width: 1px; background: var(--line); transform: scaleY(var(--timeline-progress, 0)); transform-origin: top; }
@@ -143,14 +143,20 @@
   .solution-list button[aria-pressed="true"] { border-color: var(--line); }
   .solution-list button[aria-pressed="true"]::after { transform: scaleX(1); }
   .motion-filter-in { animation: motion-opacity var(--filter-in) var(--ease-out) calc(var(--motion-filter-item, 0) * var(--filter-stagger)) both; }
-  .project-placeholder { animation: motion-skeleton var(--skeleton-duration) var(--ease-hover) infinite alternate; }
+  .project-placeholder::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background: linear-gradient(90deg, transparent, #fff6, transparent);
+    animation: motion-skeleton var(--skeleton-duration) linear infinite;
+  }
   .inquiry-form label > .motion-field-label { transition: transform var(--field-duration) var(--ease-hover); }
 
   @keyframes motion-line-up { from { transform: translateY(106%); } }
   @keyframes motion-up { from { opacity: 0; transform: translateY(var(--reveal-distance)); } }
   @keyframes motion-opacity { from { opacity: 0; } }
   @keyframes motion-hero-image { from { opacity: 0; scale: var(--motion-intro-scale, 1.08); } }
-  @keyframes motion-skeleton { to { opacity: .5; } }
+  @keyframes motion-skeleton { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
 }
 
 .js :is([data-no-motion], [data-no-motion] *)[data-reveal],
@@ -194,4 +200,5 @@
 .motion-tuner { position: fixed; z-index: 10; right: 16px; bottom: 16px; width: min(calc(100% - 32px), 340px); max-height: 80dvh; overflow: auto; background: var(--paper); color: var(--ink); border: 1px solid var(--line); padding: 14px; font-size: 13px; }
 .motion-tuner label { display: grid; grid-template-columns: 1fr 80px; align-items: center; gap: 8px; margin: 7px 0; }
 .motion-tuner input { min-width: 0; }
+.motion-tuner input[type="range"] { width: 100%; }
 .motion-tuner textarea { width: 100%; }

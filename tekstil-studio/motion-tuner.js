@@ -23,13 +23,23 @@ export function mountTuner(config, refresh) {
     const input = document.createElement('input');
     input.type = 'number';
     Object.assign(input, { min, max, step, value });
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    Object.assign(slider, { min, max, step, value });
+    slider.setAttribute('aria-label', title + ' üçün sürgü');
     input.addEventListener('input', () => {
       if (!input.validity.valid || input.value === '') return;
+      slider.value = input.value;
       change(input.valueAsNumber);
       refresh();
     });
+    slider.addEventListener('input', () => {
+      input.value = slider.value;
+      change(slider.valueAsNumber);
+      refresh();
+    });
     label.append(input);
-    list.append(label);
+    list.append(label, slider);
   }
   for (const [label, name, unit, min, max] of cssFields) {
     addNumber(label, parseFloat(getComputedStyle(root).getPropertyValue(name)), min, max, 1,

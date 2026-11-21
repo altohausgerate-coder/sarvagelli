@@ -53,7 +53,7 @@ All 51 routes load `motion.css?v=3` and `motion.js?v=3` by relative URL. The glo
 | Footer | `CONFIG.selectors.footer`, once on entry | 800 ms ease-out. Columns 80 ms apart. |
 | Anchor and back to top | Same-page hash links, with dedicated native skip-link focus | 1200 ms easeInOutCubic. Keyboard and touch can interrupt. |
 | Page navigation | Same-origin cross-document View Transition | 450 ms ease-hover. Unsupported browsers fade from a visible page over 300 ms. Open modal navigation can bypass the snapshot. |
-| Pagination | Project and product grids, sentinel 800 px ahead or “Daha çox” | Batches of 12, placeholder pulse 1400 ms, polite status and visible disabled button at end. All catalogue links exist in the HTML. |
+| Pagination | Project and product grids, sentinel 800 px ahead or “Daha çox” | Batches of 12, placeholder shimmer 1400 ms linear, polite status and visible disabled button at end. All catalogue links exist in the HTML. |
 | Filters | Project query/category/location and product type | Grid fades out in 200 ms ease-hover. Matching cards fade in in 400 ms ease-out with 60 ms step. |
 | Timeline and counters | `.timeline`, `.timeline li`, optional `[data-count]` | Vertical line scrubbed with the scroll. Years reveal as text with 900 ms ease-out horizontal line. Optional counts use 1200 ms easeInOutCubic. |
 | Smooth wheel | Conventional discrete wheel deltas only | Lerp .1 with a 1100 ms cap. Continuous or horizontal wheel, touch and keyboard retain native behavior. |
