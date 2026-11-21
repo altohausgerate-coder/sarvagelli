@@ -276,8 +276,6 @@ html:has(.project-viewer[open]) { overflow: hidden; scrollbar-gutter: stable; }
 .contact-layout button.action { background: transparent; color: inherit; border: 0; border-bottom: 1px solid; padding: 0; cursor: pointer; }
 
 @media (prefers-reduced-motion: no-preference) {
-  @view-transition { navigation: auto; }
-  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 320ms; }
   .project-viewer[open], .editorial-intro { animation: editorial-enter var(--panel-motion) var(--panel-ease) both; }
   .project-tile:not([hidden]) { animation: editorial-enter 420ms var(--panel-ease) both; }
   .motion .project-tile.reveal:not(.seen):not(:focus-within) { animation: none; }
