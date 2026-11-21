@@ -7,7 +7,6 @@
   --serif: Newsreader, "Iowan Old Style", Georgia, serif;
   --sans: Manrope, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --ease-out: cubic-bezier(.23, 1, .32, 1);
-  --ease-sheet: cubic-bezier(.32, .72, 0, 1);
   color: var(--ink);
   background: var(--paper);
   font: 16px / 1.6 var(--sans);
@@ -94,31 +93,6 @@ h3 { font-size: clamp(30px, 3.4vw, 55px); }
 .entrance-copy h1 { margin-bottom: 24px; font-size: clamp(58px, 8vw, 126px); line-height: .91; }
 .entrance-copy > p:not(.eyebrow) { max-width: 35ch; color: #e7dec9; }
 .entrance-copy .action { color: var(--accent); margin-top: 20px; }
-.entrance-film {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 48px;
-  padding-inline: 18px;
-  border: 1px solid #f5e7bb78;
-  border-radius: 40px;
-  color: #fff8e9;
-  background: #28362c8c;
-  backdrop-filter: blur(12px);
-  font-size: 13px;
-  text-decoration: none;
-  transition: transform 160ms var(--ease-out), background-color 180ms var(--ease-out);
-}
-.entrance-film:hover { background-color: #223329; }
-.entrance-film:active { transform: scale(.97); }
-.entrance-player { width: min(480px, calc(100% - 24px)); max-height: calc(100svh - 22px); border: 1px solid var(--line); border-radius: 18px; padding: 13px; background: var(--paper); color: var(--ink); }
-.entrance-player::backdrop { background: #18261ddc; backdrop-filter: blur(6px); }
-.player-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
-.player-head h2 { font-size: 26px; }
-.player-head button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: transparent; color: inherit; cursor: pointer; font-size: 23px; }
-.player-frame iframe { display: block; width: 100%; height: min(66svh, 650px); border: 0; background: #fff; }
-.entrance-player > a { display: inline-block; margin-top: 12px; font-size: 13px; }
-
 .manifesto, .page-intro {
   display: grid;
   grid-template-columns: 1fr 1.25fr;
@@ -234,12 +208,10 @@ h3 { font-size: clamp(30px, 3.4vw, 55px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .feature-copy { position: static; }
-  .action span, .product-card img, .project-index a, .masthead, .entrance-film { transition: none; }
+  .action span, .product-card img, .project-index a, .masthead { transition: none; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .mobile-nav[open] nav { animation: menu-appear 180ms var(--ease-out) both; }
-  .entrance-player[open] { animation: player-appear 240ms var(--ease-sheet) both; }
   @keyframes menu-appear { from { opacity: 0; transform: translateY(-5px) scaleY(.985); } }
-  @keyframes player-appear { from { opacity: 0; transform: translateY(10px) scale(.98); } }
 }
