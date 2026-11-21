@@ -46,6 +46,47 @@
 .studio-link span { transition: transform .25s ease; }
 .studio-link:hover span { transform: translate(3px, -2px); }
 
+.studio-reel-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  margin-top: 14px;
+  padding: 0 15px;
+  border: 1px solid #ffffffa1;
+  color: #fff;
+  font: 500 13px/1.4 system-ui, sans-serif;
+}
+.studio-reel-link:hover { color: #f5e2ba; border-color: currentColor; }
+.studio-home.js .hero-copy > .studio-reel-link { animation-delay: 1.86s; }
+.studio-home .hero-copy > .studio-reel-link:focus-visible { opacity: 1; animation: none; }
+.studio-reel {
+  width: min(485px, calc(100% - 24px));
+  max-height: calc(100% - 24px);
+  padding: 14px;
+  border: 0;
+  background: var(--studio-linen);
+  color: var(--studio-ink);
+}
+.studio-reel::backdrop { background: #17251ee8; }
+.studio-reel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.studio-reel-header h2 { margin: 0; font: 400 23px/1.1 var(--studio-display); }
+.studio-reel-header button { min-width: 44px; min-height: 44px; font-size: 26px; }
+.studio-reel-player iframe {
+  display: block;
+  width: 100%;
+  height: min(70svh, 660px);
+  border: 0;
+  background: #fff;
+}
+.studio-reel > .studio-link { margin-top: 8px; }
+
 .studio-scene {
   --scene-height: min(82svh, 840px);
   display: grid;
