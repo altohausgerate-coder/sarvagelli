@@ -3,15 +3,51 @@
   --panel-ease: cubic-bezier(.22, 1, .36, 1);
 }
 
-.editorial-menu-group { display: flex; align-items: center; gap: 4px; }
+.masthead.has-editorial-menu {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: clamp(18px, 3vw, 58px);
+  padding-inline: clamp(22px, 3.8vw, 72px);
+}
+.masthead.has-editorial-menu .brand img { width: clamp(146px, 12vw, 194px); }
+.has-editorial-menu .desktop-nav {
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(12px, 1.4vw, 25px);
+}
+.has-editorial-menu .desktop-nav a, .editorial-menu-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font: 650 clamp(11px, .85vw, 14px)/1.4 var(--sans);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.has-editorial-menu .desktop-nav a {
+  text-decoration: underline transparent;
+  text-underline-offset: 6px;
+  transition: text-decoration-color 180ms ease;
+}
+.has-editorial-menu .desktop-nav a:is(:hover, :focus-visible, [aria-current]) { text-decoration-color: currentColor; }
+.studio-home .masthead.has-editorial-menu.over-entrance { background: #171d19b0; }
+.editorial-menu-group { display: flex; align-items: center; gap: 2px; }
 .editorial-menu-button, .editorial-expand, .drawer-close, .drawer-primary button {
   border: 0;
   background: transparent;
   color: inherit;
   cursor: pointer;
 }
-.editorial-menu-button { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; min-height: 44px; }
-.editorial-expand { min-width: 28px; min-height: 36px; font-size: 16px; }
+.editorial-menu-button { padding: 0 0 0 16px; border-left: 1px solid currentColor; }
+.editorial-expand { display: inline-grid; place-items: center; min-width: 25px; min-height: 40px; padding: 0; }
+.editorial-expand::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+}
 .masthead.has-editorial-menu .mobile-nav { display: none; }
 html:has(.editorial-drawer[open], .project-viewer[open]) { overflow: hidden; scrollbar-gutter: stable; }
 
@@ -126,8 +162,12 @@ html:has(.editorial-drawer[open], .project-viewer[open]) { overflow: hidden; scr
   @keyframes editorial-enter { from { opacity: 0; transform: translateY(18px); } }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1040px) {
+  .masthead.has-editorial-menu { grid-template-columns: auto auto; }
   .has-editorial-menu .desktop-nav { display: none; }
+  .editorial-menu-button { border-left: 0; padding: 0; }
+}
+@media (max-width: 900px) {
   .project-catalog .project-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 680px) {

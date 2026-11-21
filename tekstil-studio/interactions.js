@@ -83,7 +83,6 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
     const expand = document.createElement('button');
     expand.className = 'editorial-expand';
     expand.type = 'button';
-    expand.textContent = '+';
     expand.setAttribute('aria-label', `${label} bölmələrini aç`);
     expand.setAttribute('aria-haspopup', 'dialog');
     expand.addEventListener('click', () => openMenu(expand, key, label));
