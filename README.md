@@ -10,3 +10,13 @@ The WhatsApp form opens a draft; the visitor sends it. EN links to the existing 
 
 Reference font assets are included for review. Confirm the applicable webfont rights before production hosting. Images come from Sarvagelli's existing site. Sources are recorded in evidence/sources.md.
 
+## Scroll motion in `tekstil-studio`
+
+The homepage and project catalogue use native scrolling by default. Open either page with `?tune=1` to adjust the motion and copy the CSS tokens and JavaScript configuration. Defaults are at the top of `scroll-motion.css` and `scroll-motion.js`.
+
+- `data-reveal` fades and lifts a block into view once.
+- `data-reveal="lines"` reveals a heading in lines. Mark intentional breaks with `data-line` spans to control the sequence.
+- `data-reveal-group` staggers marked elements in the same gallery row.
+- `data-img-reveal` goes on an image wrapper with reserved dimensions or an aspect ratio.
+- `data-parallax` goes on a container with a direct child image. The effect runs at the configured desktop breakpoint.
+

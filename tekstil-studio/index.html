@@ -15,11 +15,13 @@
   <meta property="og:description" content="1979-dan pərdə, jalüz və interyer tekstili. Sarvagelli-nin məhsulları və layihə portfeli.">
   <meta property="og:image" content="https://altohausgerate-coder.github.io/sarvagelli/tekstil-studio/media/portfolio-giris.webp">
   <link rel="stylesheet" href="interactions.css?v=8">
-  <script src="site.js?v=12" defer></script>
+  <script src="site.js?v=13" defer></script>
+  <link rel="stylesheet" href="scroll-motion.css?v=1">
   <script src="interactions.js?v=5" defer></script>
+  <script src="scroll-motion.js?v=1" type="module"></script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Sarvagelli Textile Concept", "url": "https://altohausgerate-coder.github.io/sarvagelli/", "logo": "https://altohausgerate-coder.github.io/sarvagelli/assets/logo.png", "foundingDate": "1979", "email": "info@sarvagelli.com", "address": {"@type": "PostalAddress", "streetAddress": "186 Əhməd Rəcəbli küçəsi, Black Pearl Plaza", "addressLocality": "Bakı", "addressCountry": "AZ"}}</script>
 </head>
-<body class="studio-home">
+<body data-scroll-motion class="studio-home">
   <a class="skip" href="#content">Məzmuna keç</a>
   <header class="masthead">
     <a href="index.html" class="brand" aria-label="Sarvagelli ana səhifə"><img src="../assets/logo.png" alt="Sarvagelli" width="200" height="65" fetchpriority="high" decoding="async"></a>
@@ -36,19 +38,20 @@
         <img src="media/portfolio-giris.webp" width="1536" height="1024" alt="Alaqaranlıqda qızılı işıqla görünən tül pərdələr, daş səthlər və tekstil üzlü kreslo" fetchpriority="high" decoding="async">
       </picture>
       <h1 class="portfolio-title"><span>Məkanın</span> <span>tekstil dili</span></h1>
+      <div class="hero-scroll-shade" aria-hidden="true"></div>
       <p class="portfolio-caption">Sarvagelli tekstil konsepti · Bakı, Azərbaycan</p>
     </section>
     <section class="portfolio-overview wrap" aria-labelledby="home-about-title">
-      <h2 id="home-about-title" class="reveal">Sarvagelli kimdir?</h2>
-      <div class="portfolio-overview-copy reveal">
+      <h2 id="home-about-title" class="" data-reveal>Sarvagelli kimdir?</h2>
+      <div class="portfolio-overview-copy" data-reveal>
         <p class="eyebrow">Bakı · 1979-dan</p>
         <p>Sarvagelli yaşayış, hotel və ictimai məkanlar üçün pərdə, jalüz və interyer tekstili hazırlayır. Material seçimindən ölçü, fərdi tikiliş və quraşdırmaya qədər işi bir komanda ilə görürük.</p>
         <a class="action" href="haqqimizda.html">Sarvagelli haqqında <span aria-hidden="true">↗</span></a>
       </div>
-      <img class="portfolio-overview-photo reveal" src="../assets/category-curtains.jpg" alt="İnteryerdə yumşaq işıq yaradan pərdə qatları" width="1600" height="1067" loading="lazy" decoding="async">
+      <div class="overview-image" data-img-reveal><img class="portfolio-overview-photo" src="../assets/category-curtains.jpg" alt="İnteryerdə yumşaq işıq yaradan pərdə qatları" width="1600" height="1067" loading="lazy" decoding="async"></div>
     </section>
     <section class="collection" aria-labelledby="home-projects">
-      <div class="section-head wrap reveal"><h2 id="home-projects">Layihələrimiz</h2><a class="action" href="layiheler.html">Bütün layihələr <span aria-hidden="true">↗</span></a></div>
+      <div class="section-head wrap" data-reveal><h2 id="home-projects">Layihələrimiz</h2><a class="action" href="layiheler.html">Bütün layihələr <span aria-hidden="true">↗</span></a></div>
       <div class="project-sequence" aria-label="Layihələrdən seçilmiş kadrlar">
         <div class="project-stack">
           <figure class="project-frame">
@@ -66,10 +69,10 @@
             <figcaption>Marriott Hotel Boulevard · Bərpa edilmiş interyer görüntüsü</figcaption>
           </figure>
         </div>
-        <section class="wrap project-text reveal" aria-labelledby="home-textile-planning">
+        <section class="wrap project-text" data-reveal aria-labelledby="home-textile-planning">
           <p class="eyebrow">Sarvagelli · 1979-dan</p>
           <div>
-            <h3 id="home-textile-planning">Pərdədən əvvəl işığı düşünürük</h3>
+            <h3 id="home-textile-planning" data-reveal="lines"><span data-line>Pərdədən əvvəl</span> <span data-line>işığı düşünürük</span></h3>
             <p>Gün işığının istiqaməti, pəncərənin ölçüsü və məxfilik tələbi pərdə qatını, parçanı və relsin yerini müəyyənləşdirir.</p>
             <a class="action" href="haqqimizda.html">Sarvagelli haqqında <span aria-hidden="true">↗</span></a>
           </div>
@@ -80,10 +83,10 @@
             <figcaption>Hotel pərdələri · Konsept vizualı</figcaption>
           </figure>
         </div>
-        <section class="wrap project-text reveal" aria-labelledby="home-textile-production">
+        <section class="wrap project-text" data-reveal aria-labelledby="home-textile-production">
           <p class="eyebrow">Fərdi tikiliş</p>
           <div>
-            <h3 id="home-textile-production">Parça nümunəsindən quraşdırmaya</h3>
+            <h3 id="home-textile-production" data-reveal="lines"><span data-line>Parça nümunəsindən</span> <span data-line>quraşdırmaya</span></h3>
             <p>Parçanın rəngini və toxumasını yerində yoxlayırıq. Ölçü dəqiqləşəndən sonra pərdəni tikir, relsin və motorun uyğunluğunu yoxlayırıq.</p>
             <a class="action" href="komanda.html">Komandamız <span aria-hidden="true">↗</span></a>
           </div>
@@ -164,7 +167,7 @@
         </div>
       </div>
     </section>
-    <section class="wrap home-editorial reveal" aria-labelledby="insight-title" data-editorial-slider>
+    <section class="wrap home-editorial" data-reveal aria-labelledby="insight-title" data-editorial-slider>
       <div class="home-editorial-side">
         <h2 id="insight-title">Perspektivlər</h2>
         <a class="action" href="perspektivler.html">Bütün yazılar <span aria-hidden="true">↗</span></a>
@@ -173,23 +176,23 @@
           <button type="button" aria-label="Növbəti yazıları göstər" data-step="1" aria-controls="insight-track">→</button>
         </div>
       </div>
-      <div class="editorial-track" id="insight-track" tabindex="0" aria-label="Tekstil bələdçiləri">
+      <div class="editorial-track" id="insight-track" data-reveal-group tabindex="0" aria-label="Tekstil bələdçiləri">
         <a class="insight-card editorial-card" href="yazi-isigi-sec.html">
-          <img src="media/hotel-perdeleri.webp" alt="Pərdə qatları otağa düşən işığı süzür" width="1536" height="1024" loading="lazy" decoding="async">
+          <div data-img-reveal><img src="media/hotel-perdeleri.webp" alt="Pərdə qatları otağa düşən işığı süzür" width="1536" height="1024" loading="lazy" decoding="async"></div>
           <p class="eyebrow">Pərdə</p><h3>İşığa uyğun pərdə seçimi</h3>
         </a>
         <a class="insight-card editorial-card" href="yazi-material-sec.html">
-          <img src="media/parca-numuneleri.webp" alt="Təbii və rəngli üzlük parça nümunələri" width="1536" height="1024" loading="lazy" decoding="async">
+          <div data-img-reveal><img src="media/parca-numuneleri.webp" alt="Təbii və rəngli üzlük parça nümunələri" width="1536" height="1024" loading="lazy" decoding="async"></div>
           <p class="eyebrow">Material</p><h3>Üzlükdə toxuma və istifadə</h3>
         </a>
         <a class="insight-card editorial-card" href="yazi-teras-sec.html">
-          <img src="media/teras-kolgelenmesi.webp" alt="Terasda gün işığını yumşaldan ZIP örtüklər" width="1536" height="1024" loading="lazy" decoding="async">
+          <div data-img-reveal><img src="media/teras-kolgelenmesi.webp" alt="Terasda gün işığını yumşaldan ZIP örtüklər" width="1536" height="1024" loading="lazy" decoding="async"></div>
           <p class="eyebrow">Açıq məkan</p><h3>Terasda kölgə və məxfilik</h3>
         </a>
       </div>
     </section>
     <section class="home-careers" aria-labelledby="career-title">
-      <div class="wrap reveal">
+      <div class="wrap" data-reveal>
         <h2 id="career-title">Sarvagelli-də karyera</h2>
         <div>
           <p>Bir layihədə material seçimi, fərdi tikiliş və quraşdırma bir-birini tamamlayır. Bu sahələrdən birində təcrübəniz varsa, gördüyünüz işlər barədə bizə yazın.</p>
@@ -197,7 +200,7 @@
         </div>
       </div>
     </section>
-    <section class="wrap home-editorial reveal" aria-labelledby="home-team-title" data-editorial-slider>
+    <section class="wrap home-editorial" data-reveal aria-labelledby="home-team-title" data-editorial-slider>
       <div class="home-editorial-side">
         <h2 id="home-team-title">Komandamız</h2>
         <a class="action" href="komanda.html">Komanda haqqında <span aria-hidden="true">↗</span></a>
@@ -206,24 +209,24 @@
           <button type="button" aria-label="Növbəti iş istiqamətlərini göstər" data-step="1" aria-controls="team-track">→</button>
         </div>
       </div>
-      <div class="editorial-track team-track" id="team-track" tabindex="0" aria-label="Komandanın iş istiqamətləri">
+      <div class="editorial-track team-track" id="team-track" data-reveal-group tabindex="0" aria-label="Komandanın iş istiqamətləri">
         <article class="editorial-card">
-          <img src="../assets/category-design-textiles.jpg" alt="İnteryer üçün müxtəlif parça fakturaları" width="1600" height="1067" loading="lazy" decoding="async">
+          <div data-img-reveal><img src="../assets/category-design-textiles.jpg" alt="İnteryer üçün müxtəlif parça fakturaları" width="1600" height="1067" loading="lazy" decoding="async"></div>
           <p class="eyebrow">Material</p><h3>Parça seçimi və ölçü</h3>
         </article>
         <article class="editorial-card">
-          <img src="media/ana-sehife/atelye-960.webp" srcset="media/ana-sehife/atelye-960.webp 960w, media/ana-sehife/atelye-1920.webp 1920w" sizes="(max-width: 760px) 74vw, 27vw" alt="Atelyedə kətan pərdənin işlənməsi" width="960" height="640" loading="lazy" decoding="async">
+          <div data-img-reveal><img src="media/ana-sehife/atelye-960.webp" srcset="media/ana-sehife/atelye-960.webp 960w, media/ana-sehife/atelye-1920.webp 1920w" sizes="(max-width: 760px) 74vw, 27vw" alt="Atelyedə kətan pərdənin işlənməsi" width="960" height="640" loading="lazy" decoding="async"></div>
           <p class="eyebrow">Atelye</p><h3>Fərdi tikiliş</h3>
         </article>
         <article class="editorial-card">
-          <img src="../assets/category-motors.jpg" alt="Tavana inteqrasiya olunan pərdə sistemi" width="1600" height="1067" loading="lazy" decoding="async">
+          <div data-img-reveal><img src="../assets/category-motors.jpg" alt="Tavana inteqrasiya olunan pərdə sistemi" width="1600" height="1067" loading="lazy" decoding="async"></div>
           <p class="eyebrow">Texniki tətbiq</p><h3>Rels və motor quraşdırması</h3>
         </article>
       </div>
     </section>
-    <section class="photo-directory" aria-labelledby="directory-title">
+    <section class="photo-directory" data-parallax aria-labelledby="directory-title">
       <img src="media/gun-isigi.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
-      <div class="wrap directory-layout reveal">
+      <div class="wrap directory-layout" data-reveal>
         <h2 id="directory-title">Sarvagelli</h2>
         <nav aria-label="Sarvagelli bölmələri">
           <a href="haqqimizda.html">Haqqımızda</a>

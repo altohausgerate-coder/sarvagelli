@@ -9,7 +9,8 @@ if (navigation) {
 
 const entrance = document.querySelector('.entrance');
 const masthead = document.querySelector('.masthead');
-if (entrance && masthead && 'IntersectionObserver' in window) {
+const managedMotion = document.body.hasAttribute('data-scroll-motion');
+if (!managedMotion && entrance && masthead && 'IntersectionObserver' in window) {
   const photoSections = [entrance, ...document.querySelectorAll('.project-stack, .photo-directory')];
   let headerObserver;
   function observeHeader() {
@@ -31,7 +32,7 @@ if (entrance && masthead && 'IntersectionObserver' in window) {
 }
 
 const projectSequence = document.querySelector('.project-sequence');
-if (projectSequence) {
+if (!managedMotion && projectSequence) {
   const stacks = [...projectSequence.querySelectorAll('.project-stack')].map(stack =>
     [...stack.querySelectorAll('.project-frame')]);
   const motionPreference = matchMedia('(prefers-reduced-motion: no-preference)');
@@ -79,7 +80,7 @@ if (projectSequence) {
   syncProjectMotion();
 }
 
-if ('IntersectionObserver' in window && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+if (!managedMotion && 'IntersectionObserver' in window && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
   const observer = new IntersectionObserver(entries => {
     for (const entry of entries) {
       if (!entry.isIntersecting) continue;
@@ -169,18 +170,19 @@ if (tools) {
 
   function filterProjects() {
     const term = query.value.trim().toLocaleLowerCase('az');
-    let visible = 0;
+    const matches = [];
     for (const project of projects) {
       const matchesCategory = !category.value || project.dataset.category === category.value;
       const matchesLocation = !location?.value || project.dataset.location === location.value;
       const matchesTerm = project.dataset.search.toLocaleLowerCase('az').includes(term);
-      project.hidden = !(matchesCategory && matchesLocation && matchesTerm);
-      if (!project.hidden) {
-        project.style.setProperty('--tile-delay', `${(visible % 3) * 65}ms`);
-        visible++;
-      }
+      const visible = matchesCategory && matchesLocation && matchesTerm;
+      project.hidden = !visible;
+      if (!visible) continue;
+      if (!managedMotion) project.style.setProperty('--tile-delay', `${(matches.length % 3) * 65}ms`);
+      matches.push(project);
     }
-    count.value = visible ? visible + ' layihə' : 'Layihə tapılmadı';
+    count.value = matches.length ? matches.length + ' layihə' : 'Layihə tapılmadı';
+    if (managedMotion) document.querySelector('.project-gallery').dispatchEvent(new CustomEvent('project-filter', { detail: matches }));
   }
 
   tools.hidden = false;

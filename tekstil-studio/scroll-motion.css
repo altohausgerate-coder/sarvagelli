@@ -1,0 +1,78 @@
+:root {
+  --motion-ease-out: cubic-bezier(.22, 1, .36, 1);
+  --motion-ease-in-out: cubic-bezier(.77, 0, .175, 1);
+  --motion-reveal-duration: 900ms;
+  --motion-reveal-distance: 40px;
+  --motion-reveal-trigger: 12%;
+  --motion-stagger: 90ms;
+  --motion-line-duration: 800ms;
+  --motion-line-stagger: 70ms;
+  --motion-line-start: 100%;
+  --motion-mask-duration: 1100ms;
+  --motion-img-scale-duration: 1400ms;
+  --motion-img-start: 1.15;
+  --motion-header-duration: 400ms;
+  --motion-header-color-duration: 300ms;
+  --motion-parallax-height: 116%;
+  --motion-project-caption-duration: 750ms;
+  --motion-project-pause: min(16svh, 155px);
+  --motion-skeleton-duration: 900ms;
+}
+
+[data-scroll-motion] .masthead { transition: transform var(--motion-header-duration) var(--motion-ease-in-out), background-color var(--motion-header-color-duration) ease, color var(--motion-header-color-duration) ease; }
+[data-scroll-motion] [data-img-reveal] { overflow: hidden; }
+[data-scroll-motion] .overview-image { width: 100%; max-width: 460px; aspect-ratio: 4 / 5; }
+[data-scroll-motion] .overview-image img { height: 100%; }
+[data-scroll-motion] .masthead:focus-within, html:has(dialog[open]) [data-scroll-motion] .masthead { transform: none; }
+.motion-line { display: block; overflow: hidden; }
+.motion-line > span { display: block; }
+.project-loading, .project-batch-controls { margin-block: 26px; }
+.project-batch-controls { display: flex; align-items: center; gap: 15px 30px; flex-wrap: wrap; }
+.project-batch-controls button { padding: 0; background: transparent; color: inherit; border: 0; border-bottom: 1px solid; cursor: pointer; }
+.project-batch-controls p { color: var(--muted); font-size: 13px; }
+.project-placeholder { aspect-ratio: 4 / 5; background: #e6dfd4; }
+[data-parallax] img { transform: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-scroll-motion] .masthead.header-away:not(:focus-within) { transform: translateY(-100%); }
+  html:has(dialog[open]) [data-scroll-motion] .masthead.header-away { transform: none; }
+  [data-scroll-motion] .portfolio-hero-media img { animation: none; transform: scale(var(--motion-hero-scale, 1)); }
+  [data-scroll-motion] .portfolio-entrance .hero-scroll-shade { position: absolute; inset: 0; z-index: -1; background: #15120e; opacity: var(--motion-hero-shade, 0); }
+  [data-scroll-motion] .portfolio-caption { animation: none; opacity: var(--motion-caption-alpha, 1); transform: translateY(var(--motion-caption-y, 0px)); }
+  .motion-ready [data-reveal]:not([data-reveal="lines"]) {
+    transition: opacity var(--motion-reveal-duration) var(--motion-ease-out), translate var(--motion-reveal-duration) var(--motion-ease-out);
+    transition-delay: calc(var(--motion-item, 0) * var(--motion-stagger));
+    animation: none;
+  }
+  .motion-ready [data-reveal]:not([data-reveal="lines"]):not(.motion-seen):not(:focus-within) { opacity: 0; translate: 0 var(--motion-reveal-distance); }
+  .motion-ready [data-reveal="lines"] .motion-line > span {
+    transition: transform var(--motion-line-duration) var(--motion-ease-out);
+    transition-delay: calc(var(--motion-line, 0) * var(--motion-line-stagger));
+  }
+  .motion-ready [data-reveal="lines"]:not(.motion-seen) .motion-line > span { transform: translateY(var(--motion-line-start)); }
+  .motion-ready [data-img-reveal] {
+    transition: clip-path var(--motion-mask-duration) var(--motion-ease-in-out);
+    transition-delay: calc(var(--motion-item, 0) * var(--motion-stagger));
+    clip-path: inset(0);
+  }
+  .motion-ready [data-img-reveal] img { transition: scale var(--motion-img-scale-duration) var(--motion-ease-out) calc(var(--motion-item, 0) * var(--motion-stagger)); }
+  .motion-ready [data-img-reveal]:not(.motion-seen):not(:focus-within) { clip-path: inset(100% 0 0 0); }
+  .motion-ready [data-img-reveal]:not(.motion-seen):not(:focus-within) img { scale: var(--motion-img-start); }
+  .motion-ready .scroll-projects .project-frame + .project-frame { margin-top: var(--motion-project-pause); }
+  .motion-ready .scroll-projects .project-frame figcaption { transition-duration: var(--motion-project-caption-duration); }
+  .project-placeholder { animation: project-placeholder-pulse var(--motion-skeleton-duration) ease-in-out infinite alternate; }
+  @keyframes project-placeholder-pulse { to { opacity: .5; } }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .motion-ready .parallax-active > img { top: 50%; height: var(--motion-parallax-height); transform: translateY(calc(-50% + var(--motion-parallax-y, 0px))); }
+}
+@media (max-width: 760px) {
+  [data-scroll-motion] .overview-image { max-width: none; aspect-ratio: 4 / 3; }
+}
+@media (max-width: 445px) {
+  .project-placeholder { aspect-ratio: 6 / 5; }
+}
+.motion-tuner { position: fixed; z-index: 10; right: 16px; bottom: 16px; width: min(calc(100% - 32px), 340px); max-height: 80dvh; overflow: auto; background: var(--paper); color: var(--ink); border: 1px solid var(--line); padding: 14px; font-size: 13px; }
+.motion-tuner label { display: grid; grid-template-columns: 1fr 80px; align-items: center; gap: 8px; margin: 7px 0; }
+.motion-tuner input { min-width: 0; }
+.motion-tuner textarea { width: 100%; }
