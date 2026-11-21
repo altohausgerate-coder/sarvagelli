@@ -30,7 +30,13 @@
   transition: text-decoration-color 180ms ease;
 }
 .has-editorial-menu .desktop-nav a:is(:hover, :focus-visible, [aria-current]) { text-decoration-color: currentColor; }
-.studio-home .masthead.has-editorial-menu.over-entrance { background: #171d19b0; }
+.studio-home .masthead.has-editorial-menu.over-entrance {
+  background: linear-gradient(#171510ae, transparent);
+  border-color: transparent;
+  color: #fff9ef;
+}
+.studio-home .masthead.over-entrance .desktop-nav :is(a, [aria-current]) { color: inherit; }
+.studio-home .masthead.over-entrance .desktop-nav a { font-weight: 700; }
 .editorial-menu-group { display: flex; align-items: center; gap: 2px; }
 .editorial-menu-button, .editorial-expand, .drawer-close, .drawer-primary button {
   border: 0;

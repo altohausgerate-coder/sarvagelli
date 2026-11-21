@@ -12,7 +12,7 @@
   --photo-reveal-stagger: 80ms;
   --photo-hover-duration: 600ms;
   --hero-zoom-duration: 14s;
-  --hero-caption-delay: 600ms;
+  --hero-caption-delay: 720ms;
   --frame-height: min(77svh, 860px);
 }
 
@@ -34,20 +34,28 @@
   display: block;
   position: relative;
   min-height: 100svh;
-  padding: 0;
+  padding: max(132px, 22svh) var(--gutter) 110px;
   overflow: hidden;
   background: #271e18;
 }
 .portfolio-hero-media, .portfolio-hero-media img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.portfolio-hero-media { z-index: -2; }
 .portfolio-hero-media img { object-fit: cover; object-position: center 54%; }
-.portfolio-entrance::after { display: none; }
+.portfolio-entrance::after { background: linear-gradient(110deg, #171510bf 3%, #17151073 56%, #17151042 100%); }
+.portfolio-title {
+  font-size: clamp(58px, 8vw, 138px);
+  font-weight: 300;
+  line-height: .99;
+  letter-spacing: -.045em;
+  color: #fff9ef;
+}
+.portfolio-title span { display: block; }
+.portfolio-title span + span { margin-inline-start: clamp(22px, 13vw, 215px); }
 .portfolio-caption {
   position: absolute;
   bottom: clamp(24px, 4.3vw, 70px);
   left: var(--gutter);
   margin-right: var(--gutter);
-  padding: 9px 12px;
-  background: #18130fe0;
   color: #fff9eb;
   font-size: 11px;
   line-height: 1.4;
@@ -156,8 +164,11 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .portfolio-hero-media img { animation: portfolio-settle var(--hero-zoom-duration) var(--photo-reveal-ease) both; }
+  .portfolio-title span { animation: portfolio-title-in 850ms var(--photo-reveal-ease) 140ms both; }
+  .portfolio-title span + span { animation-delay: 380ms; }
   .portfolio-caption { animation: portfolio-caption-in var(--photo-reveal-duration) ease var(--hero-caption-delay) both; }
   @keyframes portfolio-settle { from { transform: scale(1); } to { transform: scale(1.05); } }
+  @keyframes portfolio-title-in { from { opacity: 0; transform: translate3d(0, 22px, 0); } }
   @keyframes portfolio-caption-in { from { opacity: 0; } }
   .project-frame { position: sticky; top: var(--masthead-height, 75px); }
   .collection .reveal { transition-duration: var(--photo-reveal-duration); transition-timing-function: var(--photo-reveal-ease); transition-delay: var(--reveal-delay, 0ms); }
@@ -168,6 +179,8 @@
   .practice-card:hover img { scale: 1.03; }
 }
 @media (max-width: 760px) {
+  .portfolio-title { font-size: clamp(44px, 11vw, 73px); }
+  .portfolio-title span + span { margin-inline-start: clamp(0px, 6vw, 38px); }
   :root { --frame-height: min(64svh, calc(78vw + 48px)); }
   .project-frame--inset { padding-inline: var(--gutter); }
   .project-text { grid-template-columns: 1fr; }
