@@ -62,9 +62,19 @@
   letter-spacing: .12em;
   text-transform: uppercase;
 }
-.portfolio-overview { padding-block: var(--section-gap); text-align: center; }
-.portfolio-overview h2 { max-width: 770px; margin: 20px auto; font-size: clamp(36px, 5.15vw, 75px); }
-.portfolio-overview > p:not(.eyebrow) { max-width: 47ch; margin: 0 auto 22px; color: var(--muted); }
+.portfolio-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  align-items: start;
+  gap: clamp(24px, 5vw, 78px) clamp(28px, 7vw, 108px);
+  padding-block: var(--section-gap);
+}
+.portfolio-overview h2 { font-size: clamp(38px, 5.4vw, 82px); }
+.portfolio-overview-copy { grid-area: 1 / 2 / 3; }
+.portfolio-overview-copy .eyebrow { margin-bottom: 16px; color: #755331; }
+.portfolio-overview-copy p:not(.eyebrow) { max-width: 34ch; font: 400 clamp(24px, 3.1vw, 49px)/1.18 var(--serif); }
+.portfolio-overview-copy .action { margin-top: 19px; }
+.portfolio-overview-photo { max-width: 460px; aspect-ratio: 4 / 5; object-fit: cover; }
 .collection { padding-block: var(--section-gap); }
 .collection > .section-head { padding-top: 0; }
 .collection .eyebrow { margin-bottom: 9px; color: #6d522d; }
@@ -300,6 +310,9 @@
   .practice-card:hover img { scale: 1.03; }
 }
 @media (max-width: 760px) {
+  .portfolio-overview { grid-template-columns: 1fr; }
+  .portfolio-overview-copy { grid-area: auto; }
+  .portfolio-overview-photo { max-width: none; aspect-ratio: 4 / 3; }
   .portfolio-title { font-size: clamp(44px, 11vw, 73px); }
   .portfolio-title span + span { margin-inline-start: clamp(0px, 6vw, 38px); }
   .project-frame figcaption { grid-template-columns: 1fr; }
