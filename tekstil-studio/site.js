@@ -10,7 +10,7 @@ if (navigation) {
 const entrance = document.querySelector('.entrance');
 const masthead = document.querySelector('.masthead');
 if (entrance && masthead && 'IntersectionObserver' in window) {
-  const photoSections = [entrance, ...document.querySelectorAll('.project-stack')];
+  const photoSections = [entrance, ...document.querySelectorAll('.project-stack, .photo-directory')];
   let headerObserver;
   function observeHeader() {
     headerObserver?.disconnect();
@@ -80,6 +80,31 @@ if (solutions) {
     });
     link.replaceWith(option);
   }
+}
+
+for (const slider of document.querySelectorAll('[data-editorial-slider]')) {
+  const track = slider.querySelector('.editorial-track');
+  const controls = slider.querySelector('.editorial-controls');
+  const [previous, next] = controls.querySelectorAll('button');
+  function updateSliderControls() {
+    previous.disabled = track.scrollLeft <= 1;
+    next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+  }
+  for (const button of [previous, next]) {
+    button.addEventListener('click', () => {
+      const card = track.firstElementChild;
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      const step = card.getBoundingClientRect().width + gap;
+      track.scrollBy({
+        left: Number(button.dataset.step) * step,
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      });
+    });
+  }
+  controls.hidden = false;
+  track.addEventListener('scroll', updateSliderControls, { passive: true });
+  window.addEventListener('resize', updateSliderControls, { passive: true });
+  updateSliderControls();
 }
 
 const tools = document.querySelector('.project-tools');

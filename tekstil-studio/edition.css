@@ -157,12 +157,68 @@
 .team-feature img { height: 100%; min-height: 400px; object-fit: cover; }
 .team-feature > div { padding: clamp(32px, 7vw, 100px) var(--gutter); }
 .team-feature p { margin: 15px 0; color: var(--muted); max-width: 40ch; }
-.atelier-wrap { margin-bottom: clamp(46px, 6vw, 104px); }
-.atelier-wrap .team-feature { grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr); }
-.atelier-wrap .team-feature img { min-height: 0; aspect-ratio: 3 / 2; }
-.atelier-wrap .team-feature > div { padding: clamp(26px, 4.5vw, 76px); }
-.atelier-wrap h2 { font-size: clamp(30px, 4vw, 68px); }
-.atelier-wrap p { margin: 15px 0 24px; }
+.home-editorial {
+  display: grid;
+  grid-template-columns: minmax(0, .7fr) minmax(0, 1.6fr);
+  align-items: start;
+  gap: clamp(24px, 4vw, 64px);
+  padding-block: var(--section-gap);
+}
+.home-editorial h2, .home-careers h2 { font-size: clamp(38px, 5vw, 80px); }
+.home-editorial-side .action, .home-careers .action { margin-top: 14px; }
+.editorial-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max(185px, 37%);
+  gap: clamp(14px, 1.8vw, 26px);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 14px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) transparent;
+}
+.editorial-card { min-width: 0; scroll-snap-align: start; }
+.editorial-card img { aspect-ratio: 4 / 5; object-fit: cover; }
+.editorial-card .eyebrow { margin-block: 14px 8px; color: #6d522d; }
+.editorial-card h3 { font-size: clamp(23px, 2.8vw, 44px); line-height: 1.1; }
+.team-track img { filter: saturate(.42); }
+.editorial-controls { display: flex; gap: 8px; margin-top: 28px; }
+.editorial-controls button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+.editorial-controls button:disabled { opacity: .36; cursor: default; }
+.home-careers { background: #eee7df; }
+.home-careers > .wrap {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(22px, 5vw, 80px);
+  padding-block: var(--section-gap);
+}
+.home-careers p { max-width: 35ch; font: 400 clamp(23px, 3.3vw, 50px)/1.15 var(--serif); }
+.photo-directory {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  min-height: min(82svh, 850px);
+  padding-block: clamp(76px, 12vw, 160px);
+  color: #fff9ef;
+  background: #221e17;
+}
+.photo-directory img, .photo-directory::after { position: absolute; inset: 0; width: 100%; height: 100%; }
+.photo-directory img { z-index: -2; object-fit: cover; object-position: center; }
+.photo-directory::after { content: ""; z-index: -1; background: linear-gradient(90deg, #171510ed, #171510a3 43%, #17151030 100%); }
+.directory-layout { display: grid; grid-template-columns: minmax(0, .5fr) minmax(0, 2fr); gap: 16px clamp(25px, 5vw, 68px); }
+.directory-layout h2 { margin-top: 10px; font: 650 12px/1.4 var(--sans); letter-spacing: .13em; text-transform: uppercase; }
+.directory-layout nav { display: grid; justify-items: start; gap: 8px; }
+.directory-layout nav a { font: 400 clamp(34px, 5vw, 82px)/1.04 var(--serif); text-decoration: underline transparent; text-underline-offset: 8px; }
+.directory-layout nav a:is(:hover, :focus-visible) { text-decoration-color: currentColor; }
 .timeline { list-style: none; padding-bottom: var(--section-gap); }
 .timeline li { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 30px 0; border-top: 1px solid var(--line); align-items: start; }
 .timeline strong { font: 400 clamp(40px, 8vw, 104px)/1 var(--serif); }
@@ -240,7 +296,9 @@
   .insight-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .practice-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .practice-card:nth-child(n) { grid-column: auto; margin-top: 0; }
-  .team-feature, .atelier-wrap .team-feature { grid-template-columns: 1fr; }
+  .team-feature, .home-editorial, .home-careers > .wrap, .directory-layout { grid-template-columns: 1fr; }
+  .editorial-track { grid-auto-columns: min(70%, 320px); }
+  .editorial-controls { margin-top: 14px; }
   .home-footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .home-footer-grid > :first-child { grid-column: 1 / -1; }
   .team-feature img { min-height: 0; aspect-ratio: 1.4; }
