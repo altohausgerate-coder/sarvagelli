@@ -2,6 +2,7 @@ const editorialHeader = document.querySelector('.masthead');
 const desktopLinks = editorialHeader?.querySelector('.desktop-nav');
 
 if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined') {
+  const CONFIG = { switchOnHover: false, hoverIntentMs: 60 };
   const menu = {
     main: { label: 'Menyu', items: [['Ana səhifə', 'index.html'], ['Layihələr', 'layiheler.html'], ['Məhsullar', 'mehsullar.html'], ['Haqqımızda', 'haqqimizda.html'], ['Perspektivlər', 'perspektivler.html'], ['Əlaqə', 'elaqe.html']] },
     products: { label: 'Məhsullar', items: [
@@ -37,7 +38,8 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
   drawer.id = 'sarvagelli-menu';
   drawer.className = 'editorial-drawer';
   drawer.setAttribute('aria-label', 'Sarvagelli menyusu');
-  drawer.innerHTML = '<div class="drawer-scrim"></div><div class="drawer-top"><nav class="drawer-primary" aria-label="Əsas bölmələr"></nav><div class="drawer-actions"></div></div><button type="button" class="drawer-circle" aria-label="Yan paneli bağla"></button>';
+  drawer.innerHTML = '<div class="drawer-scrim"></div><div class="menu-shell" aria-hidden="true"></div><div class="drawer-top"><nav class="drawer-primary" aria-label="Əsas bölmələr"></nav><div class="drawer-actions"></div></div><button type="button" class="drawer-circle" aria-label="Yan paneli bağla"></button>';
+  if (!window.CSS?.registerProperty) drawer.classList.add('menu-edge-fallback');
   const cloneBrand = editorialHeader.querySelector('.brand').cloneNode(true);
   drawer.querySelector('.drawer-top').prepend(cloneBrand);
   document.body.append(drawer);
@@ -47,16 +49,15 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
   const drawerActions = drawer.querySelector('.drawer-actions');
   const roundClose = drawer.querySelector('.drawer-circle');
   const scrim = drawer.querySelector('.drawer-scrim');
-  const motion = matchMedia('(prefers-reduced-motion: reduce)');
+  const desktop = matchMedia('(min-width: 1024px)');
+  const panels = new Map();
+  const positions = new Map();
+  const buttons = [];
   let activeKey;
-  let activePanel;
   let opener;
-  let closing;
-  let resizeDelay;
-
-  function token(name) {
-    return getComputedStyle(drawer).getPropertyValue(name).trim();
-  }
+  let closeTransition;
+  let measureFrame;
+  let hoverTimer;
 
   function makeButton(text, className, label) {
     const button = document.createElement('button');
@@ -75,22 +76,37 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
     return link;
   }
 
-  function alignPanel(panel) {
-    const anchor = primary.querySelector('[data-group="' + panel.dataset.panel + '"] .label');
-    const inset = parseFloat(token('--menu-inset'));
-    const minimum = parseFloat(token('--menu-min-width'));
-    const desktop = matchMedia('(min-width: 1024px)').matches;
-    const left = desktop ? Math.max(0, Math.min(anchor ? anchor.getBoundingClientRect().left - inset : innerWidth * .38, drawer.clientWidth - minimum)) : 0;
-    panel.style.setProperty('--panel-left', left + 'px');
-    drawer.style.setProperty('--panel-left', left + 'px');
+  function measurePanels() {
+    measureFrame = undefined;
+    const nav = drawer.open ? primary : desktopLinks;
+    const styles = getComputedStyle(drawer);
+    const inset = parseFloat(styles.getPropertyValue('--menu-inset'));
+    const minimum = parseFloat(styles.getPropertyValue('--menu-min-width'));
+    const width = drawer.open ? drawer.clientWidth : document.documentElement.clientWidth;
+    const measured = [...panels.keys()].map(key => {
+      const label = nav.querySelector('[data-group="' + key + '"] .label');
+      const desired = label ? label.getBoundingClientRect().left - inset : width * .38;
+      const edge = desktop.matches ? Math.max(0, Math.min(desired, width - minimum)) : 0;
+      return [key, edge];
+    });
+    for (const [key, edge] of measured) {
+      positions.set(key, edge + 'px');
+      panels.get(key).style.setProperty('--content-left', edge + inset + 'px');
+    }
+    if (activeKey) drawer.style.setProperty('--shell-target', positions.get(activeKey));
+  }
+
+  function scheduleMeasure() {
+    measureFrame ??= requestAnimationFrame(measurePanels);
   }
 
   function buildPanel(key) {
     const { label, columns, items } = menu[key];
     const panel = document.createElement('section');
-    panel.className = 'drawer-panel';
+    panel.className = 'menu-content';
     panel.dataset.panel = key;
     panel.id = 'sarvagelli-panel-' + key;
+    panel.inert = true;
     const content = document.createElement('div');
     content.className = 'drawer-content';
     const heading = document.createElement('h2');
@@ -130,52 +146,51 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
   }
 
   function syncTriggers() {
-    for (const trigger of document.querySelectorAll('.has-editorial-menu [data-group], .editorial-drawer [data-group]')) {
-      trigger.setAttribute('aria-expanded', String(trigger.dataset.group === activeKey && !closing));
+    for (const trigger of buttons) {
+      trigger.setAttribute('aria-expanded', String(trigger.dataset.group === activeKey));
     }
   }
 
-  function closeMenu() {
-    if (!drawer.open || closing) return;
-    closing = true;
+  function selectPanel(key) {
+    if (activeKey) panels.get(activeKey).inert = true;
+    activeKey = key;
+    if (key) {
+      panels.get(key).inert = false;
+      drawer.style.setProperty('--shell-target', positions.get(key));
+      drawer.style.setProperty('--shell-bg', 'var(--menu-' + (key === 'search' ? 'main' : key) + ')');
+    }
     syncTriggers();
-    drawer.classList.add('drawer-closing');
-    const animation = activePanel.animate(
-      motion.matches ? [{ opacity: 1 }, { opacity: 0 }] : [
-        { transform: 'none' }, { transform: 'none', offset: .1 }, { transform: 'translateX(100%)' },
-      ],
-      { duration: parseFloat(token(motion.matches ? '--menu-reduced-duration' : '--menu-close-duration')), easing: token('--menu-ease'), fill: 'both' },
-    );
-    animation.finished.then(() => drawer.close(), () => drawer.close());
+  }
+
+  function closeMenu() {
+    if (!drawer.open || drawer.dataset.phase === 'closing') return;
+    drawer.dataset.phase = 'closing';
+    selectPanel(undefined);
+    const fades = scrim.getAnimations().map(animation => animation.finished);
+    const transition = Promise.allSettled(fades);
+    closeTransition = transition;
+    transition.then(() => { if (closeTransition === transition) drawer.close(); });
   }
 
   function openMenu(key, trigger) {
-    if (closing) return;
     if (drawer.open && key === activeKey) {
       closeMenu();
       return;
     }
-    if (!drawer.open) opener = trigger;
+    const firstOpen = !drawer.open;
+    closeTransition = undefined;
+    if (firstOpen) opener = trigger;
     else if (trigger.closest('.drawer-top')) {
-      const matchingTrigger = editorialHeader.querySelector('[data-group="' + key + '"]');
-      if (matchingTrigger?.getClientRects().length) opener = matchingTrigger;
+      const matchingTrigger = buttons.find(button => button.dataset.group === key && editorialHeader.contains(button));
+      if (matchingTrigger && (desktop.matches || key === 'search')) opener = matchingTrigger;
     }
-    const previous = activePanel;
-    activeKey = key;
-    drawer.querySelector('#sarvagelli-panel-' + key)?.remove();
-    const panel = buildPanel(key);
-    activePanel = panel;
-    if (previous) previous.inert = true;
-    drawer.append(panel);
-    if (!drawer.open) drawer.showModal();
-    alignPanel(panel);
-    syncTriggers();
-    const entrance = panel.animate(
-      motion.matches ? [{ opacity: 0 }, { opacity: 1 }] : [{ transform: 'translateX(100%)' }, { transform: 'none' }],
-      { duration: parseFloat(token(motion.matches ? '--menu-reduced-duration' : '--menu-open-duration')), easing: token('--menu-ease') },
-    );
-    entrance.finished.then(() => previous?.remove(), () => previous?.remove());
-    (panel.querySelector('input, a') || roundClose).focus({ preventScroll: true });
+    drawer.dataset.phase = firstOpen ? 'opening' : 'switching';
+    selectPanel(key);
+    if (firstOpen) {
+      drawer.showModal();
+      scheduleMeasure();
+    }
+    (panels.get(key).querySelector('input, a') || roundClose).focus({ preventScroll: true });
   }
 
   function groupButton(key, text, className = 'editorial-section-button') {
@@ -188,7 +203,19 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
     button.setAttribute('aria-haspopup', 'dialog');
     button.setAttribute('aria-expanded', 'false');
     button.setAttribute('aria-controls', drawer.id);
-    button.addEventListener('click', () => openMenu(key, button));
+    buttons.push(button);
+    button.addEventListener('click', () => {
+      if (CONFIG.switchOnHover) clearTimeout(hoverTimer);
+      openMenu(key, button);
+    });
+    if (CONFIG.switchOnHover) {
+      button.addEventListener('pointerenter', event => {
+        if (event.pointerType !== 'mouse' || !activeKey || activeKey === key) return;
+        clearTimeout(hoverTimer);
+        hoverTimer = setTimeout(() => { if (activeKey && activeKey !== key) openMenu(key, button); }, CONFIG.hoverIntentMs);
+      });
+      button.addEventListener('pointerleave', () => clearTimeout(hoverTimer));
+    }
     return button;
   }
 
@@ -201,6 +228,10 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
   drawerActions.append(closeText, groupButton('search', '', 'menu-search'));
   editorialHeader.append(headerActions);
   editorialHeader.classList.add('has-editorial-menu');
+  for (const key of Object.keys(menu)) panels.set(key, buildPanel(key));
+  drawer.append(...panels.values());
+  measurePanels();
+  document.fonts?.ready.then(scheduleMeasure);
 
   for (const element of [scrim, roundClose, closeText]) element.addEventListener('click', closeMenu);
   drawer.addEventListener('keydown', event => {
@@ -219,19 +250,14 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
   });
   drawer.addEventListener('cancel', event => { event.preventDefault(); closeMenu(); });
   drawer.addEventListener('close', () => {
-    drawer.querySelectorAll('.drawer-panel').forEach(panel => panel.remove());
-    drawer.classList.remove('drawer-closing');
-    activePanel = undefined;
-    activeKey = undefined;
-    closing = false;
-    syncTriggers();
+    if (drawer.open) return;
+    closeTransition = undefined;
+    delete drawer.dataset.phase;
+    selectPanel(undefined);
     const returnTo = opener?.getClientRects().length ? opener : headerActions.querySelector('button');
     returnTo?.focus({ preventScroll: true });
   });
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeDelay);
-    resizeDelay = setTimeout(() => { if (activePanel) alignPanel(activePanel); }, 100);
-  }, { passive: true });
+  window.addEventListener('resize', scheduleMeasure, { passive: true });
 }
 
 const projectGallery = document.querySelector('.project-gallery');
