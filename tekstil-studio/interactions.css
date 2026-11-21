@@ -231,6 +231,14 @@ html:has(.project-viewer[open]) { overflow: hidden; scrollbar-gutter: stable; }
 .about-visual img { aspect-ratio: 2 / 1; object-fit: cover; }
 .project-catalog .project-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 5vw, 76px) clamp(16px, 2.6vw, 40px); }
 .project-catalog .project-tile img { aspect-ratio: 4 / 5; }
+.project-tile-pair {
+  display: grid;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+  aspect-ratio: 4 / 5;
+}
+.project-tile-pair > span { overflow: hidden; }
+.project-catalog .project-tile-pair img { height: 100%; aspect-ratio: auto; }
 .project-catalog .project-tile-copy { padding-block: 15px; }
 .project-catalog .project-tile-copy small { color: var(--muted); }
 .project-catalog .project-tools {
@@ -296,4 +304,6 @@ html:has(.project-viewer[open]) { overflow: hidden; scrollbar-gutter: stable; }
 @media (max-width: 445px) {
   .project-catalog .project-gallery { grid-template-columns: 1fr; }
   .project-catalog .project-tile img { aspect-ratio: 6 / 5; }
+  .project-tile-pair { aspect-ratio: 6 / 5; }
+  .project-catalog .project-tile-pair img { aspect-ratio: auto; }
 }
