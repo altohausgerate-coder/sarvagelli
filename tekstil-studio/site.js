@@ -9,6 +9,11 @@ if (navigation) {
 
 const entrance = document.querySelector('.entrance');
 const masthead = document.querySelector('.masthead');
+if (masthead && document.querySelector('.project-sequence') && 'ResizeObserver' in window) {
+  new ResizeObserver(() => {
+    document.documentElement.style.setProperty('--masthead-height', `${masthead.offsetHeight}px`);
+  }).observe(masthead);
+}
 if (entrance && masthead && 'IntersectionObserver' in window) {
   new IntersectionObserver(([entry]) => {
     masthead.classList.toggle('over-entrance', entry.isIntersecting);
@@ -22,12 +27,12 @@ if ('IntersectionObserver' in window && matchMedia('(prefers-reduced-motion: no-
       entry.target.classList.add('seen');
       observer.unobserve(entry.target);
     }
-  }, { threshold: .08 });
+  }, { threshold: .15 });
 
   document.body.classList.add('motion');
   document.querySelectorAll('.archive-grid, .practice-grid, .insight-grid').forEach(grid => {
     [...grid.children].forEach((item, index) => {
-      item.style.setProperty('--reveal-delay', `${(index % 3) * 80}ms`);
+      item.style.setProperty('--reveal-delay', `calc(${index % 3} * var(--photo-reveal-stagger))`);
     });
   });
   document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
