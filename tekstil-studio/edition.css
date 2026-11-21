@@ -81,21 +81,9 @@
 }
 .project-frame figcaption span:first-child { font: 400 clamp(21px, 3.25vw, 48px)/1.08 var(--serif); }
 .project-frame figcaption span + span { color: var(--muted); font-size: 12px; }
-.archive-grid, .practice-grid, .insight-grid { display: grid; gap: clamp(24px, 4vw, 60px) clamp(18px, 3vw, 46px); }
-.archive-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: start;
-}
-.archive-item a, .practice-card, .insight-card { display: block; text-decoration: none; }
-.archive-item h3, .insight-card h3 { margin-block: 13px 3px; font-size: clamp(21px, 2.45vw, 37px); line-height: 1.05; }
-.archive-item p { font-size: 13px; color: var(--muted); }
-.archive-photos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; overflow: hidden; }
-.archive-photos img { width: 100%; aspect-ratio: 406 / 287; object-fit: cover; }
-.archive-photos img:only-child { grid-column: 1 / -1; }
-.archive-photos img:nth-child(2) { margin-top: 17px; }
-.archive-pause { margin: clamp(46px, 8vw, 105px) 0; }
-.archive-pause img { width: 100%; max-height: 72svh; aspect-ratio: 16 / 9; object-fit: cover; }
-.archive-pause figcaption { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 6px 22px; padding-top: 10px; font-size: 13px; }
+.practice-grid, .insight-grid { display: grid; gap: clamp(24px, 4vw, 60px) clamp(18px, 3vw, 46px); }
+.practice-card, .insight-card { display: block; text-decoration: none; }
+.insight-card h3 { margin-block: 13px 3px; font-size: clamp(21px, 2.45vw, 37px); line-height: 1.05; }
 .practice-collection { background: #eeebe4; }
 .practice-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
 .practice-card { grid-column: span 4; }
@@ -107,7 +95,7 @@
 .insight-card img { aspect-ratio: 1.5; object-fit: cover; }
 .insight-card p { margin-top: 14px; }
 .insight-card h3 { margin-top: 5px; }
-.archive-item a:hover h3, .practice-card:hover span, .insight-card:hover h3 { color: #745522; }
+.practice-card:hover span, .insight-card:hover h3 { color: #745522; }
 .team-feature { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .82fr); align-items: center; background: #e9e3d8; }
 .team-feature img { height: 100%; min-height: 400px; object-fit: cover; }
 .team-feature > div { padding: clamp(32px, 7vw, 100px) var(--gutter); }
@@ -147,13 +135,10 @@
   .project-frame { position: sticky; top: var(--masthead-height, 75px); }
   .collection .reveal { transition-duration: var(--photo-reveal-duration); transition-timing-function: var(--photo-reveal-ease); transition-delay: var(--reveal-delay, 0ms); }
   .motion .collection .reveal:not(.seen):not(:focus-within) { transform: translateY(var(--photo-reveal-distance)); }
-  .archive-photos img { transition: opacity var(--photo-reveal-duration) var(--photo-reveal-ease), translate var(--photo-reveal-duration) var(--photo-reveal-ease), scale var(--photo-hover-duration) var(--photo-reveal-ease); }
-  .archive-photos img:nth-child(2) { transition-delay: var(--photo-reveal-stagger), var(--photo-reveal-stagger), 0ms; }
-  .motion .archive-item:not(.seen):not(:focus-within) img { opacity: 0; translate: 0 var(--photo-reveal-distance); }
 }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .practice-card img { transition: scale var(--photo-hover-duration) var(--photo-reveal-ease); }
-  .practice-card:hover img, .archive-item a:hover img { scale: 1.03; }
+  .practice-card:hover img { scale: 1.03; }
 }
 @media (max-width: 760px) {
   :root { --frame-height: 64svh; }
@@ -169,14 +154,13 @@
     padding: 74px var(--gutter) 40px;
   }
   .mobile-nav nav a { font: 400 clamp(25px, 6vw, 40px)/1.15 var(--serif); letter-spacing: -.025em; text-transform: none; }
-  .archive-grid, .insight-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .archive-pause img { min-height: 310px; }
+  .insight-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .practice-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .practice-card:nth-child(n) { grid-column: auto; margin-top: 0; }
   .team-feature { grid-template-columns: 1fr; }
   .team-feature img { min-height: 0; aspect-ratio: 1.4; }
 }
 @media (max-width: 470px) {
-  .archive-grid, .practice-grid, .insight-grid { grid-template-columns: 1fr; }
+  .practice-grid, .insight-grid { grid-template-columns: 1fr; }
   .timeline li { grid-template-columns: 1fr; gap: 12px; }
 }

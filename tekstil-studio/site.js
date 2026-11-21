@@ -30,7 +30,7 @@ if ('IntersectionObserver' in window && matchMedia('(prefers-reduced-motion: no-
   }, { threshold: .15 });
 
   document.body.classList.add('motion');
-  document.querySelectorAll('.archive-grid, .practice-grid, .insight-grid').forEach(grid => {
+  document.querySelectorAll('.practice-grid, .insight-grid').forEach(grid => {
     [...grid.children].forEach((item, index) => {
       item.style.setProperty('--reveal-delay', `calc(${index % 3} * var(--photo-reveal-stagger))`);
     });
