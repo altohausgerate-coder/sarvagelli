@@ -88,6 +88,22 @@ html:has(.editorial-drawer[open], .project-viewer[open]) { overflow: hidden; scr
   border-radius: 0;
 }
 .project-catalog .project-tools output { white-space: nowrap; }
+.studio-note {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, .82fr);
+  align-items: center;
+  gap: clamp(22px, 5vw, 76px);
+  padding: clamp(26px, 5vw, 78px);
+  background: #e9e3d8;
+}
+.studio-note--plain { background: transparent; border-top: 1px solid var(--line); }
+.studio-note h2 { margin-block: 11px 15px; font-size: clamp(30px, 4vw, 64px); }
+.studio-note p:not(.eyebrow) { max-width: 53ch; color: var(--muted); }
+.studio-note .eyebrow { color: #6d522d; }
+.studio-note .action { margin-top: 12px; }
+.studio-note img { aspect-ratio: 4 / 3; object-fit: cover; }
+.project-gallery > .studio-note { grid-column: 1 / -1; margin-block: clamp(8px, 2vw, 28px); }
+.studio-note-wrap { margin-bottom: var(--section-gap); }
 .project-viewer { inset: 0; width: 100%; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; background: var(--paper); }
 .project-viewer[open] { display: grid; grid-template-rows: auto minmax(0, 1fr); }
 .viewer-bar { padding: 10px var(--gutter); border-bottom: 1px solid var(--line); }
@@ -131,7 +147,7 @@ html:has(.editorial-drawer[open], .project-viewer[open]) { overflow: hidden; scr
   .project-catalog .project-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 680px) {
-  .editorial-intro, .contact-layout { grid-template-columns: 1fr; }
+  .editorial-intro, .contact-layout, .studio-note { grid-template-columns: 1fr; }
   .contact-layout .inquiry-section { grid-row: 1; padding-bottom: 0; }
   .project-catalog .project-tools { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .project-catalog .project-tools label:last-of-type { grid-column: 1 / -1; }

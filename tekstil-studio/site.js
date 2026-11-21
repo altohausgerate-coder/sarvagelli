@@ -41,6 +41,7 @@ if ('IntersectionObserver' in window && matchMedia('(prefers-reduced-motion: no-
 const tools = document.querySelector('.project-tools');
 if (tools) {
   const projects = [...document.querySelectorAll('.project-gallery [data-category]')];
+  const editorialNotes = document.querySelectorAll('.project-gallery .studio-note');
   const { category, location, query } = tools.elements;
   const count = tools.querySelector('output');
   const pageUrl = new URL(window.location.href);
@@ -51,6 +52,8 @@ if (tools) {
 
   function filterProjects() {
     const term = query.value.trim().toLocaleLowerCase('az');
+    const isFiltered = Boolean(category.value || location?.value || term);
+    for (const note of editorialNotes) note.hidden = isFiltered;
     let visible = 0;
     for (const project of projects) {
       const matchesCategory = !category.value || project.dataset.category === category.value;
