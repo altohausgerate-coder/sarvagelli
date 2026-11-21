@@ -30,7 +30,7 @@ if ('IntersectionObserver' in window && matchMedia('(prefers-reduced-motion: no-
 
 const tools = document.querySelector('.project-tools');
 if (tools) {
-  const projects = [...document.querySelectorAll('.project-index [data-category]')];
+  const projects = [...document.querySelectorAll('.project-gallery [data-category]')];
   const { category, query } = tools.elements;
   const count = tools.querySelector('output');
 
