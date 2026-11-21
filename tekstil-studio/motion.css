@@ -42,6 +42,7 @@
   --hover-img-scale: 1.03;
   --hover-arrow-distance: 3px;
   --parallax-height: 116%;
+  --parallax-height-compact: 108%;
 }
 
 .masthead:not(.has-editorial-menu) { min-height: var(--menu-header-height); padding-inline: var(--menu-edge); }
@@ -169,26 +170,39 @@
 .js :is([data-no-motion], [data-no-motion] *)[data-img-reveal] { clip-path: none; transition: none; }
 .js :is([data-no-motion], [data-no-motion] *)[data-img-reveal] img { scale: 1; transition: none; }
 
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) {
   :is(.project-frame, .project-tile, .product-card, .insight-card, .practice-card) img { transition: scale var(--hover-img-duration) var(--ease-hover); }
-  :is(.project-frame, .project-tile, .product-card, .insight-card, .practice-card):hover img { --motion-hover-scale: var(--hover-img-scale); scale: var(--hover-img-scale); }
   .js [data-img-reveal].motion-settled img { transition: scale var(--hover-img-duration) var(--ease-hover); }
-  :is(.action, .project-tile-copy, .product-card) > span[aria-hidden] { transition: transform var(--hover-link-duration) var(--ease-hover); }
-  :is(.action, .project-tile, .product-card):hover span[aria-hidden] { transform: translate(var(--hover-arrow-distance), calc(-1 * var(--hover-arrow-distance))); }
+  :is(.action, .project-tile-copy, .product-card > div:nth-child(2)) > span[aria-hidden] { transition: transform var(--hover-link-duration) var(--ease-hover); }
   :is(.action, .insight-card h2, .insight-card h3, .product-card h2) { position: relative; }
   :is(.action, .insight-card h2, .insight-card h3, .product-card h2)::after {
     content: ""; position: absolute; inset: auto 0 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform var(--hover-link-duration) var(--ease-hover);
   }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  :is(.project-frame, .project-tile, .product-card, .insight-card, .practice-card):hover img { --motion-hover-scale: var(--hover-img-scale); scale: var(--hover-img-scale); }
+  :is(.action, .project-tile, .product-card):hover span[aria-hidden] { transform: translate(var(--hover-arrow-distance), calc(-1 * var(--hover-arrow-distance))); }
   :is(.action:hover, .insight-card:hover h2, .insight-card:hover h3, .product-card:hover h2)::after { transform: scaleX(1); }
 }
 
 @media (max-width: 1023px) {
   .masthead:not(.has-editorial-menu) { min-height: 68px; }
 }
-@media (hover: none) {
-  .js .scroll-projects .project-frame { position: relative; clip-path: none; }
-  .js .scroll-projects .project-frame figcaption { opacity: 1; translate: none; }
-  .js .scroll-projects .project-frame :is(.project-meta > div, .project-frame-name) { animation: none; }
+@media (hover: none), (max-width: 767px) {
+  .js .parallax-active > img { height: var(--parallax-height-compact); }
+}
+@media (hover: none) and (prefers-reduced-motion: no-preference) {
+  :is(.project-tile, .product-card, .insight-card, .practice-card):active img,
+  .project-frame:has(.action:active) img {
+    --motion-hover-scale: var(--hover-img-scale);
+    scale: var(--hover-img-scale);
+  }
+  :is(.action, .project-tile, .product-card):active span[aria-hidden] {
+    transform: translate(var(--hover-arrow-distance), calc(-1 * var(--hover-arrow-distance)));
+  }
+  :is(.action:active, .insight-card:active h2, .insight-card:active h3, .product-card:active h2)::after {
+    transform: scaleX(1);
+  }
 }
 @media (max-width: 760px) {
   .overview-image { max-width: none; aspect-ratio: 4 / 3; }

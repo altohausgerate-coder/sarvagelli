@@ -45,9 +45,9 @@ All 51 routes load `motion.css?v=3` and `motion.js?v=3` by relative URL. The glo
 | Header | `.masthead`, home solid after 80 px, down-scroll hide after 120 px, up-scroll show | Solid 300 ms ease-hover. Hide/show 400 ms ease-in-out. Modal and focused header controls override hiding. |
 | Block and line reveals | `CONFIG.selectors.reveal`, h2/h3 and `data-reveal`, once per item at 12% from viewport bottom | Blocks 900 ms ease-out, 40 px. Lines 800 ms ease-out, 70 ms per line. |
 | Image masks | `CONFIG.selectors.mask`, generated image wrappers, `data-img-reveal` | Clip 1100 ms ease-in-out. Scale 1.15 to 1 over 1400 ms ease-out. |
-| Parallax and closing image | `data-parallax`, `.photo-directory` image and secondary home shots | Scroll-linked. 8% maximum offset at 768 px and above, lerp .12. Closing image also scales 1.15–1. |
-| Project spreads | `.project-frame`, `.project-photos figure`, `.project-meta` | Paired secondary masks start 150 ms later. Meta enters at 70 ms intervals. Existing desktop full-bleed stacking uses the shared scroll frame. |
-| Hover images, arrows and lines | Project/product/editorial cards and `.action`, mouse hover | Image 600 ms to 1.03. Arrow moves 3 px diagonally and line grows over 300 ms, both ease-hover. Touch captions remain visible. |
+| Parallax and closing image | `data-parallax`, `.photo-directory` image and secondary home shots | Scroll-linked. Maximum 8% on desktop and 3.6% on compact and touch layouts, lerp .12. Closing image also scales 1.15–1. |
+| Project spreads | `.project-frame`, `.project-photos figure`, `.project-meta` | Paired secondary masks start 150 ms later. Meta enters at 70 ms intervals. Full-bleed stacking uses the shared scroll frame. Touch captions stay visible after their first reveal. |
+| Image, arrow and line feedback | Project/product/editorial cards and `.action`, mouse hover or touch press | Image 600 ms to 1.03. Arrow moves 3 px diagonally and line grows over 300 ms, both ease-hover. |
 | Product directions preview | `.solution-list button`, pointer, focus, arrow keys or activation | Indicator 300 ms ease-out. Copy and image fade 400 ms ease-hover in a shared grid cell. |
 | Editorial and gallery rows | `data-stagger-group` and `data-reveal-group`, each row on entry | 90 ms per item in DOM order. Row position tolerance ±4 px. |
 | Footer | `CONFIG.selectors.footer`, once on entry | 800 ms ease-out. Columns 80 ms apart. |
@@ -80,4 +80,6 @@ Desktop Lighthouse on the local copy with Chrome, using the same relative subdir
 
 The automated browser check exercised the home intro, scroll-linked hero and header, keyboard product preview, drawer open/switch/Escape, catalogue pagination and filtering, product type filter, tuning, timeline year, detail masks, contact labels, reduced motion and JavaScript-disabled catalogue. No page errors were reported.
 
-The 390 × 844 Chrome scroll run with 4× CPU slowdown covered 5,141 px at 48.3 fps on average. Median frame interval was 16.7 ms and p95 was 33.4 ms. The run reported no tasks of 50 ms or more. The steady 60 fps goal was outside the measured result. On touch layouts, the project sequence shows the same full-bleed frames with one-time masks and visible captions, with the continuous desktop overlap and parallax disabled.
+Before the phone effects were enabled, the 390 × 844 Chrome scroll run with 4× CPU slowdown covered 5,141 px at 48.3 fps on average. Median frame interval was 16.7 ms and p95 was 33.4 ms. The run reported no tasks of 50 ms or more. The steady 60 fps goal was outside the measured result.
+
+At 360 and 390 px, the phone update was tested in Chrome with touch input enabled. The checks covered the hero, header, stacked scenes, captions, parallax, touch menu and product preview, filtering, timeline and reduced motion.

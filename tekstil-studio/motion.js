@@ -10,6 +10,7 @@ const CONFIG = {
   parallaxMaxShift: .08,
   parallaxMinWidth: 768,
   parallaxLerp: .12,
+  touchParallaxRatio: .45,
   timelineStart: .88,
   hero: { scaleTo: 1.08, overlayTo: .45, captionFadeEnd: .3, captionLift: 20 },
   header: { solidAfter: 80, hideAfter: 120, directionSlop: 4 },
@@ -37,7 +38,10 @@ const sequence = page.querySelector('.project-sequence');
 const touchLayout = matchMedia('(hover: none)');
 const finePointer = matchMedia('(any-pointer: fine)');
 const menus = [...page.querySelectorAll('.editorial-drawer, .project-viewer, .mobile-nav')];
-const stacks = [...page.querySelectorAll('.project-stack')].map(stack => [...stack.querySelectorAll('.project-frame')]);
+const stacks = [...page.querySelectorAll('.project-stack')].map(node => ({
+  node,
+  frames: [...node.querySelectorAll('.project-frame')],
+}));
 const find = selector => [...page.querySelectorAll(selector)].filter(node => !node.closest('[data-no-motion]'));
 const eligible = !reduced.matches && 'IntersectionObserver' in window;
 const css = name => getComputedStyle(root).getPropertyValue(name).trim();
@@ -232,11 +236,15 @@ function paint(timestamp) {
   const y = scrollY;
   const viewport = innerHeight;
   const active = !reduced.matches;
-  const canParallax = active && innerWidth >= CONFIG.parallaxMinWidth;
-  const heroHeight = hero?.offsetHeight;
-  const portfolio = active && !touchLayout.matches && sequence?.getBoundingClientRect();
+  const compact = touchLayout.matches || innerWidth < CONFIG.parallaxMinWidth;
+  const canParallax = active;
+  const portfolio = active && sequence?.getBoundingClientRect();
   const geometry = portfolio?.top < viewport && portfolio?.bottom > 0
-    ? stacks.map(stack => stack.map(frame => frame.getBoundingClientRect())) : [];
+    ? stacks.flatMap(({ node, frames }) => {
+      const rect = node.getBoundingClientRect();
+      return rect.top < viewport && rect.bottom > 0
+        ? [{ frames, rects: frames.map(frame => frame.getBoundingClientRect()) }] : [];
+    }) : [];
   const rectangles = canParallax ? layers.map(layer => layer.node.getBoundingClientRect()) : [];
   const timelineRects = active ? timelines.map(node => node.getBoundingClientRect()) : [];
   const closingRect = active && closingImage?.getBoundingClientRect();
@@ -264,20 +272,26 @@ function paint(timestamp) {
   }
   if (Math.abs(direction) >= CONFIG.header.directionSlop) previousScroll = y;
 
-  for (const [i, stack] of geometry.entries()) {
-    if (stack.at(-1).bottom <= 0 || stack[0].top >= viewport) continue;
-    for (const [j, rect] of stack.entries()) {
-      const element = stacks[i][j];
-      const next = stack[j + 1];
+  for (const { frames, rects } of geometry) {
+    for (const [j, rect] of rects.entries()) {
+      const element = frames[j];
+      const next = rects[j + 1];
       const shown = Math.max(0, Math.min(rect.bottom, viewport) - Math.max(rect.top, 0));
       const handoff = next ? clamp(1 - next.top / viewport) : 0;
       const entry = clamp(1 - rect.top / viewport);
       const unfold = clamp((entry - CONFIG.project.entryHold) / (1 - CONFIG.project.entryHold));
-      const inset = innerWidth >= CONFIG.parallaxMinWidth ? CONFIG.project.desktopInset : CONFIG.project.mobileInset;
-      element.classList.toggle('caption-in-view', shown >= Math.min(rect.height, viewport) * CONFIG.project.captionVisible && handoff < CONFIG.project.captionHandoff);
-      element.style.setProperty('--project-light', 1 - CONFIG.project.shade * handoff);
-      element.style.setProperty('--project-scale', 1 + CONFIG.project.scale * handoff);
-      if (j) element.style.setProperty('--project-inset', inset * (1 - unfold * unfold * (3 - 2 * unfold)) + '%');
+      const inset = compact ? CONFIG.project.mobileInset : CONFIG.project.desktopInset;
+      const captionVisible = shown >= Math.min(rect.height, viewport) * CONFIG.project.captionVisible;
+      if (compact) {
+        if (captionVisible) element.classList.add('caption-in-view');
+      } else {
+        element.classList.toggle('caption-in-view', captionVisible && handoff < CONFIG.project.captionHandoff);
+      }
+      if (next) {
+        element.style.setProperty('--project-light', (1 - CONFIG.project.shade * handoff).toFixed(3));
+        element.style.setProperty('--project-scale', (1 + CONFIG.project.scale * handoff).toFixed(3));
+      }
+      if (j) element.style.setProperty('--project-inset', (inset * (1 - unfold * unfold * (3 - 2 * unfold))).toFixed(2) + '%');
     }
   }
   for (const [i, layer] of layers.entries()) {
@@ -288,7 +302,7 @@ function paint(timestamp) {
     const progress = clamp((viewport - rect.top) / (viewport + rect.height));
     const strength = layer.node.dataset.parallax === '' ? CONFIG.parallaxMaxShift
       : clamp(Number(layer.node.dataset.parallax) || 0, 0, CONFIG.parallaxMaxShift);
-    const target = (progress - .5) * 2 * rect.height * strength;
+    const target = (progress - .5) * 2 * rect.height * strength * (compact ? CONFIG.touchParallaxRatio : 1);
     const difference = target - layer.offset;
     layer.offset = Math.abs(difference) < CONFIG.settleDistance ? target : layer.offset + difference * CONFIG.parallaxLerp;
     layer.node.style.setProperty('--motion-parallax-y', layer.offset + 'px');
