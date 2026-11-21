@@ -12,11 +12,11 @@ Reference font assets are included for review. Confirm the applicable webfont ri
 
 ## Scroll motion in `tekstil-studio`
 
-The homepage and project catalogue use native scrolling by default. Open either page with `?tune=1` to adjust the motion and copy the CSS tokens and JavaScript configuration. Defaults are at the top of `scroll-motion.css` and `scroll-motion.js`.
+The studio pages share a scroll and animation system. Add `?tune=1` to any studio page to adjust the effects and copy the settings. The defaults live at the top of `tekstil-studio/motion.css` and `tekstil-studio/motion.js`. See `tekstil-studio/MOTION.md` for the audit and effect inventory.
 
 - `data-reveal` fades and lifts a block into view once.
 - `data-reveal="lines"` reveals a heading in lines. Mark intentional breaks with `data-line` spans to control the sequence.
-- `data-reveal-group` staggers marked elements in the same gallery row.
+- `data-stagger-group` staggers marked elements in the same gallery row.
 - `data-img-reveal` goes on an image wrapper with reserved dimensions or an aspect ratio.
-- `data-parallax` goes on a container with a direct child image. The effect runs at the configured desktop breakpoint.
+- `data-parallax` goes on a container with a direct child image. The effect runs at the configured desktop breakpoint. Add `data-no-motion` to a section to opt it out.
 

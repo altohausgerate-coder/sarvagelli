@@ -7,131 +7,6 @@ if (navigation) {
   });
 }
 
-const entrance = document.querySelector('.entrance');
-const masthead = document.querySelector('.masthead');
-const managedMotion = document.body.hasAttribute('data-scroll-motion');
-if (!managedMotion && entrance && masthead && 'IntersectionObserver' in window) {
-  const photoSections = [entrance, ...document.querySelectorAll('.project-stack, .photo-directory')];
-  let headerObserver;
-  function observeHeader() {
-    headerObserver?.disconnect();
-    const visible = new Set();
-    const band = Math.round(masthead.offsetHeight / 2);
-    const below = Math.max(0, window.innerHeight - band - 1);
-    headerObserver = new IntersectionObserver(entries => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) visible.add(entry.target);
-        else visible.delete(entry.target);
-      }
-      masthead.classList.toggle('over-entrance', visible.size > 0);
-    }, { rootMargin: `-${band}px 0px -${below}px 0px` });
-    photoSections.forEach(section => headerObserver.observe(section));
-  }
-  observeHeader();
-  window.addEventListener('resize', observeHeader, { passive: true });
-}
-
-const projectSequence = document.querySelector('.project-sequence');
-if (!managedMotion && projectSequence) {
-  const stacks = [...projectSequence.querySelectorAll('.project-stack')].map(stack =>
-    [...stack.querySelectorAll('.project-frame')]);
-  const motionPreference = matchMedia('(prefers-reduced-motion: no-preference)');
-  let scheduledFrame = 0;
-
-  function paintProjectFrames() {
-    scheduledFrame = 0;
-    if (!motionPreference.matches) return;
-    const viewport = window.innerHeight;
-    const maxInset = window.innerWidth <= 760 ? 4.5 : 9;
-    const geometry = stacks.map(stack => stack.map(frame => frame.getBoundingClientRect()));
-    for (const [index, stack] of stacks.entries()) {
-      for (const [frameIndex, frame] of stack.entries()) {
-        const rect = geometry[index][frameIndex];
-        const next = geometry[index][frameIndex + 1];
-        const visible = Math.max(0, Math.min(rect.bottom, viewport) - Math.max(rect.top, 0));
-        const handoff = next ? Math.min(1, Math.max(0, 1 - next.top / viewport)) : 0;
-        const ownEntry = Math.min(1, Math.max(0, 1 - rect.top / viewport));
-
-        frame.classList.toggle('caption-in-view', visible >= Math.min(rect.height, viewport) * .58 && handoff < .47);
-        if (next) {
-          frame.style.setProperty('--project-light', (1 - .56 * handoff).toFixed(3));
-          frame.style.setProperty('--project-scale', (1 + .04 * handoff).toFixed(3));
-        }
-        if (frameIndex) {
-          const spread = Math.max(0, (ownEntry - .17) / .83);
-          frame.style.setProperty('--project-inset', `${(maxInset * (1 - spread * spread * (3 - 2 * spread))).toFixed(2)}%`);
-        }
-      }
-    }
-  }
-
-  function requestProjectFrame() {
-    if (motionPreference.matches && !scheduledFrame) scheduledFrame = requestAnimationFrame(paintProjectFrames);
-  }
-
-  function syncProjectMotion() {
-    projectSequence.classList.toggle('scroll-projects', motionPreference.matches);
-    requestProjectFrame();
-  }
-
-  window.addEventListener('scroll', requestProjectFrame, { passive: true });
-  window.addEventListener('resize', requestProjectFrame, { passive: true });
-  motionPreference.addEventListener('change', syncProjectMotion);
-  syncProjectMotion();
-}
-
-if (!managedMotion && 'IntersectionObserver' in window && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-  const observer = new IntersectionObserver(entries => {
-    for (const entry of entries) {
-      if (!entry.isIntersecting) continue;
-      entry.target.classList.add('seen');
-      observer.unobserve(entry.target);
-    }
-  }, { threshold: .15 });
-
-  document.body.classList.add('motion');
-  document.querySelectorAll('.practice-grid, .insight-grid').forEach(grid => {
-    [...grid.children].forEach((item, index) => {
-      item.style.setProperty('--reveal-delay', `calc(${index % 3} * var(--photo-reveal-stagger))`);
-    });
-  });
-  document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
-}
-
-const solutions = document.querySelector('.solution-browser');
-if (solutions) {
-  const panel = solutions.querySelector('.solution-panel');
-  const description = panel.querySelector('p');
-  const photo = panel.querySelector('img');
-  const details = panel.querySelector('a');
-  let active;
-
-  for (const link of solutions.querySelectorAll('.solution-list a')) {
-    const option = document.createElement('button');
-    option.type = 'button';
-    option.textContent = link.textContent;
-    option.setAttribute('aria-controls', panel.id);
-    option.setAttribute('aria-pressed', String(active === undefined));
-    if (!active) active = option;
-    option.addEventListener('click', () => {
-      if (option === active) return;
-      active.setAttribute('aria-pressed', 'false');
-      option.setAttribute('aria-pressed', 'true');
-      active = option;
-      description.textContent = link.dataset.description;
-      photo.src = link.dataset.image;
-      photo.alt = link.dataset.alt;
-      details.href = link.href;
-      details.setAttribute('aria-label', `${link.textContent} — ətraflı bax`);
-      if (matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-        panel.animate([{ opacity: .48, transform: 'translateY(7px)' }, { opacity: 1, transform: 'none' }],
-          { duration: 320, easing: 'cubic-bezier(.22, 1, .36, 1)' });
-      }
-    });
-    link.replaceWith(option);
-  }
-}
-
 for (const slider of document.querySelectorAll('[data-editorial-slider]')) {
   const track = slider.querySelector('.editorial-track');
   const controls = slider.querySelector('.editorial-controls');
@@ -159,7 +34,8 @@ for (const slider of document.querySelectorAll('[data-editorial-slider]')) {
 
 const tools = document.querySelector('.project-tools');
 if (tools) {
-  const projects = [...document.querySelectorAll('.project-gallery [data-category]')];
+  const gallery = document.querySelector('.project-gallery');
+  const projects = [...gallery.querySelectorAll('[data-category]')];
   const { category, location, query } = tools.elements;
   const count = tools.querySelector('output');
   const pageUrl = new URL(window.location.href);
@@ -176,13 +52,16 @@ if (tools) {
       const matchesLocation = !location?.value || project.dataset.location === location.value;
       const matchesTerm = project.dataset.search.toLocaleLowerCase('az').includes(term);
       const visible = matchesCategory && matchesLocation && matchesTerm;
-      project.hidden = !visible;
       if (!visible) continue;
-      if (!managedMotion) project.style.setProperty('--tile-delay', `${(matches.length % 3) * 65}ms`);
       matches.push(project);
     }
     count.value = matches.length ? matches.length + ' layihə' : 'Layihə tapılmadı';
-    if (managedMotion) document.querySelector('.project-gallery').dispatchEvent(new CustomEvent('project-filter', { detail: matches }));
+    gallery.projectMatches = matches;
+    if (gallery.dataset.paged) gallery.dispatchEvent(new CustomEvent('project-filter', { detail: matches }));
+    else {
+      const matched = new Set(matches);
+      projects.forEach(project => { project.hidden = !matched.has(project); });
+    }
   }
 
   tools.hidden = false;

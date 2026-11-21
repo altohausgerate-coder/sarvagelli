@@ -6,7 +6,6 @@
   --gutter: clamp(22px, 5.2vw, 88px);
   --serif: Newsreader, "Iowan Old Style", Georgia, serif;
   --sans: Manrope, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  --ease-out: cubic-bezier(.23, 1, .32, 1);
   color: var(--ink);
   background: var(--paper);
   font: 16px / 1.6 var(--sans);
@@ -36,7 +35,6 @@ button, input, select { font: inherit; }
   border-bottom: 1px solid #283b3328;
   -webkit-backdrop-filter: blur(16px) saturate(118%);
   backdrop-filter: blur(16px) saturate(118%);
-  transition: background-color 180ms var(--ease-out), color 180ms var(--ease-out);
 }
 .brand img { width: clamp(132px, 15vw, 208px); height: auto; }
 .desktop-nav { display: flex; gap: clamp(15px, 2.6vw, 42px); }
@@ -66,8 +64,6 @@ h3 { font-size: clamp(30px, 3.4vw, 55px); }
   font-weight: 650;
   text-decoration: none;
 }
-.action span { transition: transform .2s ease; }
-.action:hover span { transform: translate(3px, -3px); }
 
 .entrance {
   position: relative;
@@ -166,16 +162,13 @@ h3 { font-size: clamp(30px, 3.4vw, 55px); }
 .project-tile img {
   aspect-ratio: 406 / 287;
   object-fit: cover;
-  transition: transform .55s var(--ease-out);
 }
-.project-tile:hover img { transform: scale(1.035); }
 .project-tile-copy {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 4px 12px;
   padding: 11px 0;
   border-bottom: 1px solid var(--line);
-  transition: color .2s var(--ease-out);
 }
 .project-tile-copy > span:first-child { font: 400 clamp(20px, 2.1vw, 31px)/1.1 var(--serif); }
 .project-tile-copy small { grid-row: 2; }
@@ -188,8 +181,7 @@ h3 { font-size: clamp(30px, 3.4vw, 55px); }
 .product-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 38px clamp(16px, 4vw, 60px); padding-bottom: 90px; }
 .product-card { text-decoration: none; }
 .image-window { overflow: hidden; }
-.product-card img { aspect-ratio: 1.5; object-fit: cover; transition: transform .6s cubic-bezier(.2,.65,.25,1); }
-.product-card:hover img { transform: scale(1.045); }
+.product-card img { aspect-ratio: 1.5; object-fit: cover; }
 .product-card > div:nth-child(2) { display: flex; justify-content: space-between; gap: 10px; align-items: center; padding: 12px 0 4px; }
 .product-card h2 { font-size: clamp(24px, 3.2vw, 46px); }
 .product-card p { font-size: 13px; color: #515e56; }
@@ -212,15 +204,6 @@ h3 { font-size: clamp(30px, 3.4vw, 55px); }
 .footer nav { display: grid; justify-items: start; align-content: start; gap: 10px; }
 .footer a { text-underline-offset: 4px; overflow-wrap: anywhere; }
 
-@media (prefers-reduced-motion: no-preference) {
-  .reveal { transition: transform .63s cubic-bezier(.22,.62,.26,1), opacity .63s ease; }
-  .motion .reveal:not(.seen):not(:focus-within) { transform: translateY(21px); opacity: 0; }
-  .entrance-copy { animation: entrance-rise .8s cubic-bezier(.22,.62,.26,1) both; }
-  @keyframes entrance-rise { from { opacity: 0; transform: translateY(18px); } }
-  @view-transition { navigation: auto; }
-  ::view-transition-old(root) { animation-duration: 170ms; }
-  ::view-transition-new(root) { animation-duration: 240ms; animation-timing-function: var(--ease-out); }
-}
 @media (max-width: 760px) {
   .masthead { min-height: 64px; }
   .desktop-nav { display: none; }

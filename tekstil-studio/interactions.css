@@ -315,10 +315,7 @@ html:has(.project-viewer[open]) { overflow: hidden; scrollbar-gutter: stable; }
 .contact-layout button.action { background: transparent; color: inherit; border: 0; border-bottom: 1px solid; padding: 0; cursor: pointer; }
 
 @media (prefers-reduced-motion: no-preference) {
-  .project-viewer[open], .editorial-intro { animation: editorial-enter var(--panel-motion) var(--panel-ease) both; }
-  .project-tile:not([hidden]) { animation: editorial-enter 420ms var(--panel-ease) both; }
-  .motion .project-tile.reveal:not(.seen):not(:focus-within) { animation: none; }
-  .project-tile.reveal { transition-duration: 680ms; transition-delay: var(--tile-delay, 0ms); }
+  .project-viewer[open] { animation: editorial-enter var(--panel-motion) var(--panel-ease) both; }
   @keyframes editorial-enter { from { opacity: 0; transform: translateY(18px); } }
 }
 

@@ -1,12 +1,13 @@
 export function mountTuner(config, refresh) {
   const root = document.documentElement;
   const cssFields = [
-    ['Görünmə müddəti (ms)', '--motion-reveal-duration', 'ms', 0, 3000],
-    ['Hərəkət məsafəsi (px)', '--motion-reveal-distance', 'px', 0, 150],
-    ['Ardıcıl gecikmə (ms)', '--motion-stagger', 'ms', 0, 350],
-    ['Şəkil açılması (ms)', '--motion-mask-duration', 'ms', 0, 3000],
-    ['Şəkil miqyası (ms)', '--motion-img-scale-duration', 'ms', 0, 3500],
-    ['Menyu hərəkəti (ms)', '--motion-header-duration', 'ms', 0, 1500],
+    ['Görünmə müddəti (ms)', '--reveal-duration', 'ms', 0, 3000],
+    ['Hərəkət məsafəsi (px)', '--reveal-distance', 'px', 0, 150],
+    ['Ardıcıl gecikmə (ms)', '--stagger', 'ms', 0, 350],
+    ['Şəkil açılması (ms)', '--mask-duration', 'ms', 0, 3000],
+    ['Şəkil miqyası (ms)', '--img-scale-duration', 'ms', 0, 3500],
+    ['Başlıq hərəkəti (ms)', '--header-hide', 'ms', 0, 1500],
+    ['Səhifə keçidi (ms)', '--page-transition', 'ms', 0, 1500],
   ];
   const drawer = document.createElement('aside');
   drawer.className = 'motion-tuner';
@@ -48,7 +49,9 @@ export function mountTuner(config, refresh) {
 
   drawer.querySelector('button').addEventListener('click', async () => {
     const computed = getComputedStyle(root);
-    const names = Array.from(computed).filter(name => name.startsWith('--motion-'));
+    const sheet = [...document.styleSheets].find(style => style.href && new URL(style.href).pathname.endsWith('/motion.css'));
+    const tokens = [...(sheet?.cssRules ?? [])].find(rule => rule.selectorText === ':root')?.style;
+    const names = Array.from(tokens ?? []);
     const lines = names.map(name => '  ' + name + ': ' + computed.getPropertyValue(name).trim() + ';');
     const result = ':root {\n' + lines.join('\n') + '\n}\n\nconst CONFIG = ' + JSON.stringify(config, null, 2) + ';';
     try {
