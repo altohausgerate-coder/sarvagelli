@@ -195,6 +195,16 @@
 .editorial-card h3 { font-size: clamp(23px, 2.8vw, 44px); line-height: 1.1; }
 .team-portrait { width: min(100%, 470px); }
 .team-portrait figcaption { margin-top: 12px; font: 400 clamp(23px, 2.8vw, 44px)/1.1 var(--serif); }
+.home-team {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, .65fr);
+  align-items: start;
+  gap: clamp(24px, 5vw, 76px);
+  padding-block: clamp(48px, 6vw, 105px);
+}
+.home-team h2 { --reveal-distance: 14px; font-size: clamp(34px, 4.5vw, 68px); overflow-wrap: anywhere; }
+.home-team .team-portrait { justify-self: end; width: min(100%, 310px); }
+.home-team .team-portrait figcaption { text-align: center; font-size: clamp(21px, 2vw, 30px); }
 .editorial-controls { display: flex; gap: 8px; margin-top: 28px; }
 .editorial-controls button {
   width: 44px;
@@ -288,6 +298,8 @@
   .scroll-projects .project-frame:focus-within { clip-path: none; }
 }
 @media (max-width: 760px) {
+  .home-team { grid-template-columns: 1fr; }
+  .home-team .team-portrait { width: min(78%, 260px); }
   .portfolio-overview { grid-template-columns: 1fr; }
   .portfolio-overview-copy { grid-area: auto; }
   .portfolio-overview-photo { max-width: none; aspect-ratio: 4 / 3; }
