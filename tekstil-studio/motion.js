@@ -15,7 +15,7 @@ const CONFIG = {
   hero: { scaleTo: 1.08, overlayTo: .45, captionFadeEnd: .3, captionLift: 20 },
   header: { solidAfter: 80, hideAfter: 120, directionSlop: 4 },
   project: { desktopInset: 9, mobileInset: 4.5, entryHold: .17, captionVisible: .58, captionHandoff: .47, shade: .56, scale: .04 },
-  projectImageLead: '800px 0px',
+  projectImageLead: '1600px 0px',
   rowTolerance: 4,
   infinite: { batch: 12, rootMargin: '0px 0px 800px 0px', maxWait: 650, placeholders: 3 },
   scrollToTopDuration: 1200,
@@ -48,17 +48,7 @@ const eligible = !reduced.matches && 'IntersectionObserver' in window;
 const css = name => getComputedStyle(root).getPropertyValue(name).trim();
 const ms = name => parseFloat(css(name));
 markTargets();
-if (stacks.length && 'IntersectionObserver' in window) {
-  // Observe the frame, so clipping its image during a reveal cannot delay the request.
-  const projectImages = new IntersectionObserver(entries => {
-    for (const {target, isIntersecting} of entries) {
-      if (!isIntersecting) continue;
-      target.querySelector('img').loading = 'eager';
-      projectImages.unobserve(target);
-    }
-  }, { rootMargin: CONFIG.projectImageLead });
-  for (const {frames} of stacks) for (const frame of frames) projectImages.observe(frame);
-}
+loadProjectFrames();
 const closingImage = page.querySelector('[data-motion-closing-image]');
 const timelines = find('.timeline');
 const layers = find('[data-parallax]').map(node => ({ node, offset: 0 }));
@@ -93,11 +83,6 @@ function markTargets() {
     const wrapper = document.createElement('div');
     wrapper.dataset.imgReveal = '';
     wrapper.className = parent.matches('.project-frame, .photo-directory') ? 'motion-scene-image' : 'motion-detail-mask';
-    if (parent.matches('.project-frame') && image.hasAttribute('srcset')) {
-      const useBaseImage = () => image.removeAttribute('srcset');
-      if (image.complete && image.currentSrc && !image.naturalWidth) useBaseImage();
-      else image.addEventListener('error', useBaseImage, { once: true });
-    }
     if (parent.matches('.photo-directory')) {
       wrapper.dataset.motionClosingImage = '';
       if (parent.hasAttribute('data-parallax')) {
@@ -116,6 +101,44 @@ function markTargets() {
   }
   for (const counter of find('[data-count]')) if (!counter.closest('.timeline strong')) counter.dataset.reveal = '';
   for (const item of find('.project-meta > div')) item.style.setProperty('--motion-item', [...item.parentElement.children].indexOf(item));
+}
+
+function loadProjectFrames() {
+  const frames = stacks.flatMap(stack => stack.frames).filter(frame => frame.querySelector('img'));
+  if (!frames.length) return;
+
+  async function showFrame(frame) {
+    const image = frame.querySelector('img');
+    image.loading = 'eager';
+    try {
+      await image.decode();
+    } catch {
+      try {
+        if (!image.hasAttribute('srcset')) throw new Error('No alternate project source');
+        image.removeAttribute('srcset');
+        await image.decode();
+      } catch {
+        if (frame.dataset.projectPreview) image.src = frame.dataset.projectPreview;
+        await image.decode().catch(() => {});
+      }
+    } finally {
+      frame.classList.remove('project-image-pending');
+      schedule();
+    }
+  }
+
+  const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+    for (const {target, isIntersecting} of entries) {
+      if (!isIntersecting) continue;
+      observer.unobserve(target);
+      showFrame(target);
+    }
+  }, { rootMargin: CONFIG.projectImageLead }) : null;
+  for (const frame of frames) {
+    frame.classList.add('project-image-pending');
+    if (observer) observer.observe(frame);
+    else showFrame(frame);
+  }
 }
 
 for (const heading of [...find('[data-reveal="lines"]'), ...find('.portfolio-title')]) {
@@ -299,7 +322,7 @@ function paint(timestamp) {
   for (const { frames, rects } of geometry) {
     for (const [j, rect] of rects.entries()) {
       const element = frames[j];
-      const next = rects[j + 1];
+      const next = frames[j + 1]?.classList.contains('project-image-pending') ? undefined : rects[j + 1];
       const shown = Math.max(0, Math.min(rect.bottom, viewport) - Math.max(rect.top, 0));
       const handoff = next ? clamp(1 - next.top / viewport) : 0;
       const entry = clamp(1 - rect.top / viewport);

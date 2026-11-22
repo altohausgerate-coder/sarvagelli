@@ -123,6 +123,7 @@
   .js .motion-mask-active { will-change: clip-path; }
   .js [data-img-reveal]:not(.motion-seen):not(:focus-within):where(:not([data-no-motion], [data-no-motion] *)) { clip-path: inset(100% 0 0 0); }
   .js [data-img-reveal]:not(.motion-seen):not(:focus-within):where(:not([data-no-motion], [data-no-motion] *)) img { scale: var(--img-start); }
+  .js .project-frame .motion-scene-image[data-img-reveal] { clip-path: none; }
   .project-stack .project-frame--quiet:not(:first-child) .motion-scene-image,
   .project-photos figure:nth-child(2) .motion-detail-mask { --motion-mask-offset: var(--project-image-delay); }
   .js .scroll-projects .project-frame + .project-frame { margin-top: var(--project-pause); }
