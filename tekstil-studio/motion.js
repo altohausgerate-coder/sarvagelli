@@ -26,7 +26,7 @@ const CONFIG = {
     wrapImage: 'main .project-frame > img, main .photo-directory > img, main .project-photos > figure > img, main .insight-card > img, main .practice-card > img, main .team-track > article > img',
     parallax: '.project-frame--quiet:not(:first-child) > .motion-scene-image, .photo-directory > .motion-scene-image',
     groups: '.project-gallery:not(.project-loading), .product-grid, .editorial-track, .insight-grid, .practice-grid',
-    footer: '.footer:not(.home-footer) > *, .home-footer-grid > *, .home-footer-bottom > *',
+    footer: '.footer:not(.home-footer) > *, .home-footer-grid > *',
   },
 };
 
