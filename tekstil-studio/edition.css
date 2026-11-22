@@ -33,6 +33,27 @@
 .portfolio-hero-media, .portfolio-hero-media img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .portfolio-hero-media { z-index: -2; }
 .portfolio-hero-media img { object-fit: cover; object-position: center 54%; }
+.portfolio-hero-video { object-fit: cover; object-position: center; opacity: 0; pointer-events: none; }
+.portfolio-hero-video.video-visible { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .portfolio-hero-video { transition: opacity var(--crossfade) var(--ease-out); }
+}
+.portfolio-video-toggle {
+  position: absolute;
+  inset-inline-end: var(--gutter);
+  inset-block-end: clamp(24px, 4.3vw, 70px);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid #fff9efb3;
+  border-radius: 50%;
+  background: #17151099;
+  color: #fff9ef;
+  cursor: pointer;
+}
+.portfolio-entrance:has(.portfolio-video-toggle:not([hidden])) .portfolio-caption { margin-inline-end: calc(var(--gutter) + 58px); }
 .portfolio-entrance::after { background: linear-gradient(110deg, #171510bf 3%, #17151073 56%, #17151042 100%); }
 .portfolio-title {
   font-size: clamp(58px, 8vw, 138px);
