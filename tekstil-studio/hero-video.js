@@ -2,7 +2,10 @@ const video = document.querySelector('.portfolio-hero-video');
 const hero = video.closest('.portfolio-entrance');
 const toggle = document.querySelector('.portfolio-video-toggle');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+const wideScreen = matchMedia('(min-width: 1440px)');
 const picture = video.previousElementSibling;
+const src = video.dataset.src;
+const src4k = video.getAttribute('data-src-4k');
 let visible = false;
 let pausedByVisitor = false;
 
@@ -19,7 +22,7 @@ function syncPlayback() {
   }
   if (!video.hasAttribute('src')) {
     video.muted = true;
-    video.src = video.dataset.src;
+    video.src = src4k && wideScreen.matches && !navigator.connection?.saveData ? src4k : src;
   }
   toggle.hidden = false;
   video.play().catch(updateButton);
@@ -37,6 +40,11 @@ video.addEventListener('error', () => {
   video.classList.remove('video-visible');
   hero.classList.remove('hero-film-ready');
   picture.removeAttribute('aria-hidden');
+  if (src4k && video.getAttribute('src') === src4k) {
+    video.src = src;
+    video.load();
+    syncPlayback();
+  }
 });
 toggle.addEventListener('click', () => {
   pausedByVisitor = !video.paused;
