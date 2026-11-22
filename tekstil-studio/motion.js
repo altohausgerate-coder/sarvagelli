@@ -15,6 +15,7 @@ const CONFIG = {
   hero: { scaleTo: 1.08, overlayTo: .45, captionFadeEnd: .3, captionLift: 20 },
   header: { solidAfter: 80, hideAfter: 120, directionSlop: 4 },
   project: { desktopInset: 9, mobileInset: 4.5, entryHold: .17, captionVisible: .58, captionHandoff: .47, shade: .56, scale: .04 },
+  projectImageLead: '800px 0px',
   rowTolerance: 4,
   infinite: { batch: 12, rootMargin: '0px 0px 800px 0px', maxWait: 650, placeholders: 3 },
   scrollToTopDuration: 1200,
@@ -47,6 +48,17 @@ const eligible = !reduced.matches && 'IntersectionObserver' in window;
 const css = name => getComputedStyle(root).getPropertyValue(name).trim();
 const ms = name => parseFloat(css(name));
 markTargets();
+if (stacks.length && 'IntersectionObserver' in window) {
+  // Observe the frame, so clipping its image during a reveal cannot delay the request.
+  const projectImages = new IntersectionObserver(entries => {
+    for (const {target, isIntersecting} of entries) {
+      if (!isIntersecting) continue;
+      target.querySelector('img').loading = 'eager';
+      projectImages.unobserve(target);
+    }
+  }, { rootMargin: CONFIG.projectImageLead });
+  for (const {frames} of stacks) for (const frame of frames) projectImages.observe(frame);
+}
 const closingImage = page.querySelector('[data-motion-closing-image]');
 const timelines = find('.timeline');
 const layers = find('[data-parallax]').map(node => ({ node, offset: 0 }));
@@ -81,6 +93,11 @@ function markTargets() {
     const wrapper = document.createElement('div');
     wrapper.dataset.imgReveal = '';
     wrapper.className = parent.matches('.project-frame, .photo-directory') ? 'motion-scene-image' : 'motion-detail-mask';
+    if (parent.matches('.project-frame') && image.hasAttribute('srcset')) {
+      const useBaseImage = () => image.removeAttribute('srcset');
+      if (image.complete && image.currentSrc && !image.naturalWidth) useBaseImage();
+      else image.addEventListener('error', useBaseImage, { once: true });
+    }
     if (parent.matches('.photo-directory')) {
       wrapper.dataset.motionClosingImage = '';
       if (parent.hasAttribute('data-parallax')) {
@@ -172,11 +189,12 @@ function watchReveals() {
   revealObserver?.disconnect();
   if (!('IntersectionObserver' in window) || reduced.matches) return;
   const inset = parseFloat(css('--reveal-trigger')) / 100;
+  const masksByFrame = new Map();
   revealObserver = new IntersectionObserver(entries => {
     const rows = new Map();
     for (const entry of entries) {
       if (!entry.isIntersecting) continue;
-      const element = entry.target;
+      const element = masksByFrame.get(entry.target) ?? entry.target;
       const group = element.parentElement.closest('[data-stagger-group], [data-reveal-group]');
       if (group && !rows.has(group)) {
         let priorTop = -Infinity;
@@ -193,7 +211,7 @@ function watchReveals() {
     }
     for (const entry of entries) {
       if (!entry.isIntersecting) continue;
-      const target = entry.target;
+      const target = masksByFrame.get(entry.target) ?? entry.target;
       const card = target.closest('[data-stagger-group] > *, [data-reveal-group] > *');
       if (rows.has(card)) target.style.setProperty('--motion-item', rows.get(card));
       target.classList.add('motion-seen');
@@ -221,10 +239,16 @@ function watchReveals() {
         pendingCounts.set(target, { ...counters.get(target), duration: ms('--timeline-count') });
         schedule();
       }
-      revealObserver.unobserve(target);
+      revealObserver.unobserve(entry.target);
     }
   }, { rootMargin: '0px 0px -' + Math.round(innerHeight * inset) + 'px 0px' });
-  for (const target of targets) if (!target.classList.contains('motion-seen')) revealObserver.observe(target);
+  for (const target of targets) {
+    if (target.classList.contains('motion-seen')) continue;
+    if (target.matches('.project-frame > .motion-scene-image')) {
+      masksByFrame.set(target.parentElement, target);
+      revealObserver.observe(target.parentElement);
+    } else revealObserver.observe(target);
+  }
 }
 
 function schedule() {
