@@ -194,6 +194,10 @@
 .editorial-card .eyebrow { margin-block: 14px 8px; color: #6d522d; }
 .editorial-card h3 { font-size: clamp(23px, 2.8vw, 44px); line-height: 1.1; }
 .team-track img { filter: saturate(.42); }
+.team-track .team-portrait-card img { filter: none; object-position: center 28%; }
+.team-portrait-card h3, .team-portrait figcaption { margin-top: 12px; }
+.team-portrait { width: min(100%, 470px); }
+.team-portrait figcaption { font: 400 clamp(23px, 2.8vw, 44px)/1.1 var(--serif); }
 .editorial-controls { display: flex; gap: 8px; margin-top: 28px; }
 .editorial-controls button {
   width: 44px;
