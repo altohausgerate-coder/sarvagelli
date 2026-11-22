@@ -9,6 +9,8 @@
   --intro-title-stagger: 80ms;
   --intro-sub: 700ms;
   --intro-sub-delay: 700ms;
+  --intro-film-hold: 4800ms;
+  --intro-film-fade: 900ms;
   --reveal-duration: 900ms;
   --reveal-distance: 40px;
   --reveal-trigger: 12%;
@@ -103,6 +105,8 @@
   .js :is(.portfolio-title, .portfolio-caption) { opacity: var(--motion-caption-alpha, 1); translate: 0 var(--motion-caption-y, 0px); }
   .js .portfolio-title .motion-line > span { animation: motion-line-up var(--intro-title) var(--ease-out) calc(var(--intro-title-delay) + var(--motion-line, 0) * var(--intro-title-stagger)) both; }
   .js .portfolio-caption { animation: motion-up var(--intro-sub) var(--ease-out) var(--intro-sub-delay) both; }
+  .js .hero-film-ready .portfolio-film-copy { animation: motion-film-copy-out var(--intro-film-fade) var(--ease-out) var(--intro-film-hold) both; }
+  .js .hero-film-ready::after { animation: motion-film-shade var(--intro-film-fade) var(--ease-out) var(--intro-film-hold) both; }
 
   .js [data-reveal]:not([data-reveal="lines"]) {
     transition: opacity var(--reveal-duration) var(--ease-out), translate var(--reveal-duration) var(--ease-out);
@@ -158,6 +162,8 @@
   @keyframes motion-up { from { opacity: 0; transform: translateY(var(--reveal-distance)); } }
   @keyframes motion-opacity { from { opacity: 0; } }
   @keyframes motion-hero-image { from { opacity: 0; scale: var(--motion-intro-scale, 1.08); } }
+  @keyframes motion-film-copy-out { to { opacity: 0; } }
+  @keyframes motion-film-shade { to { opacity: .65; } }
   @keyframes motion-skeleton { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
 }
 

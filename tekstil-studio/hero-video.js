@@ -1,4 +1,5 @@
 const video = document.querySelector('.portfolio-hero-video');
+const hero = video.closest('.portfolio-entrance');
 const toggle = document.querySelector('.portfolio-video-toggle');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const picture = video.previousElementSibling;
@@ -26,6 +27,7 @@ function syncPlayback() {
 
 video.addEventListener('playing', () => {
   video.classList.add('video-visible');
+  hero.classList.add('hero-film-ready');
   picture.setAttribute('aria-hidden', 'true');
   updateButton();
 });
@@ -33,6 +35,7 @@ video.addEventListener('pause', updateButton);
 video.addEventListener('error', () => {
   toggle.hidden = true;
   video.classList.remove('video-visible');
+  hero.classList.remove('hero-film-ready');
   picture.removeAttribute('aria-hidden');
 });
 toggle.addEventListener('click', () => {
@@ -42,6 +45,7 @@ toggle.addEventListener('click', () => {
 reduced.addEventListener('change', () => {
   if (reduced.matches) {
     video.classList.remove('video-visible');
+    hero.classList.remove('hero-film-ready');
     picture.removeAttribute('aria-hidden');
     toggle.hidden = true;
   }
@@ -54,7 +58,7 @@ if ('IntersectionObserver' in window) {
     visible = entry.intersectionRatio >= .15;
     syncPlayback();
   }, { threshold: .15 });
-  observer.observe(video.closest('.portfolio-entrance'));
+  observer.observe(hero);
 } else {
   visible = true;
   syncPlayback();

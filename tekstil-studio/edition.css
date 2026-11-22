@@ -54,7 +54,10 @@
   cursor: pointer;
 }
 .portfolio-entrance:has(.portfolio-video-toggle:not([hidden])) .portfolio-caption { margin-inline-end: calc(var(--gutter) + 58px); }
-.portfolio-entrance::after { background: linear-gradient(110deg, #171510bf 3%, #17151073 56%, #17151042 100%); }
+.portfolio-entrance::after {
+  background: linear-gradient(180deg, #171510aa, transparent 28%, transparent 76%, #17151082),
+    linear-gradient(110deg, #171510b3 3%, #17151040 58%, #17151024 100%);
+}
 .portfolio-title {
   font-size: clamp(58px, 8vw, 138px);
   font-weight: 300;
