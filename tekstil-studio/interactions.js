@@ -47,7 +47,7 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
       ['Atelier Bespoke', 'brendler.html#atelier-bespoke'],
       ['KARTEX', 'brendler.html#kartex'],
       ['Pərdəçi', 'brendler.html#perdeci'],
-      ['Melatoni', 'brendler.html#melatoni'],
+      ['Melatoni', 'https://melatoni.com/'],
       ['Bütün brendlər', 'brendler.html'],
     ] },
     perspectives: { label: 'Perspektivlər', items: [

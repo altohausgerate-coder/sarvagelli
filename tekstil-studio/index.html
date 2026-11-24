@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&amp;family=Newsreader:opsz,wght@6..72,300..600&amp;display=swap">
   <link rel="stylesheet" href="site.css?v=6">
-  <link rel="stylesheet" href="edition.css?v=25">
+  <link rel="stylesheet" href="edition.css?v=26">
   <link rel="canonical" href="https://altohausgerate-coder.github.io/sarvagelli/tekstil-studio/">
   <meta property="og:title" content="Tekstil studiyası | Sarvagelli">
   <meta property="og:description" content="1979-dan pərdə, jalüz və interyer tekstili. Sarvagelli-nin məhsulları və layihə portfeli.">
@@ -20,7 +20,7 @@
   <style media="(prefers-reduced-motion: no-preference)">@view-transition { navigation: auto; }</style>
   <link rel="stylesheet" href="motion.css?v=4&amp;rev=hero-film">
   <script src="site.js?v=14" defer></script>
-  <script src="interactions.js?v=9" defer></script>
+  <script src="interactions.js?v=10" defer></script>
   <script src="motion.js?v=4&amp;rev=project-frames" type="module"></script>
   <script src="hero-video.js?v=5" type="module"></script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Sarvagelli Textile Concept", "url": "https://altohausgerate-coder.github.io/sarvagelli/", "logo": "https://altohausgerate-coder.github.io/sarvagelli/assets/logo.png", "foundingDate": "1979", "email": "info@sarvagelli.com", "address": {"@type": "PostalAddress", "streetAddress": "186 Əhməd Rəcəbli küçəsi, Black Pearl Plaza", "addressLocality": "Bakı", "addressCountry": "AZ"}}</script>
@@ -40,7 +40,7 @@
       <picture class="portfolio-hero-media">
         <img src="media/aslan-giris-poster.webp" width="1920" height="1080" alt="Pəncərələri pərdələrlə örtülmüş hotel interyeri" fetchpriority="high" decoding="async">
       </picture>
-      <video class="portfolio-hero-media portfolio-hero-video" data-src="media/aslan-giris-1080.mp4" data-src-4k="media/aslan-giris-4k.mp4" width="1920" height="1080" muted loop playsinline preload="none" aria-hidden="true"></video>
+      <video class="portfolio-hero-media portfolio-hero-video" data-src="media/aslan-giris-1080.mp4" data-src-4k="media/aslan-giris-4k.mp4?v=2" width="1920" height="1080" muted loop playsinline preload="none" aria-hidden="true"></video>
       <div class="hero-scroll-shade" aria-hidden="true"></div>
       <div class="portfolio-film-copy">
         <h1 class="portfolio-title"><span>Məkanın</span> <span>tekstil dili</span></h1>
@@ -207,7 +207,7 @@
     <section class="wrap home-brands" aria-labelledby="home-brands-title">
       <div data-reveal>
         <h2 id="home-brands-title">Brendlərimiz</h2>
-        <p>Sarvagelli Hospitality, Atelier Bespoke, KARTEX, Pərdəçi və Melatoni.</p>
+        <p>Sarvagelli Hospitality, Atelier Bespoke, KARTEX, Pərdəçi və <a href="https://melatoni.com/">Melatoni</a>.</p>
         <a class="action" href="brendler.html">Brendlərə bax <span aria-hidden="true">↗</span></a>
       </div>
       <div data-img-reveal><img src="media/parca-numuneleri.webp" alt="Fərqli rəng və toxumalarda interyer parça nümunələri" width="1536" height="1024" loading="lazy" decoding="async"></div>
@@ -229,20 +229,35 @@
   </main>
   <footer class="footer home-footer">
     <div class="wrap home-footer-grid">
-      <div><p class="eyebrow">SARVAGELLİ · 1979</p><p class="footer-line">Məkanınıza uyğun tekstil həlləri.</p></div>
-      <div>
-        <h2>Əlaqə</h2>
-        <address>186 Əhməd Rəcəbli küçəsi<br>Black Pearl Plaza, Bakı</address>
+      <div class="home-footer-intro">
+        <a class="home-footer-logo" href="index.html" aria-label="Sarvagelli ana səhifə"><img src="../assets/logo.png" alt="Sarvagelli" width="200" height="65" loading="lazy" decoding="async"></a>
+        <p class="footer-line">Məkanınıza uyğun tekstil həlləri.</p>
+        <p>1979-cu ildən pərdə, jalüz və interyer tekstili.</p>
+      </div>
+      <nav aria-labelledby="footer-discover-title">
+        <h2 id="footer-discover-title">Kəşf edin</h2>
+        <a href="layiheler.html">Layihələr</a>
+        <a href="mehsullar.html">Məhsullar</a>
+        <a href="haqqimizda.html">Haqqımızda</a>
+        <a href="tarixce.html">Tarixçə</a>
+        <a href="komanda.html">Komanda</a>
+      </nav>
+      <nav aria-labelledby="footer-brands-title">
+        <h2 id="footer-brands-title"><a href="brendler.html">Brendlər</a></h2>
+        <a href="brendler.html#sarvagelli-hospitality">Sarvagelli Hospitality</a>
+        <a href="brendler.html#atelier-bespoke">Atelier Bespoke</a>
+        <a href="brendler.html#kartex">KARTEX</a>
+        <a href="brendler.html#perdeci">Pərdəçi</a>
+        <a href="https://melatoni.com/">Melatoni <span aria-hidden="true">↗</span></a>
+      </nav>
+      <section class="home-footer-contact" aria-labelledby="footer-contact-title">
+        <h2 id="footer-contact-title">Əlaqə</h2>
+        <a class="home-footer-city" href="elaqe.html">Bakı <span aria-hidden="true">↗</span></a>
+        <address>186 Əhməd Rəcəbli küçəsi<br>Black Pearl Plaza</address>
         <a href="tel:+994505551787">+994 50 555 17 87</a>
         <a href="mailto:info@sarvagelli.com">info@sarvagelli.com</a>
-      </div>
-      <div>
-        <h2>Keçidlər</h2>
-        <nav aria-label="Əlavə keçidlər">
-          <a href="komanda.html">Komanda</a><a href="brendler.html">Brendlər</a><a href="tarixce.html">Tarixçə</a>
-          <a href="https://www.instagram.com/sarvagelli/">Instagram <span aria-hidden="true">↗</span></a>
-        </nav>
-      </div>
+        <a href="https://www.instagram.com/sarvagelli/">Instagram <span aria-hidden="true">↗</span></a>
+      </section>
     </div>
     <div class="wrap home-footer-bottom">
       <a href="../mexfilik.html">Məxfilik</a>
