@@ -143,6 +143,7 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
     const heading = document.createElement('h2');
     heading.textContent = label;
     heading.id = panel.id + '-title';
+    heading.tabIndex = -1;
     panel.setAttribute('aria-labelledby', heading.id);
     content.append(heading);
     const list = document.createElement('nav');
@@ -229,7 +230,8 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
       drawer.showModal();
       scheduleMeasure();
     }
-    if (!fromHover) focusPanel(key);
+    if (fromHover) panels.get(key).querySelector('h2').focus({ preventScroll: true });
+    else focusPanel(key);
   }
 
   function focusPanel(key) {

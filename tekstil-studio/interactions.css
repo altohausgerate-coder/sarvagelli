@@ -99,7 +99,7 @@
 }
 .studio-home .masthead.has-editorial-menu.over-entrance {
   background: linear-gradient(#171510ae, transparent);
-  border-color: transparent;
+  border-bottom: 0;
   color: var(--menu-text);
 }
 .studio-home .masthead.over-entrance .desktop-nav a { color: inherit; }
@@ -176,6 +176,7 @@ html:has(.editorial-drawer[open], .project-viewer[open]) { overflow: hidden; scr
   scrollbar-color: #9d9288 #f6f1e9;
 }
 .drawer-content h2 { margin-bottom: 23px; font: 700 14px/1.5 var(--sans); letter-spacing: .12em; text-transform: uppercase; }
+.drawer-content h2:focus { outline: none; }
 .drawer-links { display: grid; align-items: start; }
 .drawer-links.drawer-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .drawer-columns > a { grid-column: 1 / -1; }
