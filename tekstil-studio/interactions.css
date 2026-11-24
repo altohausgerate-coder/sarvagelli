@@ -32,8 +32,6 @@
   --menu-brands: #60513f;
   --menu-perspectives: #5b4e5d;
   --menu-company: #4b6254;
-  --menu-locations: #45585f;
-  --menu-technical: #203c35;
   --menu-contact: #534743;
   --menu-hover-duration: 200ms;
   --menu-actions-slot: 110px;
@@ -56,7 +54,7 @@
 .masthead.has-editorial-menu .brand img, .drawer-top .brand img { width: clamp(145px, 12vw, 205px); }
 .has-editorial-menu .desktop-nav, .drawer-primary {
   display: grid;
-  grid-template-columns: repeat(8, minmax(max-content, 1fr));
+  grid-template-columns: repeat(6, minmax(max-content, 1fr));
   align-items: center;
   gap: var(--menu-gap);
 }
@@ -116,11 +114,14 @@
     z-index: 1;
   }
   .has-editorial-menu .desktop-nav, .drawer-primary {
-    grid-template-columns: repeat(4, minmax(max-content, 1fr)) clamp(160px, 15vw, 240px) repeat(4, minmax(max-content, 1fr));
+    grid-template-columns: repeat(3, minmax(max-content, 1fr)) clamp(160px, 15vw, 240px) repeat(3, minmax(max-content, 1fr));
     margin-inline: var(--menu-actions-slot);
   }
-  :is(.has-editorial-menu .desktop-nav, .drawer-primary) button:nth-child(5) { grid-column: 6; }
+  :is(.has-editorial-menu .desktop-nav, .drawer-primary) button[data-group="company"] { grid-column: 5; }
   .editorial-actions, .drawer-actions { position: absolute; inset-inline-end: var(--menu-edge); }
+}
+@media (min-width: 1024px) {
+  .editorial-actions .editorial-menu-button { display: none; }
 }
 html:has(.editorial-drawer[open], .project-viewer[open]) { overflow: hidden; scrollbar-gutter: stable; }
 
@@ -180,7 +181,7 @@ html:has(.editorial-drawer[open], .project-viewer[open]) { overflow: hidden; scr
 .drawer-links { display: grid; align-items: start; }
 .drawer-links.drawer-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .drawer-columns > a { grid-column: 1 / -1; }
-.menu-content[data-panel="products"] .drawer-content { max-width: 750px; }
+.menu-content:is([data-panel="products"], [data-panel="projects"]) .drawer-content { max-width: 750px; }
 .drawer-link-group + .drawer-link-group { margin-top: 22px; }
 .drawer-columns .drawer-link-group { margin-top: 0; }
 .drawer-link-group h3 { color: var(--menu-gold); font: 650 11px/1.5 var(--sans); letter-spacing: .1em; text-transform: uppercase; }
@@ -274,13 +275,10 @@ html:has(.editorial-drawer[open], .project-viewer[open]) { overflow: hidden; scr
   .drawer-primary { grid-row: 2; grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px 12px; }
   .drawer-primary :is(a, button) { min-height: 32px; white-space: normal; }
   .drawer-text-close { display: none; }
-  .menu-content { left: var(--menu-edge); padding: 179px var(--menu-edge) 0 0; --menu-pitch: 48px !important; }
+  .menu-content { left: var(--menu-edge); padding: 149px var(--menu-edge) 0 0; --menu-pitch: 48px !important; }
   .drawer-circle { top: 10px; left: auto; right: var(--menu-edge); width: 48px; height: 48px; }
   .drawer-links a { font-size: 28px; }
   .drawer-links.drawer-columns { grid-template-columns: 1fr; }
-}
-@media (max-width: 420px) {
-  .menu-content { padding-top: 183px; }
 }
 
 .editorial-intro {

@@ -5,11 +5,13 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
   const hoverIntentMs = 140;
   const menu = {
     main: { label: 'Menyu', items: [['Ana səhifə', 'index.html'], ['Layihələr', 'layiheler.html'], ['Məhsullar', 'mehsullar.html'], ['Brendlər', 'brendler.html'], ['Haqqımızda', 'haqqimizda.html'], ['Perspektivlər', 'perspektivler.html'], ['Əlaqə', 'elaqe.html']] },
-    projects: { label: 'Layihələr', items: [
+    projects: { label: 'Layihələr', columns: true, items: [
       ['Bütün layihələr', 'layiheler.html'],
-      ['Hotel və istirahət', 'layiheler.html?category=hospitality'],
-      ['İctimai məkan', 'layiheler.html?category=public'],
-      ['Restoran və ticarət', 'layiheler.html?category=retail'],
+      ['Hotel və istirahət', 'layiheler.html?category=hospitality', 'Layihə növləri'],
+      ['İctimai məkan', 'layiheler.html?category=public', 'Layihə növləri'],
+      ['Restoran və ticarət', 'layiheler.html?category=retail', 'Layihə növləri'],
+      ...['Bakı', 'Nardaran', 'Bilgəh', 'Laçın', 'Xankəndi', 'Zəngilan', 'Şəki'].map(place =>
+        [place, 'layiheler.html?location=' + encodeURIComponent(place), 'Məkanlar']),
     ] },
     products: { label: 'Məhsullar', columns: true, items: [
       ['Bütün məhsullar', 'mehsullar.html'],
@@ -28,19 +30,6 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
       ['Sarvagelli haqqında', 'haqqimizda.html'], ['Tarixçə', 'tarixce.html'],
       ['Komanda', 'komanda.html'], ['Perspektivlər', 'perspektivler.html'],
       ['Əlaqə', 'elaqe.html'],
-    ] },
-    locations: { label: 'Məkanlar', columns: true, items: [
-      ...['Bakı', 'Nardaran', 'Bilgəh', 'Laçın', 'Xankəndi', 'Zəngilan', 'Şəki'].map(place =>
-        [place, 'layiheler.html?location=' + encodeURIComponent(place), 'Layihə məkanları']),
-      ['Hotel və istirahət', 'layiheler.html?category=hospitality', 'Layihə növləri'],
-      ['İctimai məkan', 'layiheler.html?category=public', 'Layihə növləri'],
-      ['Restoran və ticarət', 'layiheler.html?category=retail', 'Layihə növləri'],
-    ] },
-    technical: { label: 'Həllər', items: [
-      ['Motor sistemləri', 'mehsul-motor.html', 'İdarəetmə'],
-      ['Karniz və relslər', 'mehsul-karniz.html', 'Quraşdırma'],
-      ['Akustik parçalar və panellər', 'mehsul-akustika.html', 'Akustika'],
-      ['ZIP sistemləri', 'mehsul-zip.html', 'Kölgələmə'],
     ] },
     brands: { label: 'Brendlər', items: [
       ['Sarvagelli Hospitality', 'brendler.html#sarvagelli-hospitality'],
@@ -63,7 +52,7 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
     ] },
     search: { label: 'Axtarış', items: [] },
   };
-  const headerItems = ['brands', 'products', 'projects', 'locations', 'company', 'technical', 'perspectives', 'contact'];
+  const headerItems = ['brands', 'products', 'projects', 'company', 'perspectives', 'contact'];
   const drawer = document.createElement('dialog');
   drawer.id = 'sarvagelli-menu';
   drawer.className = 'editorial-drawer';
