@@ -4,7 +4,13 @@ const desktopLinks = editorialHeader?.querySelector('.desktop-nav');
 if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined') {
   const CONFIG = { switchOnHover: false, hoverIntentMs: 60 };
   const menu = {
-    main: { label: 'Menyu', items: [['Ana səhifə', 'index.html'], ['Layihələr', 'layiheler.html'], ['Məhsullar', 'mehsullar.html'], ['Haqqımızda', 'haqqimizda.html'], ['Perspektivlər', 'perspektivler.html'], ['Əlaqə', 'elaqe.html']] },
+    main: { label: 'Menyu', items: [['Ana səhifə', 'index.html'], ['Layihələr', 'layiheler.html'], ['Məhsullar', 'mehsullar.html'], ['Brendlər', 'brendler.html'], ['Haqqımızda', 'haqqimizda.html'], ['Perspektivlər', 'perspektivler.html'], ['Əlaqə', 'elaqe.html']] },
+    projects: { label: 'Layihələr', items: [
+      ['Bütün layihələr', 'layiheler.html'],
+      ['Hotel və istirahət', 'layiheler.html?category=hospitality'],
+      ['İctimai məkan', 'layiheler.html?category=public'],
+      ['Restoran və ticarət', 'layiheler.html?category=retail'],
+    ] },
     products: { label: 'Məhsullar', items: [
       ['Bütün məhsullar', 'mehsullar.html'], ['Pərdələr', 'mehsul-perde.html'],
       ['Jalüzlər', 'mehsul-jaluz.html'], ['Karnizlər', 'mehsul-karniz.html'],
@@ -31,9 +37,15 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
       ['Akustik parçalar və panellər', 'mehsul-akustika.html', 'Akustika'],
       ['ZIP sistemləri', 'mehsul-zip.html', 'Kölgələmə'],
     ] },
+    brands: { label: 'Brendlər', items: [['Brendlər və kolleksiyalar', 'brendler.html']] },
+    contact: { label: 'Əlaqə', items: [
+      ['Əlaqə və showroom', 'elaqe.html'],
+      ['+994 50 555 17 87', 'tel:+994505551787'],
+      ['info@sarvagelli.com', 'mailto:info@sarvagelli.com'],
+    ] },
     search: { label: 'Axtarış', items: [] },
   };
-  const headerItems = [['Layihələr', 'layiheler.html'], 'products', 'company', 'locations', 'technical', ['Əlaqə', 'elaqe.html']];
+  const headerItems = ['projects', 'products', 'company', 'locations', 'technical', 'brands', 'contact'];
   const drawer = document.createElement('dialog');
   drawer.id = 'sarvagelli-menu';
   drawer.className = 'editorial-drawer';
@@ -219,10 +231,8 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
     return button;
   }
 
-  desktopLinks.replaceChildren(...headerItems.map(item => typeof item === 'string'
-    ? groupButton(item, menu[item].label) : makeLink(...item)));
-  primary.append(...headerItems.map(item => typeof item === 'string'
-    ? groupButton(item, menu[item].label) : makeLink(...item)));
+  desktopLinks.replaceChildren(...headerItems.map(key => groupButton(key, menu[key].label)));
+  primary.append(...headerItems.map(key => groupButton(key, menu[key].label)));
   headerActions.append(groupButton('main', 'Menyu', 'editorial-menu-button'), groupButton('search', '', 'menu-search'));
   const closeText = makeButton('Bağla', 'drawer-text-close', 'Menyunu bağla');
   drawerActions.append(closeText, groupButton('search', '', 'menu-search'));

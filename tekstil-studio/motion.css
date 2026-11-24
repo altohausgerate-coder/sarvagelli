@@ -87,7 +87,6 @@
   .project-tools output { min-height: 1lh; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  @view-transition { navigation: auto; }
   ::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--page-transition); animation-timing-function: var(--ease-hover); }
   @supports not (view-transition-name: root) {
     main { animation: motion-page-fallback var(--page-fallback) var(--ease-out) both; }

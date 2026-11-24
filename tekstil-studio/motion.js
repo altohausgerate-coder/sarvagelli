@@ -14,7 +14,7 @@ const CONFIG = {
   timelineStart: .88,
   hero: { scaleTo: 1.08, overlayTo: .45, captionFadeEnd: .3, captionLift: 20 },
   header: { solidAfter: 80, hideAfter: 120, directionSlop: 4 },
-  project: { desktopInset: 9, mobileInset: 4.5, entryHold: .17, captionVisible: .58, captionHandoff: .47, shade: .56, scale: .04 },
+  project: { desktopInset: 11, mobileInset: 5.5, desktopTop: 8, mobileTop: 4, entryHold: .1, captionVisible: .58, captionHandoff: .47, shade: .38, scale: .025 },
   projectImageLead: '1600px 0px',
   rowTolerance: 4,
   infinite: { batch: 12, rootMargin: '0px 0px 800px 0px', maxWait: 650, placeholders: 3 },
@@ -338,7 +338,12 @@ function paint(timestamp) {
         element.style.setProperty('--project-light', (1 - CONFIG.project.shade * handoff).toFixed(3));
         element.style.setProperty('--project-scale', (1 + CONFIG.project.scale * handoff).toFixed(3));
       }
-      if (j) element.style.setProperty('--project-inset', (inset * (1 - unfold * unfold * (3 - 2 * unfold))).toFixed(2) + '%');
+      if (j) {
+        const remaining = 1 - unfold * unfold * (3 - 2 * unfold);
+        const topInset = compact ? CONFIG.project.mobileTop : CONFIG.project.desktopTop;
+        element.style.setProperty('--project-inset', (inset * remaining).toFixed(2) + '%');
+        element.style.setProperty('--project-inset-top', (topInset * remaining).toFixed(2) + '%');
+      }
     }
   }
   for (const [i, layer] of layers.entries()) {
@@ -553,9 +558,14 @@ if (solutions) {
   }
 }
 
-window.addEventListener('pageswap', event => {
-  if (document.querySelector('dialog[open]')) event.viewTransition?.skipTransition();
-});
+for (const type of ['pageswap', 'pagereveal']) {
+  window.addEventListener(type, ({ viewTransition }) => {
+    if (!viewTransition) return;
+    // A navigation can finish before the browser is able to animate it.
+    viewTransition.ready.catch(() => {});
+    if (type === 'pageswap' && document.querySelector('dialog[open]')) viewTransition.skipTransition();
+  });
+}
 if (!('onpagereveal' in window) && !reduced.matches) root.classList.add('motion-page-fallback');
 
 for (const label of find('.inquiry-form label')) {
