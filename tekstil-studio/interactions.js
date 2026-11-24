@@ -2,7 +2,6 @@ const editorialHeader = document.querySelector('.masthead');
 const desktopLinks = editorialHeader?.querySelector('.desktop-nav');
 
 if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined') {
-  const hoverIntentMs = 140;
   const menu = {
     main: { label: 'Menyu', items: [['Ana səhifə', 'index.html'], ['Layihələr', 'layiheler.html'], ['Məhsullar', 'mehsullar.html'], ['Brendlər', 'brendler.html'], ['Haqqımızda', 'haqqimizda.html'], ['Perspektivlər', 'perspektivler.html'], ['Əlaqə', 'elaqe.html']] },
     projects: { label: 'Layihələr', columns: true, items: [
@@ -76,8 +75,6 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
   let opener;
   let closeTransition;
   let measureFrame;
-  let hoverTimer;
-  let openedByHover = false;
 
   function makeButton(text, className, label) {
     const button = document.createElement('button');
@@ -132,7 +129,6 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
     const heading = document.createElement('h2');
     heading.textContent = label;
     heading.id = panel.id + '-title';
-    heading.tabIndex = -1;
     panel.setAttribute('aria-labelledby', heading.id);
     content.append(heading);
     const list = document.createElement('nav');
@@ -184,7 +180,6 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
   }
 
   function closeMenu() {
-    clearTimeout(hoverTimer);
     if (!drawer.open || drawer.dataset.phase === 'closing') return;
     drawer.dataset.phase = 'closing';
     selectPanel(undefined);
@@ -194,18 +189,11 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
     transition.then(() => { if (closeTransition === transition) drawer.close(); });
   }
 
-  function openMenu(key, trigger, fromHover = false) {
+  function openMenu(key, trigger) {
     if (drawer.open && key === activeKey) {
-      if (fromHover) return;
-      if (openedByHover) {
-        openedByHover = false;
-        focusPanel(key);
-        return;
-      }
       closeMenu();
       return;
     }
-    openedByHover = fromHover;
     const firstOpen = !drawer.open;
     closeTransition = undefined;
     if (firstOpen) opener = trigger;
@@ -219,11 +207,6 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
       drawer.showModal();
       scheduleMeasure();
     }
-    if (fromHover) panels.get(key).querySelector('h2').focus({ preventScroll: true });
-    else focusPanel(key);
-  }
-
-  function focusPanel(key) {
     (panels.get(key).querySelector('input, a') || roundClose).focus({ preventScroll: true });
   }
 
@@ -238,18 +221,7 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
     button.setAttribute('aria-expanded', 'false');
     button.setAttribute('aria-controls', drawer.id);
     buttons.push(button);
-    button.addEventListener('click', () => {
-      clearTimeout(hoverTimer);
-      openMenu(key, button);
-    });
-    if (headerItems.includes(key)) {
-      button.addEventListener('pointerenter', event => {
-        if (event.pointerType !== 'mouse' || activeKey === key || drawer.dataset.phase === 'closing') return;
-        clearTimeout(hoverTimer);
-        hoverTimer = setTimeout(() => openMenu(key, button, true), hoverIntentMs);
-      });
-      button.addEventListener('pointerleave', () => clearTimeout(hoverTimer));
-    }
+    button.addEventListener('click', () => openMenu(key, button));
     return button;
   }
 
@@ -290,76 +262,4 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
     returnTo?.focus({ preventScroll: true });
   });
   window.addEventListener('resize', scheduleMeasure, { passive: true });
-}
-
-const projectGallery = document.querySelector('.project-gallery');
-if (projectGallery && typeof HTMLDialogElement !== 'undefined') {
-  const viewer = document.createElement('dialog');
-  viewer.className = 'project-viewer';
-  viewer.setAttribute('aria-label', 'Layihə təfərrüatları');
-  viewer.innerHTML = `
-    <header class="viewer-bar"><a class="action viewer-page" href="layiheler.html" target="_blank" rel="noopener">Ayrıca səhifədə aç <span aria-hidden="true">↗</span></a>
-      <button type="button" class="drawer-close" aria-label="Layihəni bağla" autofocus>Bağla <span aria-hidden="true">×</span></button></header>
-    <div class="viewer-body"></div>`;
-  document.body.append(viewer);
-  const viewerBody = viewer.querySelector('.viewer-body');
-  const close = viewer.querySelector('button');
-  let sourceLink;
-  let request;
-
-  async function loadProject(url, mode) {
-    request?.abort();
-    request = new AbortController();
-    const { signal } = request;
-    try {
-      const response = await fetch(url, { signal });
-      if (!response.ok) throw new Error('Project unavailable');
-      const page = new DOMParser().parseFromString(await response.text(), 'text/html');
-      const article = page.querySelector('.project-detail');
-      if (!article) throw new Error('Project unavailable');
-      if (signal.aborted) return;
-      article.querySelector('.back')?.remove();
-      viewerBody.replaceChildren(article);
-      viewer.querySelector('.viewer-page').href = url;
-      if (mode === 'push') history.pushState({ projectViewer: true }, '', url);
-      if (mode === 'replace') history.replaceState({ projectViewer: true }, '', url);
-      if (!viewer.open) viewer.showModal();
-      viewerBody.scrollTop = 0;
-      close.focus();
-    } catch (error) {
-      if (!signal.aborted) location.assign(url);
-    }
-  }
-
-  function ordinaryClick(event) {
-    return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
-  }
-
-  projectGallery.addEventListener('click', event => {
-    const tile = event.target.closest('a.project-tile');
-    if (!tile || !ordinaryClick(event)) return;
-    event.preventDefault();
-    sourceLink = tile;
-    loadProject(tile.href, viewer.open ? 'replace' : 'push');
-  });
-  viewer.addEventListener('click', event => {
-    const link = event.target.closest('.project-neighbours a');
-    if (!link || !ordinaryClick(event)) return;
-    event.preventDefault();
-    loadProject(link.href, 'replace');
-  });
-  close.addEventListener('click', () => viewer.close());
-  viewer.addEventListener('close', () => {
-    request?.abort();
-    if (history.state?.projectViewer) history.back();
-    sourceLink?.focus({ preventScroll: true });
-  });
-  window.addEventListener('popstate', () => {
-    if (history.state?.projectViewer) {
-      loadProject(location.href);
-    } else {
-      request?.abort();
-      if (viewer.open) viewer.close();
-    }
-  });
 }

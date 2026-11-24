@@ -38,7 +38,7 @@ const header = page.querySelector('.masthead');
 const sequence = page.querySelector('.project-sequence');
 const touchLayout = matchMedia('(hover: none)');
 const finePointer = matchMedia('(any-pointer: fine)');
-const menus = [...page.querySelectorAll('.editorial-drawer, .project-viewer, .mobile-nav')];
+const menus = [...page.querySelectorAll('.editorial-drawer, .mobile-nav')];
 const stacks = [...page.querySelectorAll('.project-stack')].map(node => ({
   node,
   frames: [...node.querySelectorAll('.project-frame')],
