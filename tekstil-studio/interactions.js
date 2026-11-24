@@ -2,7 +2,7 @@ const editorialHeader = document.querySelector('.masthead');
 const desktopLinks = editorialHeader?.querySelector('.desktop-nav');
 
 if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined') {
-  const CONFIG = { switchOnHover: false, hoverIntentMs: 60 };
+  const hoverIntentMs = 140;
   const menu = {
     main: { label: 'Menyu', items: [['Ana səhifə', 'index.html'], ['Layihələr', 'layiheler.html'], ['Məhsullar', 'mehsullar.html'], ['Brendlər', 'brendler.html'], ['Haqqımızda', 'haqqimizda.html'], ['Perspektivlər', 'perspektivler.html'], ['Əlaqə', 'elaqe.html']] },
     projects: { label: 'Layihələr', items: [
@@ -11,18 +11,23 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
       ['İctimai məkan', 'layiheler.html?category=public'],
       ['Restoran və ticarət', 'layiheler.html?category=retail'],
     ] },
-    products: { label: 'Məhsullar', items: [
-      ['Bütün məhsullar', 'mehsullar.html'], ['Pərdələr', 'mehsul-perde.html'],
-      ['Jalüzlər', 'mehsul-jaluz.html'], ['Karnizlər', 'mehsul-karniz.html'],
-      ['Motor sistemləri', 'mehsul-motor.html'], ['Mebel parçaları və dərilər', 'mehsul-uzluk.html'],
-      ['Akustik tekstil', 'mehsul-akustika.html'], ['Hotel tekstili', 'mehsul-hotel.html'],
-      ['Dizayn parçaları', 'mehsul-dizayn.html'], ['Açıq məkan tekstili', 'mehsul-outdoor.html'],
-      ['ZIP sistemləri', 'mehsul-zip.html'],
+    products: { label: 'Məhsullar', columns: true, items: [
+      ['Bütün məhsullar', 'mehsullar.html'],
+      ['Pərdələr', 'mehsul-perde.html', 'Pəncərə sistemləri'],
+      ['Jalüzlər', 'mehsul-jaluz.html', 'Pəncərə sistemləri'],
+      ['Karnizlər', 'mehsul-karniz.html', 'Pəncərə sistemləri'],
+      ['Motor sistemləri', 'mehsul-motor.html', 'Pəncərə sistemləri'],
+      ['ZIP sistemləri', 'mehsul-zip.html', 'Pəncərə sistemləri'],
+      ['Mebel parçaları və dərilər', 'mehsul-uzluk.html', 'Tekstil'],
+      ['Akustik tekstil', 'mehsul-akustika.html', 'Tekstil'],
+      ['Hotel tekstili', 'mehsul-hotel.html', 'Tekstil'],
+      ['Dizayn parçaları', 'mehsul-dizayn.html', 'Tekstil'],
+      ['Açıq məkan tekstili', 'mehsul-outdoor.html', 'Tekstil'],
     ] },
     company: { label: 'Haqqımızda', items: [
       ['Sarvagelli haqqında', 'haqqimizda.html'], ['Tarixçə', 'tarixce.html'],
       ['Komanda', 'komanda.html'], ['Perspektivlər', 'perspektivler.html'],
-      ['Karyera', 'karyera.html'], ['Əlaqə', 'elaqe.html'],
+      ['Əlaqə', 'elaqe.html'],
     ] },
     locations: { label: 'Məkanlar', columns: true, items: [
       ...['Bakı', 'Nardaran', 'Bilgəh', 'Laçın', 'Xankəndi', 'Zəngilan', 'Şəki'].map(place =>
@@ -37,7 +42,20 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
       ['Akustik parçalar və panellər', 'mehsul-akustika.html', 'Akustika'],
       ['ZIP sistemləri', 'mehsul-zip.html', 'Kölgələmə'],
     ] },
-    brands: { label: 'Brendlər', items: [['Brendlər və kolleksiyalar', 'brendler.html']] },
+    brands: { label: 'Brendlər', items: [
+      ['Sarvagelli Hospitality', 'brendler.html#sarvagelli-hospitality'],
+      ['Atelier Bespoke', 'brendler.html#atelier-bespoke'],
+      ['KARTEX', 'brendler.html#kartex'],
+      ['Pərdəçi', 'brendler.html#perdeci'],
+      ['Melatoni', 'brendler.html#melatoni'],
+      ['Bütün brendlər', 'brendler.html'],
+    ] },
+    perspectives: { label: 'Perspektivlər', items: [
+      ['Bütün yazılar', 'perspektivler.html'],
+      ['İşığa uyğun pərdə seçimi', 'yazi-isigi-sec.html'],
+      ['Üzlükdə toxuma və istifadə', 'yazi-material-sec.html'],
+      ['Terasda kölgə və məxfilik', 'yazi-teras-sec.html'],
+    ] },
     contact: { label: 'Əlaqə', items: [
       ['Əlaqə və showroom', 'elaqe.html'],
       ['+994 50 555 17 87', 'tel:+994505551787'],
@@ -45,7 +63,7 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
     ] },
     search: { label: 'Axtarış', items: [] },
   };
-  const headerItems = ['projects', 'products', 'company', 'locations', 'technical', 'brands', 'contact'];
+  const headerItems = ['brands', 'products', 'projects', 'locations', 'company', 'technical', 'perspectives', 'contact'];
   const drawer = document.createElement('dialog');
   drawer.id = 'sarvagelli-menu';
   drawer.className = 'editorial-drawer';
@@ -70,6 +88,7 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
   let closeTransition;
   let measureFrame;
   let hoverTimer;
+  let openedByHover = false;
 
   function makeButton(text, className, label) {
     const button = document.createElement('button');
@@ -98,7 +117,7 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
     const measured = [...panels.keys()].map(key => {
       const label = nav.querySelector('[data-group="' + key + '"] .label');
       const desired = label ? label.getBoundingClientRect().left - inset : width * .38;
-      const edge = desktop.matches ? Math.max(0, Math.min(desired, width - minimum)) : 0;
+      const edge = desktop.matches ? Math.max(width * .21, Math.min(desired, width - minimum)) : 0;
       return [key, edge];
     });
     for (const [key, edge] of measured) {
@@ -175,6 +194,7 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
   }
 
   function closeMenu() {
+    clearTimeout(hoverTimer);
     if (!drawer.open || drawer.dataset.phase === 'closing') return;
     drawer.dataset.phase = 'closing';
     selectPanel(undefined);
@@ -184,17 +204,24 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
     transition.then(() => { if (closeTransition === transition) drawer.close(); });
   }
 
-  function openMenu(key, trigger) {
+  function openMenu(key, trigger, fromHover = false) {
     if (drawer.open && key === activeKey) {
+      if (fromHover) return;
+      if (openedByHover) {
+        openedByHover = false;
+        focusPanel(key);
+        return;
+      }
       closeMenu();
       return;
     }
+    openedByHover = fromHover;
     const firstOpen = !drawer.open;
     closeTransition = undefined;
     if (firstOpen) opener = trigger;
     else if (trigger.closest('.drawer-top')) {
       const matchingTrigger = buttons.find(button => button.dataset.group === key && editorialHeader.contains(button));
-      if (matchingTrigger && (desktop.matches || key === 'search')) opener = matchingTrigger;
+      if (matchingTrigger?.getClientRects().length) opener = matchingTrigger;
     }
     drawer.dataset.phase = firstOpen ? 'opening' : 'switching';
     selectPanel(key);
@@ -202,6 +229,10 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
       drawer.showModal();
       scheduleMeasure();
     }
+    if (!fromHover) focusPanel(key);
+  }
+
+  function focusPanel(key) {
     (panels.get(key).querySelector('input, a') || roundClose).focus({ preventScroll: true });
   }
 
@@ -217,14 +248,14 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
     button.setAttribute('aria-controls', drawer.id);
     buttons.push(button);
     button.addEventListener('click', () => {
-      if (CONFIG.switchOnHover) clearTimeout(hoverTimer);
+      clearTimeout(hoverTimer);
       openMenu(key, button);
     });
-    if (CONFIG.switchOnHover) {
+    if (headerItems.includes(key)) {
       button.addEventListener('pointerenter', event => {
-        if (event.pointerType !== 'mouse' || !activeKey || activeKey === key) return;
+        if (event.pointerType !== 'mouse' || activeKey === key || drawer.dataset.phase === 'closing') return;
         clearTimeout(hoverTimer);
-        hoverTimer = setTimeout(() => { if (activeKey && activeKey !== key) openMenu(key, button); }, CONFIG.hoverIntentMs);
+        hoverTimer = setTimeout(() => openMenu(key, button, true), hoverIntentMs);
       });
       button.addEventListener('pointerleave', () => clearTimeout(hoverTimer));
     }

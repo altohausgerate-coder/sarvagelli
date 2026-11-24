@@ -1,6 +1,8 @@
 const video = document.querySelector('.portfolio-hero-video');
 const hero = video.closest('.portfolio-entrance');
 const toggle = document.querySelector('.portfolio-video-toggle');
+const controls = document.querySelector('.portfolio-video-controls');
+const sound = document.querySelector('.portfolio-video-sound');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const wideScreen = matchMedia('(min-width: 1440px)');
 const picture = video.previousElementSibling;
@@ -24,7 +26,7 @@ function syncPlayback() {
     video.muted = true;
     video.src = src4k && wideScreen.matches && !navigator.connection?.saveData ? src4k : src;
   }
-  toggle.hidden = false;
+  controls.hidden = false;
   video.play().catch(updateButton);
 }
 
@@ -36,7 +38,7 @@ video.addEventListener('playing', () => {
 });
 video.addEventListener('pause', updateButton);
 video.addEventListener('error', () => {
-  toggle.hidden = true;
+  controls.hidden = true;
   video.classList.remove('video-visible');
   hero.classList.remove('hero-film-ready');
   picture.removeAttribute('aria-hidden');
@@ -50,12 +52,18 @@ toggle.addEventListener('click', () => {
   pausedByVisitor = !video.paused;
   syncPlayback();
 });
+sound.addEventListener('click', () => {
+  video.muted = !video.muted;
+  const label = video.muted ? 'Səsi aç' : 'Səsi bağla';
+  sound.textContent = label;
+  sound.setAttribute('aria-label', label);
+});
 reduced.addEventListener('change', () => {
   if (reduced.matches) {
     video.classList.remove('video-visible');
     hero.classList.remove('hero-film-ready');
     picture.removeAttribute('aria-hidden');
-    toggle.hidden = true;
+    controls.hidden = true;
   }
   syncPlayback();
 });

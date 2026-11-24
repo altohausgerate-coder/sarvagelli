@@ -38,22 +38,28 @@
 @media (prefers-reduced-motion: no-preference) {
   .portfolio-hero-video { transition: opacity var(--crossfade) var(--ease-out); }
 }
-.portfolio-video-toggle {
+.portfolio-video-controls:not([hidden]) {
   position: absolute;
   inset-inline-end: var(--gutter);
   inset-block-end: clamp(24px, 4.3vw, 70px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.portfolio-video-controls button {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  padding: 0;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 11px;
   border: 1px solid #fff9efb3;
-  border-radius: 50%;
+  border-radius: 999px;
   background: #17151099;
   color: #fff9ef;
+  font-size: 12px;
   cursor: pointer;
 }
-.portfolio-entrance:has(.portfolio-video-toggle:not([hidden])) .portfolio-caption { margin-inline-end: calc(var(--gutter) + 58px); }
+.portfolio-entrance:has(.portfolio-video-controls:not([hidden])) .portfolio-caption { margin-inline-end: calc(var(--gutter) + 130px); }
 .portfolio-entrance::after {
   background: linear-gradient(180deg, #171510aa, transparent 28%, transparent 76%, #17151082),
     linear-gradient(110deg, #171510b3 3%, #17151040 58%, #17151024 100%);
