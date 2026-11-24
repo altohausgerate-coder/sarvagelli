@@ -1,24 +1,14 @@
 const video = document.querySelector('.portfolio-hero-video');
 const hero = video.closest('.portfolio-entrance');
-const toggle = document.querySelector('.portfolio-video-toggle');
-const controls = document.querySelector('.portfolio-video-controls');
-const sound = document.querySelector('.portfolio-video-sound');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const wideScreen = matchMedia('(min-width: 1440px)');
 const picture = video.previousElementSibling;
 const src = video.dataset.src;
 const src4k = video.getAttribute('data-src-4k');
 let visible = false;
-let pausedByVisitor = false;
-
-function updateButton() {
-  const playing = !video.paused;
-  toggle.setAttribute('aria-label', playing ? 'Videonu dayandır' : 'Videonu oynat');
-  toggle.firstElementChild.textContent = playing ? 'Ⅱ' : '▶';
-}
 
 function syncPlayback() {
-  if (video.error || !visible || document.hidden || reduced.matches || pausedByVisitor) {
+  if (video.error || !visible || document.hidden || reduced.matches) {
     video.pause();
     return;
   }
@@ -26,19 +16,15 @@ function syncPlayback() {
     video.muted = true;
     video.src = src4k && wideScreen.matches && !navigator.connection?.saveData ? src4k : src;
   }
-  controls.hidden = false;
-  video.play().catch(updateButton);
+  video.play().catch(() => {});
 }
 
 video.addEventListener('playing', () => {
   video.classList.add('video-visible');
   hero.classList.add('hero-film-ready');
   picture.setAttribute('aria-hidden', 'true');
-  updateButton();
 });
-video.addEventListener('pause', updateButton);
 video.addEventListener('error', () => {
-  controls.hidden = true;
   video.classList.remove('video-visible');
   hero.classList.remove('hero-film-ready');
   picture.removeAttribute('aria-hidden');
@@ -48,22 +34,11 @@ video.addEventListener('error', () => {
     syncPlayback();
   }
 });
-toggle.addEventListener('click', () => {
-  pausedByVisitor = !video.paused;
-  syncPlayback();
-});
-sound.addEventListener('click', () => {
-  video.muted = !video.muted;
-  const label = video.muted ? 'Səsi aç' : 'Səsi bağla';
-  sound.textContent = label;
-  sound.setAttribute('aria-label', label);
-});
 reduced.addEventListener('change', () => {
   if (reduced.matches) {
     video.classList.remove('video-visible');
     hero.classList.remove('hero-film-ready');
     picture.removeAttribute('aria-hidden');
-    controls.hidden = true;
   }
   syncPlayback();
 });
