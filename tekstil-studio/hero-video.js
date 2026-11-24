@@ -2,19 +2,34 @@ const video = document.querySelector('.portfolio-hero-video');
 const hero = video.closest('.portfolio-entrance');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const wideScreen = matchMedia('(min-width: 1440px)');
+const portraitScreen = matchMedia('(max-width: 767px) and (orientation: portrait)');
 const picture = video.previousElementSibling;
 const src = video.dataset.src;
 const src4k = video.getAttribute('data-src-4k');
+const srcPortrait = video.dataset.srcPortrait;
+const failedSources = new Set();
 let visible = false;
 
+function showPoster() {
+  video.classList.remove('video-visible');
+  hero.classList.remove('hero-film-ready');
+  picture.removeAttribute('aria-hidden');
+}
+
 function syncPlayback() {
-  if (video.error || !visible || document.hidden || reduced.matches) {
+  if (!visible || document.hidden || reduced.matches) {
     video.pause();
     return;
   }
-  if (!video.hasAttribute('src')) {
+  const preferred = portraitScreen.matches ? srcPortrait
+    : wideScreen.matches && !navigator.connection?.saveData ? src4k : src;
+  const nextSource = [preferred, src].find(source => source && !failedSources.has(source));
+  if (!nextSource) return;
+  if (video.getAttribute('src') !== nextSource) {
+    showPoster();
     video.muted = true;
-    video.src = src4k && wideScreen.matches && !navigator.connection?.saveData ? src4k : src;
+    video.src = nextSource;
+    video.load();
   }
   video.play().catch(() => {});
 }
@@ -25,23 +40,16 @@ video.addEventListener('playing', () => {
   picture.setAttribute('aria-hidden', 'true');
 });
 video.addEventListener('error', () => {
-  video.classList.remove('video-visible');
-  hero.classList.remove('hero-film-ready');
-  picture.removeAttribute('aria-hidden');
-  if (src4k && video.getAttribute('src') === src4k) {
-    video.src = src;
-    video.load();
-    syncPlayback();
-  }
-});
-reduced.addEventListener('change', () => {
-  if (reduced.matches) {
-    video.classList.remove('video-visible');
-    hero.classList.remove('hero-film-ready');
-    picture.removeAttribute('aria-hidden');
-  }
+  failedSources.add(video.getAttribute('src'));
+  showPoster();
   syncPlayback();
 });
+reduced.addEventListener('change', () => {
+  if (reduced.matches) showPoster();
+  syncPlayback();
+});
+portraitScreen.addEventListener('change', syncPlayback);
+wideScreen.addEventListener('change', syncPlayback);
 document.addEventListener('visibilitychange', syncPlayback);
 
 if ('IntersectionObserver' in window) {

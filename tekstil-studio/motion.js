@@ -298,21 +298,23 @@ function paint(timestamp) {
   const coverVisible = closingRect && closingRect.top < viewport && closingRect.bottom > 0;
   const coverStart = coverVisible ? parseFloat(css('--img-start')) : 1;
   let unsettled = false;
+  const compactHeader = Boolean(hero && header.classList.contains('has-editorial-menu') && y > heroHeight * .28);
+  header.classList.toggle('header-compact', compactHeader);
 
   if (hero) {
-    header.classList.toggle('over-entrance', y < CONFIG.header.solidAfter);
+    header.classList.toggle('over-entrance', y < Math.max(CONFIG.header.solidAfter, heroHeight - 75));
     const progress = clamp(y / heroHeight);
     if (active && heroHeight && progress !== lastHeroProgress) {
       lastHeroProgress = progress;
       const caption = clamp(progress / CONFIG.hero.captionFadeEnd);
-      hero.style.setProperty('--motion-hero-scale', 1 + (CONFIG.hero.scaleTo - 1) * progress);
-      hero.style.setProperty('--motion-hero-shade', CONFIG.hero.overlayTo * progress);
+      hero.style.setProperty('--motion-hero-scale', 1 + (CONFIG.hero.scaleTo - 1) * progress * (compact ? .25 : 1));
+      hero.style.setProperty('--motion-hero-shade', CONFIG.hero.overlayTo * progress * (compact ? .65 : 1));
       hero.style.setProperty('--motion-caption-alpha', 1 - caption);
       hero.style.setProperty('--motion-caption-y', -caption * CONFIG.hero.captionLift + 'px');
     }
   }
   const direction = y - previousScroll;
-  if (!active || header.matches('[data-no-motion], [data-no-motion] *') || y <= CONFIG.header.hideAfter || header.contains(document.activeElement) || menus.some(menu => menu.open)) {
+  if (compactHeader || !active || header.matches('[data-no-motion], [data-no-motion] *') || y <= CONFIG.header.hideAfter || header.contains(document.activeElement) || menus.some(menu => menu.open)) {
     header.classList.remove('header-away');
   } else if (Math.abs(direction) >= CONFIG.header.directionSlop) {
     header.classList.toggle('header-away', direction > 0);
@@ -338,12 +340,10 @@ function paint(timestamp) {
         element.style.setProperty('--project-light', (1 - CONFIG.project.shade * handoff).toFixed(3));
         element.style.setProperty('--project-scale', (1 + CONFIG.project.scale * handoff).toFixed(3));
       }
-      if (j) {
-        const remaining = 1 - unfold * unfold * (3 - 2 * unfold);
-        const topInset = compact ? CONFIG.project.mobileTop : CONFIG.project.desktopTop;
-        element.style.setProperty('--project-inset', (inset * remaining).toFixed(2) + '%');
-        element.style.setProperty('--project-inset-top', (topInset * remaining).toFixed(2) + '%');
-      }
+      const remaining = 1 - unfold * unfold * (3 - 2 * unfold);
+      const topInset = compact ? CONFIG.project.mobileTop : CONFIG.project.desktopTop;
+      element.style.setProperty('--project-inset', (inset * remaining).toFixed(2) + '%');
+      element.style.setProperty('--project-inset-top', (topInset * remaining).toFixed(2) + '%');
     }
   }
   for (const [i, layer] of layers.entries()) {

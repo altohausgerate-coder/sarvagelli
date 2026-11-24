@@ -106,6 +106,9 @@
   .js .portfolio-caption { animation: motion-up var(--intro-sub) var(--ease-out) var(--intro-sub-delay) both; }
   .js .hero-film-ready .portfolio-film-copy { animation: motion-film-copy-out var(--intro-film-fade) var(--ease-out) var(--intro-film-hold) both; }
   .js .hero-film-ready::after { animation: motion-film-shade var(--intro-film-fade) var(--ease-out) var(--intro-film-hold) both; }
+  @media (max-width: 767px) and (orientation: portrait) {
+    .js .hero-film-ready .portfolio-film-copy, .js .hero-film-ready::after { animation: none; }
+  }
 
   .js [data-reveal]:not([data-reveal="lines"]) {
     transition: opacity var(--reveal-duration) var(--ease-out), translate var(--reveal-duration) var(--ease-out);
@@ -125,6 +128,7 @@
   }
   .js .motion-mask-active { will-change: clip-path; }
   .js [data-img-reveal]:not(.motion-seen):not(:focus-within):where(:not([data-no-motion], [data-no-motion] *)) { clip-path: inset(100% 0 0 0); }
+  .js [data-img-reveal][data-reveal-from="top"]:not(.motion-seen):not(:focus-within):where(:not([data-no-motion], [data-no-motion] *)) { clip-path: inset(0 0 100% 0); }
   .js [data-img-reveal]:not(.motion-seen):not(:focus-within):where(:not([data-no-motion], [data-no-motion] *)) img { scale: var(--img-start); }
   .js .project-frame .motion-scene-image[data-img-reveal] { clip-path: none; }
   .project-stack .project-frame--quiet:not(:first-child) .motion-scene-image,

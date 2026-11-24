@@ -62,6 +62,16 @@
   letter-spacing: .12em;
   text-transform: uppercase;
 }
+@media (max-width: 767px) and (orientation: portrait) {
+  .portfolio-entrance {
+    display: grid;
+    align-items: end;
+    padding-block: 88px clamp(72px, 15svh, 136px);
+  }
+  .portfolio-entrance::after {
+    background: linear-gradient(180deg, #1e18106b, transparent 25%, transparent 46%, #191711b8 100%);
+  }
+}
 .portfolio-overview {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);

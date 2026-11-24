@@ -181,17 +181,18 @@ html:has(.editorial-drawer[open]) { overflow: hidden; scrollbar-gutter: stable; 
 .drawer-link-group + .drawer-link-group { margin-top: 22px; }
 .drawer-columns .drawer-link-group { margin-top: 0; }
 .drawer-link-group h3 { color: var(--menu-gold); font: 650 11px/1.5 var(--sans); letter-spacing: .1em; text-transform: uppercase; }
-.drawer-links a {
+.drawer-links :is(a, .drawer-main-link) {
   display: flex;
   align-items: center;
   min-height: var(--menu-pitch);
   padding-block: 7px;
   border-bottom: 1px solid #fff9ef2d;
   text-decoration: none;
+  text-align: start;
   overflow-wrap: anywhere;
   font: 400 clamp(24px, 2.25vw, 38px)/1.13 var(--serif);
 }
-.drawer-links a:hover { color: var(--menu-gold); }
+.drawer-links :is(a, .drawer-main-link):hover { color: var(--menu-gold); }
 .drawer-circle {
   position: fixed;
   z-index: 3;
@@ -273,6 +274,31 @@ html:has(.editorial-drawer[open]) { overflow: hidden; scrollbar-gutter: stable; 
   .drawer-links a { font-size: 28px; }
   .drawer-links.drawer-columns { grid-template-columns: 1fr; }
 }
+@media (max-width: 767px) {
+  .masthead.has-editorial-menu { min-height: 68px; padding-block: 10px; row-gap: 0; }
+  .has-editorial-menu .desktop-nav { display: none; }
+  .editorial-drawer:has(.menu-content[data-panel="main"]:not([inert])) .drawer-primary { display: none; }
+  .menu-content[data-panel="main"] { padding-top: 90px; }
+  .drawer-links .drawer-main-link { font-size: 28px; }
+}
+.studio-home .masthead.has-editorial-menu.header-compact {
+  display: flex;
+  inset: 12px var(--menu-edge) auto auto;
+  min-height: 0;
+  padding: 0 12px;
+  border: 1px solid #796f5b40;
+  border-radius: 40px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.studio-home .masthead.has-editorial-menu.header-compact.over-entrance {
+  border-color: #fff9ef3d;
+  background: #1b2b25d4;
+  color: var(--menu-text);
+}
+.header-compact.has-editorial-menu :is(.brand, .desktop-nav) { display: none; }
+.header-compact .editorial-actions { position: static; }
+.header-compact .editorial-actions .editorial-menu-button { display: inline-flex; }
 
 .editorial-intro {
   display: grid;

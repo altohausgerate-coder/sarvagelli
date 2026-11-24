@@ -3,7 +3,7 @@ const desktopLinks = editorialHeader?.querySelector('.desktop-nav');
 
 if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined') {
   const menu = {
-    main: { label: 'Menyu', items: [['Ana səhifə', 'index.html'], ['Layihələr', 'layiheler.html'], ['Məhsullar', 'mehsullar.html'], ['Brendlər', 'brendler.html'], ['Haqqımızda', 'haqqimizda.html'], ['Perspektivlər', 'perspektivler.html'], ['Əlaqə', 'elaqe.html']] },
+    main: { label: 'Menyu', items: [] },
     projects: { label: 'Layihələr', columns: true, items: [
       ['Bütün layihələr', 'layiheler.html'],
       ['Hotel və istirahət', 'layiheler.html?category=hospitality', 'Layihə növləri'],
@@ -148,6 +148,9 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
       const link = makeLink(name, href);
       link.style.setProperty('--menu-index', index);
       (sections.get(group) || list).append(link);
+    }
+    if (key === 'main') {
+      list.append(makeLink('Ana səhifə', 'index.html'), ...headerItems.map(group => groupButton(group, menu[group].label, 'drawer-main-link')));
     }
     if (key === 'search') {
       const form = document.createElement('form');
