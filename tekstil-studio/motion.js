@@ -24,8 +24,8 @@ const CONFIG = {
     reveal: 'main .reveal, main .project-tile, main .editorial-track > *, main .timeline > li, main .project-text :is(p, .action), main .portfolio-overview-copy > *, main .manifesto > div > *, main .section-head > .action',
     lines: 'main h2, main h3',
     mask: 'main .image-window, main .detail-photo,.about-visual > div, main .insight-card > div:first-child:has(> img), main .practice-card > div:first-child:has(> img)',
-    wrapImage: 'main .project-frame > img, main .photo-directory > img, main .project-photos > figure > img, main .insight-card > img, main .practice-card > img, main .team-track > article > img',
-    parallax: '.project-frame--quiet:not(:first-child) > .motion-scene-image, .photo-directory > .motion-scene-image',
+    wrapImage: 'main .project-frame > img, main .project-photos > figure > img, main .insight-card > img, main .practice-card > img, main .team-track > article > img',
+    parallax: '.project-frame--quiet:not(:first-child) > .motion-scene-image',
     groups: '.project-gallery:not(.project-loading), .product-grid, .editorial-track, .insight-grid, .practice-grid',
     footer: '.footer:not(.home-footer) > *, .home-footer-grid > *',
   },
@@ -52,7 +52,6 @@ const css = name => getComputedStyle(root).getPropertyValue(name).trim();
 const ms = name => parseFloat(css(name));
 markTargets();
 loadProjectFrames();
-const closingImage = page.querySelector('[data-motion-closing-image]');
 const timelines = find('.timeline');
 const layers = find('[data-parallax]').map(node => ({ node, offset: 0 }));
 const targets = find('[data-reveal], [data-img-reveal]');
@@ -84,14 +83,7 @@ function markTargets() {
     const parent = image.parentElement;
     const wrapper = document.createElement('div');
     wrapper.dataset.imgReveal = '';
-    wrapper.className = parent.matches('.project-frame, .photo-directory') ? 'motion-scene-image' : 'motion-detail-mask';
-    if (parent.matches('.photo-directory')) {
-      wrapper.dataset.motionClosingImage = '';
-      if (parent.hasAttribute('data-parallax')) {
-        wrapper.dataset.parallax = parent.dataset.parallax;
-        delete parent.dataset.parallax;
-      }
-    }
+    wrapper.className = parent.matches('.project-frame') ? 'motion-scene-image' : 'motion-detail-mask';
     image.before(wrapper);
     wrapper.append(image);
   }
@@ -297,9 +289,6 @@ function paint(timestamp) {
     }) : [];
   const rectangles = canParallax ? layers.map(layer => layer.node.getBoundingClientRect()) : [];
   const timelineRects = active ? timelines.map(node => node.getBoundingClientRect()) : [];
-  const closingRect = active && closingImage?.getBoundingClientRect();
-  const coverVisible = closingRect && closingRect.top < viewport && closingRect.bottom > 0;
-  const coverStart = coverVisible ? parseFloat(css('--img-start')) : 1;
   let unsettled = false;
   const compactHeader = Boolean(hero && header.classList.contains('has-editorial-menu') && y > heroHeight * .28);
   header.classList.toggle('header-compact', compactHeader);
@@ -309,13 +298,10 @@ function paint(timestamp) {
     const progress = clamp(y / heroHeight);
     if (active && heroHeight && progress !== lastHeroProgress) {
       lastHeroProgress = progress;
-      const caption = smoothstep(clamp((progress - .05) / .49));
       const strength = compact ? .45 : 1;
       hero.style.setProperty('--motion-hero-scale', 1 + (CONFIG.hero.scaleTo - 1) * progress * strength);
       hero.style.setProperty('--motion-hero-y', `${-progress * heroHeight * CONFIG.hero.drift * strength}px`);
       hero.style.setProperty('--motion-hero-shade', CONFIG.hero.overlayTo * progress);
-      hero.style.setProperty('--motion-caption-alpha', 1 - caption);
-      hero.style.setProperty('--motion-caption-y', -caption * CONFIG.hero.captionLift + 'px');
       heroWords.forEach((word, index) => {
         const exit = smoothstep(clamp((progress - .08 - index * .085) / .40));
         word.style.setProperty('--motion-caption-alpha', 1 - exit);
@@ -369,10 +355,6 @@ function paint(timestamp) {
   }
   for (const [index, rect] of timelineRects.entries()) {
     timelines[index].style.setProperty('--timeline-progress', clamp((viewport * CONFIG.timelineStart - rect.top) / rect.height));
-  }
-  if (coverVisible) {
-    const progress = clamp((viewport - closingRect.top) / (viewport + closingRect.height));
-    closingImage.style.setProperty('--motion-scene-scale', coverStart - (coverStart - 1) * progress);
   }
   for (const [node, counter] of pendingCounts) {
     counter.start ??= timestamp;
@@ -588,19 +570,15 @@ for (const label of find('.inquiry-form label')) {
   field.addEventListener('input', sync);
 }
 
-const gallery = page.querySelector('.project-gallery, .product-grid');
+const gallery = page.querySelector('.product-grid');
 if (gallery) {
-  const productList = gallery.matches('.product-grid');
-  const noun = productList ? 'məhsul' : 'layihə';
-  const projects = [...gallery.querySelectorAll('.project-tile, .product-card')];
-  if (productList) {
-    const area = page.querySelector('.motion-product-tools');
-    const select = area.querySelector('select');
-    const categories = projects.map(card => card.querySelector('p').textContent.trim());
-    for (const value of new Set(categories)) select.add(new Option(value, value));
-    select.addEventListener('change', () => filter(projects.filter((_, index) => !select.value || categories[index] === select.value)));
-    area.hidden = false;
-  }
+  const projects = [...gallery.querySelectorAll('.product-card')];
+  const area = page.querySelector('.motion-product-tools');
+  const select = area.querySelector('select');
+  const categories = projects.map(card => card.querySelector('p').textContent.trim());
+  for (const value of new Set(categories)) select.add(new Option(value, value));
+  select.addEventListener('change', () => filter(projects.filter((_, index) => !select.value || categories[index] === select.value)));
+  area.hidden = false;
   let controls = page.querySelector('.project-batch-controls');
   if (!controls) {
     controls = document.createElement('div');
@@ -645,7 +623,7 @@ if (gallery) {
     if (filtered && !reduced.matches) {
       matches.slice(0, count).forEach((project, index) => {
         project.classList.add('motion-filter-in');
-        project.style.setProperty('--motion-filter-item', index % (productList ? 2 : 3));
+        project.style.setProperty('--motion-filter-item', index % 2);
       });
     }
     splitHeadings();
@@ -705,7 +683,7 @@ if (gallery) {
     busy = false;
     skeletons.hidden = true;
     skeletons.replaceChildren();
-    status.textContent = next.length + ' ' + noun + ' əlavə olundu.' + (count === listed.length ? ' Siyahının sonu.' : '');
+    status.textContent = next.length + ' məhsul əlavə olundu.' + (count === listed.length ? ' Siyahının sonu.' : '');
     updateControls();
     if (event) next[0].focus();
     observer?.unobserve(sentinel);
@@ -717,9 +695,7 @@ if (gallery) {
   }, { rootMargin: CONFIG.infinite.rootMargin });
   controls.hidden = false;
   more.addEventListener('click', loadBatch);
-  gallery.dataset.paged = 'true';
-  gallery.addEventListener('project-filter', event => filter(event.detail));
-  reset(gallery.projectMatches ?? projects.filter(project => !project.hidden));
+  reset(projects.filter(project => !project.hidden));
 }
 
 if (new URLSearchParams(location.search).get('tune') === '1') {

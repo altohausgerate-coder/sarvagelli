@@ -7,8 +7,6 @@
   --intro-title: 760ms;
   --intro-title-delay: 270ms;
   --intro-title-stagger: 170ms;
-  --intro-sub: 590ms;
-  --intro-sub-delay: 520ms;
   --reveal-duration: 900ms;
   --reveal-distance: 40px;
   --reveal-trigger: 12%;
@@ -43,7 +41,6 @@
 }
 
 .masthead:not(.has-editorial-menu) { min-height: var(--menu-header-height); padding-inline: var(--menu-edge); }
-.masthead .brand img { width: clamp(145px, 12vw, 205px); aspect-ratio: 1111 / 347; }
 .overview-image { width: 100%; max-width: 460px; aspect-ratio: 4 / 5; }
 .overview-image img { height: 100%; }
 .motion-line { display: block; overflow: clip; padding-block: .11em; margin-block: -.11em; }
@@ -51,7 +48,6 @@
 [data-img-reveal] { overflow: clip; }
 .motion-scene-image { position: absolute; inset: 0; z-index: -2; }
 .motion-scene-image > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.photo-directory .motion-scene-image > img { z-index: auto; }
 .project-frame .motion-scene-image > img { z-index: auto; }
 .motion-solution-stack { display: grid; }
 .motion-solution-stack > .solution-panel { grid-area: 1 / 1; }
@@ -105,9 +101,8 @@
     animation: motion-hero-curtain var(--intro-curtain) var(--ease-out) both;
   }
   .js .portfolio-entrance .hero-scroll-shade { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: #15120e; opacity: var(--motion-hero-shade, 0); }
-  .js :is(.hero-title-word, .portfolio-caption) { opacity: var(--motion-caption-alpha, 1); translate: 0 var(--motion-caption-y, 0px); }
+  .js .hero-title-word { opacity: var(--motion-caption-alpha, 1); translate: 0 var(--motion-caption-y, 0px); }
   .js .hero-title-word > span { animation: motion-word-in var(--intro-title) var(--ease-out) calc(var(--intro-title-delay) + var(--hero-word-index, 0) * var(--intro-title-stagger)) both; }
-  .js .portfolio-caption { animation: motion-up var(--intro-sub) var(--ease-out) var(--intro-sub-delay) both; }
   .js .portfolio-overview { --reveal-distance: 23px; --reveal-duration: 720ms; --mask-duration: 880ms; }
   .js .portfolio-overview-copy > :nth-child(2) { --motion-item: 1; }
   .js .portfolio-overview-copy > :nth-child(3) { --motion-item: 2; }
@@ -136,10 +131,7 @@
   .project-stack .project-frame--quiet:not(:first-child) .motion-scene-image,
   .project-photos figure:nth-child(2) .motion-detail-mask { --motion-mask-offset: var(--project-image-delay); }
 
-  .js .parallax-active > img { top: 50%; bottom: auto; height: var(--parallax-height); transform: translateY(calc(-50% + var(--motion-parallax-y, 0px))) scale(var(--motion-scene-scale, 1)); }
-  .js [data-motion-closing-image] > img { transform: scale(var(--motion-scene-scale, 1)); }
-  .js [data-motion-closing-image].parallax-active > img { transform: translateY(calc(-50% + var(--motion-parallax-y, 0px))) scale(var(--motion-scene-scale, 1)); }
-  .js [data-img-reveal][data-motion-closing-image]:not(:focus-within) > img { scale: 1; }
+  .js .parallax-active > img { top: 50%; bottom: auto; height: var(--parallax-height); transform: translateY(calc(-50% + var(--motion-parallax-y, 0px))); }
 
   .js [data-reveal].motion-footer-item { transition-duration: var(--footer-reveal); transition-delay: calc(var(--motion-item, 0) * var(--footer-stagger)); }
   .motion-solution-stack > .solution-panel { transition: opacity var(--crossfade) var(--ease-hover), visibility 0s; }

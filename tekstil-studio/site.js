@@ -56,12 +56,8 @@ if (tools) {
       matches.push(project);
     }
     count.value = matches.length ? matches.length + ' layihə' : 'Layihə tapılmadı';
-    gallery.projectMatches = matches;
-    if (gallery.dataset.paged) gallery.dispatchEvent(new CustomEvent('project-filter', { detail: matches }));
-    else {
-      const matched = new Set(matches);
-      projects.forEach(project => { project.hidden = !matched.has(project); });
-    }
+    const matched = new Set(matches);
+    projects.forEach(project => { project.hidden = !matched.has(project); });
   }
 
   tools.hidden = false;
