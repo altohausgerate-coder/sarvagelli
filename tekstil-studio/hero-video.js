@@ -1,7 +1,7 @@
 const video = document.querySelector('.portfolio-hero-video');
 const hero = video.closest('.portfolio-entrance');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-const wideScreen = matchMedia('(min-width: 1440px)');
+const highResolutionScreen = matchMedia('(min-width: 1440px), (min-width: 1100px) and (min-resolution: 2dppx)');
 const portraitScreen = matchMedia('(max-width: 767px) and (orientation: portrait)');
 const picture = video.previousElementSibling;
 const src = video.dataset.src;
@@ -22,7 +22,7 @@ function syncPlayback() {
     return;
   }
   const preferred = portraitScreen.matches ? srcPortrait
-    : wideScreen.matches && !navigator.connection?.saveData ? src4k : src;
+    : highResolutionScreen.matches && !navigator.connection?.saveData ? src4k : src;
   const nextSource = [preferred, src].find(source => source && !failedSources.has(source));
   if (!nextSource) return;
   if (video.getAttribute('src') !== nextSource) {
@@ -49,7 +49,7 @@ reduced.addEventListener('change', () => {
   syncPlayback();
 });
 portraitScreen.addEventListener('change', syncPlayback);
-wideScreen.addEventListener('change', syncPlayback);
+highResolutionScreen.addEventListener('change', syncPlayback);
 document.addEventListener('visibilitychange', syncPlayback);
 
 if ('IntersectionObserver' in window) {

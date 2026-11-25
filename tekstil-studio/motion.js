@@ -12,6 +12,7 @@ const CONFIG = {
   parallaxLerp: .12,
   touchParallaxRatio: .45,
   timelineStart: .88,
+  revealInsetPercent: 12,
   hero: { scaleTo: 1.08, overlayTo: .45, captionFadeEnd: .3, captionLift: 20 },
   header: { solidAfter: 80, hideAfter: 120, directionSlop: 4 },
   project: { desktopInset: 11, mobileInset: 5.5, desktopTop: 8, mobileTop: 4, entryHold: .1, captionVisible: .58, captionHandoff: .47, shade: .38, scale: .025 },
@@ -211,7 +212,9 @@ function splitHeadings() {
 function watchReveals() {
   revealObserver?.disconnect();
   if (!('IntersectionObserver' in window) || reduced.matches) return;
-  const inset = parseFloat(css('--reveal-trigger')) / 100;
+  const configuredInset = parseFloat(css('--reveal-trigger'));
+  const insetPercent = Number.isFinite(configuredInset) ? configuredInset : CONFIG.revealInsetPercent;
+  const bottomMargin = -Math.round(innerHeight * insetPercent / 100);
   const masksByFrame = new Map();
   revealObserver = new IntersectionObserver(entries => {
     const rows = new Map();
@@ -264,7 +267,7 @@ function watchReveals() {
       }
       revealObserver.unobserve(entry.target);
     }
-  }, { rootMargin: '0px 0px -' + Math.round(innerHeight * inset) + 'px 0px' });
+  }, { rootMargin: `0px 0px ${bottomMargin}px 0px` });
   for (const target of targets) {
     if (target.classList.contains('motion-seen')) continue;
     if (target.matches('.project-frame > .motion-scene-image')) {
