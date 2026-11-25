@@ -13,7 +13,7 @@ const CONFIG = {
   touchParallaxRatio: .45,
   timelineStart: .88,
   revealInsetPercent: 12,
-  hero: { scaleTo: 1.035, overlayTo: .26, captionLift: 28, drift: .12 },
+  hero: { scaleTo: 1.035, overlayTo: .26, captionLift: 28, drift: .012 },
   header: { solidAfter: 80, hideAfter: 120, directionSlop: 4 },
   project: { desktopInset: 8, mobileInset: 3, desktopTop: 5, mobileTop: 2, shade: .22, scale: .02 },
   projectImageLead: '1600px 0px',
@@ -35,6 +35,8 @@ const page = document.body;
 const root = document.documentElement;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const hero = page.querySelector('.portfolio-entrance:not([data-no-motion], [data-no-motion] *)');
+const heroWords = [...(hero?.querySelectorAll('.hero-title-word') ?? [])];
+heroWords.forEach((word, index) => word.style.setProperty('--hero-word-index', index));
 const header = page.querySelector('.masthead');
 const sequence = page.querySelector('.project-sequence');
 const touchLayout = matchMedia('(hover: none)');
@@ -57,7 +59,6 @@ const targets = find('[data-reveal], [data-img-reveal]');
 const headings = new Map();
 const counters = new Map();
 const pendingCounts = new Map();
-const heroTitle = hero?.querySelector('h1');
 let previousScroll = scrollY;
 let frameRequest = 0;
 let resizeTimer;
@@ -141,7 +142,7 @@ function loadProjectFrames() {
   }
 }
 
-for (const heading of [...find('[data-reveal="lines"]'), ...find('.portfolio-title')]) {
+for (const heading of find('[data-reveal="lines"]')) {
   headings.set(heading, {
     source: [...heading.childNodes],
     label: heading.getAttribute('aria-label') || heading.textContent.trim(),
@@ -182,10 +183,9 @@ function splitHeadings() {
       heading.replaceChildren(...entry.source);
       continue;
     }
-    if (heading === heroTitle || entry.explicit.length) {
+    if (entry.explicit.length) {
       if (heading.querySelector('.motion-line')) continue;
-      const spans = entry.explicit.length ? entry.explicit : entry.source.filter(node => node.nodeType === 1);
-      wrapLines(heading, spans.map(part => part.textContent.trim()), entry.label);
+      wrapLines(heading, entry.explicit.map(part => part.textContent.trim()), entry.label);
       continue;
     }
     if (heading.offsetWidth === entry.width) continue;
@@ -305,17 +305,22 @@ function paint(timestamp) {
   header.classList.toggle('header-compact', compactHeader);
 
   if (hero) {
-    header.classList.toggle('over-entrance', y < Math.max(CONFIG.header.solidAfter, heroHeight - 75));
+    header.classList.toggle('over-entrance', y < Math.max(CONFIG.header.solidAfter, heroHeight - 38));
     const progress = clamp(y / heroHeight);
     if (active && heroHeight && progress !== lastHeroProgress) {
       lastHeroProgress = progress;
       const caption = smoothstep(clamp((progress - .05) / .49));
       const strength = compact ? .45 : 1;
       hero.style.setProperty('--motion-hero-scale', 1 + (CONFIG.hero.scaleTo - 1) * progress * strength);
-      hero.style.setProperty('--motion-hero-y', `${progress * heroHeight * CONFIG.hero.drift * strength}px`);
+      hero.style.setProperty('--motion-hero-y', `${-progress * heroHeight * CONFIG.hero.drift * strength}px`);
       hero.style.setProperty('--motion-hero-shade', CONFIG.hero.overlayTo * progress);
       hero.style.setProperty('--motion-caption-alpha', 1 - caption);
       hero.style.setProperty('--motion-caption-y', -caption * CONFIG.hero.captionLift + 'px');
+      heroWords.forEach((word, index) => {
+        const exit = smoothstep(clamp((progress - .08 - index * .085) / .40));
+        word.style.setProperty('--motion-caption-alpha', 1 - exit);
+        word.style.setProperty('--motion-caption-y', `${-exit * CONFIG.hero.captionLift}px`);
+      });
     }
   }
   const direction = y - previousScroll;

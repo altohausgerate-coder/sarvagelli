@@ -1,7 +1,7 @@
 @font-face {
-  font-family: 'Newsreader Display';
-  src: url('fonts/newsreader-display-300.woff2') format('woff2');
-  font-weight: 300;
+  font-family: 'Commissioner Display';
+  src: url('fonts/commissioner-display-350.woff2') format('woff2');
+  font-weight: 350;
   font-display: swap;
 }
 
@@ -50,17 +50,18 @@
     linear-gradient(110deg, #171510b3 3%, #17151040 58%, #17151024 100%);
 }
 .portfolio-title {
+  font-family: var(--studio-display);
   font-size: clamp(58px, 8vw, 138px);
-  font-weight: 300;
-  line-height: .99;
-  letter-spacing: -.045em;
+  font-weight: 350;
+  line-height: 1.08;
+  letter-spacing: -.04em;
   color: #fff9ef;
 }
-.portfolio-title span { display: block; }
-.portfolio-title span + span { margin-inline-start: clamp(22px, 13vw, 215px); }
-@media (min-width: 900px) {
-  .portfolio-title { font-family: 'Newsreader Display', var(--serif); }
-}
+.studio-home { --studio-display: 'Commissioner Display', var(--serif); }
+.hero-title-line { display: block; }
+.hero-title-line + .hero-title-line { margin-inline-start: clamp(22px, 10vw, 175px); }
+.hero-title-word, .hero-title-word > span { display: inline-block; }
+.studio-home .drawer-links :is(a, .drawer-main-link) { font-family: var(--studio-display); font-weight: 350; }
 .portfolio-caption {
   position: absolute;
   bottom: clamp(24px, 4.3vw, 70px);
@@ -82,6 +83,8 @@
     background: linear-gradient(180deg, #1e18106b, transparent 25%, transparent 46%, #191711b8 100%);
   }
 }
+.portfolio-opening { isolation: isolate; }
+.portfolio-overview-panel { position: relative; z-index: 1; background: var(--paper); }
 .portfolio-overview {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
@@ -89,7 +92,7 @@
   gap: clamp(24px, 5vw, 78px) clamp(28px, 7vw, 108px);
   padding-block: var(--section-gap);
 }
-.portfolio-overview h2 { max-width: 15ch; font-size: clamp(36px, 4.7vw, 72px); text-wrap: balance; }
+.portfolio-overview h2 { max-width: 15ch; font-family: var(--studio-display); font-weight: 350; font-size: clamp(36px, 4.7vw, 72px); text-wrap: balance; }
 .portfolio-overview-copy { grid-area: 1 / 2 / 3; }
 .portfolio-overview-copy .overview-lead { max-width: 31ch; font: 400 clamp(24px, 2.6vw, 43px)/1.17 var(--serif); text-wrap: pretty; }
 .portfolio-overview-copy p + p { max-width: 49ch; margin-top: 19px; color: var(--muted); font: 400 clamp(15px, 1.18vw, 19px)/1.65 var(--sans); }
@@ -362,7 +365,7 @@
   .portfolio-overview-copy { grid-area: auto; }
   .portfolio-overview-photo { max-width: none; aspect-ratio: 4 / 3; }
   .portfolio-title { font-size: clamp(44px, 11vw, 73px); }
-  .portfolio-title span + span { margin-inline-start: clamp(0px, 6vw, 38px); }
+  .hero-title-line + .hero-title-line { margin-inline-start: clamp(0px, 6vw, 38px); }
   .project-frame figcaption { grid-template-columns: 1fr; }
   .project-frame { background-position: 42% center; }
   .project-frame img { object-position: 42% center; }
