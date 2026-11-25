@@ -12,7 +12,6 @@ let visible = false;
 
 function showPoster() {
   video.classList.remove('video-visible');
-  hero.classList.remove('hero-film-ready');
   picture.removeAttribute('aria-hidden');
 }
 
@@ -36,7 +35,6 @@ function syncPlayback() {
 
 video.addEventListener('playing', () => {
   video.classList.add('video-visible');
-  hero.classList.add('hero-film-ready');
   picture.setAttribute('aria-hidden', 'true');
 });
 video.addEventListener('error', () => {

@@ -13,9 +13,9 @@ const CONFIG = {
   touchParallaxRatio: .45,
   timelineStart: .88,
   revealInsetPercent: 12,
-  hero: { scaleTo: 1.08, overlayTo: .45, captionFadeEnd: .3, captionLift: 20 },
+  hero: { scaleTo: 1.035, overlayTo: .26, captionLift: 28, drift: .12 },
   header: { solidAfter: 80, hideAfter: 120, directionSlop: 4 },
-  project: { desktopInset: 11, mobileInset: 5.5, desktopTop: 8, mobileTop: 4, entryHold: .1, captionVisible: .58, captionHandoff: .47, shade: .38, scale: .025 },
+  project: { desktopInset: 8, mobileInset: 3, desktopTop: 5, mobileTop: 2, shade: .22, scale: .02 },
   projectImageLead: '1600px 0px',
   rowTolerance: 4,
   infinite: { batch: 12, rootMargin: '0px 0px 800px 0px', maxWait: 650, placeholders: 3 },
@@ -65,11 +65,11 @@ let revealObserver;
 let anchor;
 let wheelTarget;
 let wheelStarted;
-let heroHeight = hero?.offsetHeight;
 let lastHeroProgress;
 
 const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
 const ease = value => value < .5 ? 4 * value ** 3 : 1 - (-2 * value + 2) ** 3 / 2;
+const smoothstep = value => value * value * (3 - 2 * value);
 
 function markTargets() {
   for (const item of find(CONFIG.selectors.reveal)) if (!item.hasAttribute('data-reveal')) item.dataset.reveal = '';
@@ -101,7 +101,6 @@ function markTargets() {
     item.style.setProperty('--motion-item', [...item.parentElement.children].indexOf(item));
   }
   for (const counter of find('[data-count]')) if (!counter.closest('.timeline strong')) counter.dataset.reveal = '';
-  for (const item of find('.project-meta > div')) item.style.setProperty('--motion-item', [...item.parentElement.children].indexOf(item));
 }
 
 function loadProjectFrames() {
@@ -285,6 +284,7 @@ function paint(timestamp) {
   frameRequest = 0;
   const y = scrollY;
   const viewport = innerHeight;
+  const heroHeight = hero?.offsetHeight;
   const active = !reduced.matches;
   const compact = touchLayout.matches || innerWidth < CONFIG.parallaxMinWidth;
   const canParallax = active;
@@ -309,9 +309,11 @@ function paint(timestamp) {
     const progress = clamp(y / heroHeight);
     if (active && heroHeight && progress !== lastHeroProgress) {
       lastHeroProgress = progress;
-      const caption = clamp(progress / CONFIG.hero.captionFadeEnd);
-      hero.style.setProperty('--motion-hero-scale', 1 + (CONFIG.hero.scaleTo - 1) * progress * (compact ? .25 : 1));
-      hero.style.setProperty('--motion-hero-shade', CONFIG.hero.overlayTo * progress * (compact ? .65 : 1));
+      const caption = smoothstep(clamp((progress - .05) / .49));
+      const strength = compact ? .45 : 1;
+      hero.style.setProperty('--motion-hero-scale', 1 + (CONFIG.hero.scaleTo - 1) * progress * strength);
+      hero.style.setProperty('--motion-hero-y', `${progress * heroHeight * CONFIG.hero.drift * strength}px`);
+      hero.style.setProperty('--motion-hero-shade', CONFIG.hero.overlayTo * progress);
       hero.style.setProperty('--motion-caption-alpha', 1 - caption);
       hero.style.setProperty('--motion-caption-y', -caption * CONFIG.hero.captionLift + 'px');
     }
@@ -331,19 +333,16 @@ function paint(timestamp) {
       const shown = Math.max(0, Math.min(rect.bottom, viewport) - Math.max(rect.top, 0));
       const handoff = next ? clamp(1 - next.top / viewport) : 0;
       const entry = clamp(1 - rect.top / viewport);
-      const unfold = clamp((entry - CONFIG.project.entryHold) / (1 - CONFIG.project.entryHold));
       const inset = compact ? CONFIG.project.mobileInset : CONFIG.project.desktopInset;
-      const captionVisible = shown >= Math.min(rect.height, viewport) * CONFIG.project.captionVisible;
-      if (compact) {
-        if (captionVisible) element.classList.add('caption-in-view');
-      } else {
-        element.classList.toggle('caption-in-view', captionVisible && handoff < CONFIG.project.captionHandoff);
-      }
-      if (next) {
-        element.style.setProperty('--project-light', (1 - CONFIG.project.shade * handoff).toFixed(3));
-        element.style.setProperty('--project-scale', (1 + CONFIG.project.scale * handoff).toFixed(3));
-      }
-      const remaining = 1 - unfold * unfold * (3 - 2 * unfold);
+      const coverage = shown / Math.min(rect.height, viewport);
+      const captionIn = smoothstep(clamp((coverage - .52) / .34));
+      const captionOut = smoothstep(clamp((handoff - .12) / .40));
+      const caption = captionIn * (1 - captionOut);
+      element.style.setProperty('--project-caption-alpha', caption.toFixed(3));
+      element.style.setProperty('--project-caption-y', `${(12 * (1 - caption)).toFixed(2)}px`);
+      element.style.setProperty('--project-light', (1 - CONFIG.project.shade * handoff).toFixed(3));
+      element.style.setProperty('--project-scale', (1 + CONFIG.project.scale * handoff).toFixed(3));
+      const remaining = 1 - smoothstep(entry);
       const topInset = compact ? CONFIG.project.mobileTop : CONFIG.project.desktopTop;
       element.style.setProperty('--project-inset', (inset * remaining).toFixed(2) + '%');
       element.style.setProperty('--project-inset-top', (topInset * remaining).toFixed(2) + '%');
@@ -414,7 +413,6 @@ function stopScroll() {
 function viewportChanged() {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
-    heroHeight = hero?.offsetHeight;
     lastHeroProgress = undefined;
     splitHeadings();
     watchReveals();
@@ -459,6 +457,7 @@ page.addEventListener('click', event => {
 });
 function bindWheel() {
   window.removeEventListener('wheel', stopScrollIfNative);
+  if (hero) return;
   window.addEventListener('wheel', stopScrollIfNative, { passive: !CONFIG.smoothScroll || reduced.matches || !finePointer.matches });
 }
 bindWheel();

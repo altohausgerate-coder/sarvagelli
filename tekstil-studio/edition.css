@@ -338,22 +338,21 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .project-frame { position: sticky; top: 0; }
+  .scroll-projects .project-frame { position: sticky; top: 0; }
   .project-frame:focus-within { z-index: 1; }
   .scroll-projects .project-frame {
     overflow: clip;
     clip-path: inset(var(--project-inset-top, 0%) var(--project-inset, 0%) 0);
   }
-  .scroll-projects .project-frame + .project-frame { margin-top: min(16svh, 155px); }
   .scroll-projects .project-frame img {
     transform: scale(var(--project-scale, 1));
     opacity: var(--project-light, 1);
   }
   .scroll-projects .project-frame figcaption {
-    opacity: 0;
-    translate: 0 12px;
+    opacity: var(--project-caption-alpha, 1);
+    translate: 0 var(--project-caption-y, 0px);
   }
-  .scroll-projects .project-frame:is(.caption-in-view, :focus-within) figcaption { opacity: 1; translate: none; }
+  .scroll-projects .project-frame:focus-within figcaption { opacity: 1; translate: none; }
   .scroll-projects .project-frame:focus-within { clip-path: none; }
 }
 @media (max-width: 760px) {
