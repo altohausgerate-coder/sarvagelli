@@ -43,7 +43,7 @@
 .masthead:not(.has-editorial-menu) { min-height: var(--menu-header-height); padding-inline: var(--menu-edge); }
 .overview-image { width: 100%; max-width: 460px; aspect-ratio: 4 / 5; }
 .overview-image img { height: 100%; }
-.motion-line { display: block; overflow: clip; padding-block: .11em; margin-block: -.11em; }
+.motion-line { display: block; overflow: hidden; overflow: clip; padding-block: .11em; margin-block: -.11em; }
 .motion-line > span { display: block; }
 [data-img-reveal] { overflow: clip; }
 .motion-scene-image { position: absolute; inset: 0; z-index: -2; }
@@ -91,7 +91,7 @@
   .js .studio-home .masthead.header-compact { animation: motion-compact-header 230ms var(--ease-out) both; }
   .js .portfolio-entrance { position: sticky; top: 0; }
   .js .portfolio-hero-media { transform: translateY(var(--motion-hero-y, 0px)) scale(var(--motion-hero-scale, 1)); }
-  .js .portfolio-entrance::before {
+  .portfolio-entrance::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -101,8 +101,8 @@
     animation: motion-hero-curtain var(--intro-curtain) var(--ease-out) both;
   }
   .js .portfolio-entrance .hero-scroll-shade { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: #15120e; opacity: var(--motion-hero-shade, 0); }
-  .js .hero-title-word { opacity: var(--motion-caption-alpha, 1); translate: 0 var(--motion-caption-y, 0px); }
-  .js .hero-title-word > span { animation: motion-word-in var(--intro-title) var(--ease-out) calc(var(--intro-title-delay) + var(--hero-word-index, 0) * var(--intro-title-stagger)) both; }
+  .js .hero-title-word { opacity: var(--motion-caption-alpha, 1); transform: translateY(var(--motion-caption-y, 0px)); }
+  .hero-title-word > span { animation: motion-word-in var(--intro-title) var(--ease-out) calc(var(--intro-title-delay) + var(--hero-word-index, 0) * var(--intro-title-stagger)) both; }
   .js .portfolio-overview { --reveal-distance: 23px; --reveal-duration: 720ms; --mask-duration: 880ms; }
   .js .portfolio-overview-copy > :nth-child(2) { --motion-item: 1; }
   .js .portfolio-overview-copy > :nth-child(3) { --motion-item: 2; }

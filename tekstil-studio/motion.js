@@ -36,7 +36,6 @@ const root = document.documentElement;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const hero = page.querySelector('.portfolio-entrance:not([data-no-motion], [data-no-motion] *)');
 const heroWords = [...(hero?.querySelectorAll('.hero-title-word') ?? [])];
-heroWords.forEach((word, index) => word.style.setProperty('--hero-word-index', index));
 const header = page.querySelector('.masthead');
 const sequence = page.querySelector('.project-sequence');
 const touchLayout = matchMedia('(hover: none)');
@@ -187,14 +186,16 @@ function splitHeadings() {
     if (heading.childNodes.length !== 1 || text?.nodeType !== Node.TEXT_NODE || !entry.width) continue;
     const range = new Range();
     const lines = [];
+    const lineTolerance = parseFloat(getComputedStyle(heading).fontSize) * .35;
     let lastTop;
     for (const word of text.data.matchAll(/\S+/g)) {
       range.setStart(text, word.index);
       range.setEnd(text, word.index + word[0].length);
       const top = range.getBoundingClientRect().top;
-      if (top !== lastTop) lines.push(word[0]);
-      else lines[lines.length - 1] += ' ' + word[0];
-      lastTop = top;
+      if (lastTop === undefined || Math.abs(top - lastTop) > lineTolerance) {
+        lines.push(word[0]);
+        lastTop = top;
+      } else lines[lines.length - 1] += ' ' + word[0];
     }
     if (lines.length) wrapLines(heading, lines, entry.label);
   }

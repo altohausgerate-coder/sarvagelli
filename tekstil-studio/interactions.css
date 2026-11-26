@@ -104,13 +104,13 @@
 .has-editorial-menu .desktop-nav [aria-current], .drawer-primary [aria-current], .drawer-links [aria-current] { text-decoration: underline; text-underline-offset: 5px; }
 .has-editorial-menu .desktop-nav :is(a, button):hover, .drawer-primary :is(a, button):hover { opacity: .72; transition: opacity var(--menu-hover-duration) ease; }
 .masthead.has-editorial-menu .mobile-nav { display: none; }
-@media (min-width: 1280px) {
+@media (min-width: 1024px) {
   .masthead.has-editorial-menu, .drawer-top { grid-template-columns: minmax(0, 1fr); }
   .has-editorial-menu .brand, .drawer-top .brand {
     position: absolute;
     inset-inline-start: 50%;
     inset-block-start: 50%;
-    translate: -50% -50%;
+    transform: translate(-50%, -50%);
     z-index: 1;
   }
   .has-editorial-menu .desktop-nav, .drawer-primary {
@@ -121,8 +121,6 @@
   .editorial-actions, .drawer-actions { position: absolute; inset-inline-end: var(--menu-edge); }
   .has-editorial-menu .desktop-nav { margin-inline: 0 calc(var(--menu-actions-slot) * .58); }
   .has-editorial-menu .desktop-nav .editorial-section-button { justify-self: center; }
-}
-@media (min-width: 1024px) {
   .editorial-actions .editorial-menu-button { display: none; }
 }
 .editorial-drawer-open { overflow: hidden; scrollbar-gutter: stable; }
@@ -138,7 +136,8 @@
   --edge-duration: var(--switch-duration);
   position: fixed;
   inset: 0;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   height: 100dvh;
   max-width: none;
   max-height: none;

@@ -33,7 +33,9 @@
 .portfolio-entrance {
   display: block;
   position: relative;
+  min-height: 100vh;
   min-height: 100svh;
+  padding: max(132px, 22vh) var(--gutter) 110px;
   padding: max(132px, 22svh) var(--gutter) 110px;
   overflow: hidden;
   background: #271e18;
@@ -67,6 +69,7 @@
   .portfolio-entrance {
     display: grid;
     align-items: end;
+    padding-block: 88px clamp(72px, 15vh, 136px);
     padding-block: 88px clamp(72px, 15svh, 136px);
   }
   .portfolio-entrance::after {
@@ -107,8 +110,10 @@
   isolation: isolate;
   display: flex;
   align-items: end;
+  min-height: 100vh;
   min-height: 100svh;
   margin: 0;
+  padding: clamp(84px, 12vh, 130px) var(--gutter) clamp(24px, 5vh, 64px);
   padding: clamp(84px, 12svh, 130px) var(--gutter) clamp(24px, 5svh, 64px);
   background: #171510 center / cover no-repeat;
   color: #fff9ef;
