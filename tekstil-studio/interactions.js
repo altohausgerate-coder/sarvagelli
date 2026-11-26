@@ -25,10 +25,13 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
       ['Dizayn parçaları', 'mehsul-dizayn.html', 'Tekstil'],
       ['Açıq məkan tekstili', 'mehsul-outdoor.html', 'Tekstil'],
     ] },
-    company: { label: 'Haqqımızda', items: [
-      ['Sarvagelli haqqında', 'haqqimizda.html'], ['Tarixçə', 'tarixce.html'],
-      ['Komanda', 'komanda.html'], ['Perspektivlər', 'perspektivler.html'],
-      ['Əlaqə', 'elaqe.html'],
+    company: { label: 'Haqqımızda', columns: true, items: [
+      ['Sarvagelli haqqında', 'haqqimizda.html', 'Şirkət'],
+      ['Tarixçə', 'tarixce.html', 'Şirkət'],
+      ['Komanda', 'komanda.html', 'Şirkət'],
+      ['Əlaqə səhifəsi', 'elaqe.html', 'Əlaqə'],
+      ['+994 50 555 17 87', 'tel:+994505551787', 'Əlaqə'],
+      ['info@sarvagelli.com', 'mailto:info@sarvagelli.com', 'Əlaqə'],
     ] },
     brands: { label: 'Brendlər', items: [
       ['Sarvagelli Hospitality', 'brendler.html#sarvagelli-hospitality'],
@@ -44,14 +47,9 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
       ['Üzlükdə toxuma və istifadə', 'yazi-material-sec.html'],
       ['Terasda kölgə və məxfilik', 'yazi-teras-sec.html'],
     ] },
-    contact: { label: 'Əlaqə', items: [
-      ['Əlaqə və showroom', 'elaqe.html'],
-      ['+994 50 555 17 87', 'tel:+994505551787'],
-      ['info@sarvagelli.com', 'mailto:info@sarvagelli.com'],
-    ] },
     search: { label: 'Axtarış', items: [] },
   };
-  const headerItems = ['brands', 'products', 'projects', 'company', 'perspectives', 'contact'];
+  const headerItems = ['projects', 'products', 'perspectives', 'brands', 'company'];
   const drawer = document.createElement('dialog');
   drawer.id = 'sarvagelli-menu';
   drawer.className = 'editorial-drawer';

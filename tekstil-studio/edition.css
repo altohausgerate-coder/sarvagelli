@@ -54,7 +54,8 @@
 }
 .portfolio-title {
   font-family: var(--display-type);
-  font-size: clamp(58px, 8vw, 138px);
+  font-size: clamp(38px, min(7.8vw, 14vh), 125px);
+  font-size: clamp(38px, min(7.8vw, 14svh), 125px);
   font-weight: 350;
   line-height: 1.08;
   letter-spacing: -.04em;
@@ -64,7 +65,7 @@
 .hero-title-line { display: block; }
 .hero-title-line + .hero-title-line { margin-inline-start: clamp(22px, 10vw, 175px); }
 .hero-title-word, .hero-title-word > span { display: inline-block; }
-.studio-home .drawer-links :is(a, .drawer-main-link) { font-family: var(--display-type); font-weight: 350; }
+:is(.solution-section, .home-editorial, .home-team, .home-brands) h2 { font-family: var(--display-type); font-weight: 350; }
 @media (max-width: 767px) and (orientation: portrait) {
   .portfolio-entrance {
     display: grid;
@@ -303,7 +304,6 @@
 .home-footer-logo img { width: clamp(150px, 17vw, 240px); }
 .home-footer .footer-line { max-width: 22ch; font-size: clamp(25px, 2.8vw, 41px); line-height: 1.12; }
 .home-footer :is(.footer-line, nav a) { color: #e6d8c2; }
-.home-footer .home-footer-logo .atelier-logo { width: 142px; height: 87px; object-fit: cover; object-position: center 48%; }
 .home-footer-intro p:last-child { margin-top: 18px; color: #cfcec1; }
 .home-footer h2 { margin-bottom: 17px; color: #dbc092; font: 650 13px/1.4 var(--sans); letter-spacing: .09em; text-transform: uppercase; }
 .home-footer address { font-style: normal; margin-bottom: 12px; color: #e0ded1; }
@@ -357,7 +357,7 @@ img[src*="sea-breeze-grand-hotel-"], img[src*="sea-breeze-grand-interior-"] { fi
   .portfolio-overview { grid-template-columns: 1fr; }
   .portfolio-overview-copy { grid-area: auto; }
   .portfolio-overview-photo { max-width: none; aspect-ratio: 4 / 3; }
-  .portfolio-title { font-size: clamp(44px, 11vw, 73px); }
+  .portfolio-title { font-size: clamp(32px, 9.8vw, 62px); }
   .hero-title-line + .hero-title-line { margin-inline-start: clamp(0px, 6vw, 38px); }
   .project-frame figcaption { grid-template-columns: 1fr; }
   .project-frame { background-position: 42% center; }

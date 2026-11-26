@@ -304,7 +304,8 @@ function paint(timestamp) {
       hero.style.setProperty('--motion-hero-y', `${-progress * heroHeight * CONFIG.hero.drift * strength}px`);
       hero.style.setProperty('--motion-hero-shade', CONFIG.hero.overlayTo * progress);
       heroWords.forEach((word, index) => {
-        const exit = smoothstep(clamp((progress - .08 - index * .085) / .40));
+        const offset = .17 * index / Math.max(1, heroWords.length - 1);
+        const exit = smoothstep(clamp((progress - .08 - offset) / .40));
         word.style.setProperty('--motion-caption-alpha', 1 - exit);
         word.style.setProperty('--motion-caption-y', `${-exit * CONFIG.hero.captionLift}px`);
       });

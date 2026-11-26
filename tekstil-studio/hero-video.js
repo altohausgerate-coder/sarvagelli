@@ -8,6 +8,7 @@ const overview = document.querySelector('.portfolio-overview-panel');
 const src = video.dataset.src;
 const src4k = video.getAttribute('data-src-4k');
 const srcPortrait = video.dataset.srcPortrait;
+const titleHoldSeconds = 6.8;
 const failedSources = new Set();
 let visible = false;
 let covered = false;
@@ -39,6 +40,12 @@ video.addEventListener('playing', () => {
   video.classList.add('video-visible');
   picture.setAttribute('aria-hidden', 'true');
 });
+function finishTitle() {
+  if (video.currentTime < titleHoldSeconds) return;
+  hero.classList.add('hero-title-finished');
+  video.removeEventListener('timeupdate', finishTitle);
+}
+video.addEventListener('timeupdate', finishTitle);
 video.addEventListener('error', () => {
   failedSources.add(video.getAttribute('src'));
   showPoster();
