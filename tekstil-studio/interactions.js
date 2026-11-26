@@ -208,6 +208,7 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
     selectPanel(key);
     if (firstOpen) {
       drawer.showModal();
+      document.documentElement.classList.add('editorial-drawer-open');
       scheduleMeasure();
     }
     (panels.get(key).querySelector('input, a') || roundClose).focus({ preventScroll: true });
@@ -258,6 +259,7 @@ if (editorialHeader && desktopLinks && typeof HTMLDialogElement !== 'undefined')
   drawer.addEventListener('cancel', event => { event.preventDefault(); closeMenu(); });
   drawer.addEventListener('close', () => {
     if (drawer.open) return;
+    document.documentElement.classList.remove('editorial-drawer-open');
     closeTransition = undefined;
     delete drawer.dataset.phase;
     selectPanel(undefined);
