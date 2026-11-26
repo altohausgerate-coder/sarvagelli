@@ -138,7 +138,7 @@
   letter-spacing: .025em;
 }
 .project-frame--quiet figcaption a { text-underline-offset: .25em; }
-.project-frame-name { max-width: 19ch; font: 400 clamp(36px, 5.5vw, 92px)/.99 var(--serif); letter-spacing: -.035em; }
+.project-frame-name { max-width: 19ch; font: 400 clamp(36px, 5.5vw, 92px)/.99 var(--serif-display); letter-spacing: -.035em; }
 .project-frame .action { margin-top: 14px; padding-inline: 15px; border: 1px solid currentColor; }
 .project-meta {
   display: flex;
