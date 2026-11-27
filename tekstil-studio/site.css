@@ -1,28 +1,13 @@
-@font-face {
-  font-family: 'Tenor Sans';
-  src: url('fonts/TenorSans-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Commissioner;
-  src: url('fonts/commissioner-text.woff2') format('woff2');
-  font-weight: 350 700;
-  font-display: swap;
-}
-
 :root {
   --paper: #efece3;
   --ink: #1a2c25;
   --accent: #d9bb7c;
   --line: #283b3350;
   --gutter: clamp(22px, 5.2vw, 88px);
-  --text-type: Commissioner, system-ui, sans-serif;
-  --display-type: 'Tenor Sans', var(--text-type);
+  --site-font: Arial, Helvetica, system-ui, sans-serif;
   color: var(--ink);
   background: var(--paper);
-  font: 16px / 1.6 var(--text-type);
+  font: 16px / 1.6 var(--site-font);
 }
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -55,9 +40,9 @@ button, input, select, textarea { font: inherit; }
 .masthead nav a { text-decoration: none; font-size: 14px; }
 .masthead nav a:hover, .masthead [aria-current] { color: #775424; }
 .mobile-nav { display: none; }
-.eyebrow { font: 650 11px / 1.4 var(--text-type); letter-spacing: .14em; text-transform: uppercase; }
+.eyebrow { font: 650 11px / 1.4 var(--site-font); letter-spacing: .14em; text-transform: uppercase; }
 h1, h2, h3, .footer-line {
-  font-family: var(--display-type);
+  font-family: var(--site-font);
   font-weight: 400;
   line-height: 1.05;
   letter-spacing: -.035em;
@@ -109,7 +94,7 @@ h3 { font-size: clamp(30px, 3.4vw, 55px); }
   align-items: start;
   padding-block: clamp(62px, 9vw, 145px);
 }
-.manifesto p:not(.eyebrow), .page-intro p { max-width: 46ch; font: 400 clamp(18px, 2vw, 27px)/1.45 var(--display-type); }
+.manifesto p:not(.eyebrow), .page-intro p { max-width: 46ch; font: 400 clamp(18px, 2vw, 27px)/1.45 var(--site-font); }
 .manifesto h2 { margin-bottom: 20px; }
 .manifesto .action { margin-top: 15px; }
 .section-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; padding-block: 40px 26px; }
@@ -183,7 +168,7 @@ h3 { font-size: clamp(30px, 3.4vw, 55px); }
   padding: 11px 0;
   border-bottom: 1px solid var(--line);
 }
-.project-tile-copy > span:first-child { font: 400 clamp(20px, 2.1vw, 31px)/1.1 var(--display-type); }
+.project-tile-copy > span:first-child { font: 400 clamp(20px, 2.1vw, 31px)/1.1 var(--site-font); }
 .project-tile-copy small { grid-row: 2; }
 .project-tile-copy > span:last-child { grid-column: 2; grid-row: 1; }
 .project-tools { display: flex; align-items: end; flex-wrap: wrap; gap: 13px 24px; padding-bottom: 25px; }
@@ -205,7 +190,7 @@ h3 { font-size: clamp(30px, 3.4vw, 55px); }
 .detail-photo img { aspect-ratio: 1.35; object-fit: cover; }
 .project-detail { padding-block: 35px 95px; }
 .project-detail .page-intro { padding-block: 35px; }
-.project-detail .eyebrow { font-family: var(--text-type); font-size: 12px; margin-bottom: 10px; }
+.project-detail .eyebrow { font-family: var(--site-font); font-size: 12px; margin-bottom: 10px; }
 .project-photos { display: flex; flex-wrap: wrap; gap: 20px; }
 .project-photos figure { width: min(100%, 406px); }
 .project-photos img { height: auto; }
