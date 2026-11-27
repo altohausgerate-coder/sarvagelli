@@ -60,7 +60,7 @@
   align-items: center;
   justify-self: start;
   min-height: 44px;
-  font: 700 clamp(11px, .91vw, 18px)/1.25 var(--sans);
+  font: 700 clamp(11px, .91vw, 18px)/1.25 var(--text-type);
   letter-spacing: .045em;
   text-decoration: none;
   text-transform: uppercase;
@@ -175,14 +175,14 @@
   scrollbar-width: thin;
   scrollbar-color: #9d9288 #f6f1e9;
 }
-.drawer-content h2 { margin-bottom: 23px; font: 350 clamp(27px, 3vw, 45px)/1.1 var(--display-type, var(--serif)); letter-spacing: -.025em; }
+.drawer-content h2 { margin-bottom: 23px; font: 400 clamp(27px, 3vw, 45px)/1.1 var(--display-type); letter-spacing: -.025em; }
 .drawer-links { display: grid; align-items: start; }
 .drawer-links.drawer-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .drawer-columns > a { grid-column: 1 / -1; }
 .menu-content:is([data-panel="products"], [data-panel="projects"]) .drawer-content { max-width: 750px; }
 .drawer-link-group + .drawer-link-group { margin-top: 22px; }
 .drawer-columns .drawer-link-group { margin-top: 0; }
-.drawer-link-group h3 { color: var(--menu-gold); font: 650 11px/1.5 var(--sans); letter-spacing: .1em; text-transform: uppercase; }
+.drawer-link-group h3 { color: var(--menu-gold); font: 650 11px/1.5 var(--text-type); letter-spacing: .1em; text-transform: uppercase; }
 .drawer-links :is(a, .drawer-main-link) {
   display: flex;
   align-items: center;
@@ -192,7 +192,7 @@
   text-decoration: none;
   text-align: start;
   overflow-wrap: anywhere;
-  font: 350 clamp(21px, 1.75vw, 28px)/1.22 var(--display-type, var(--serif));
+  font: 400 clamp(21px, 1.75vw, 28px)/1.22 var(--display-type);
 }
 .drawer-links .drawer-link-group a { min-height: 44px; font-size: clamp(17px, 1.4vw, 22px); }
 .drawer-links :is(a, .drawer-main-link):hover { color: var(--menu-gold); }
@@ -226,7 +226,7 @@
 .product-details { padding-bottom: clamp(52px, 8vw, 128px); }
 .product-details h2 { padding-block: 24px; border-top: 1px solid var(--line); font-size: clamp(28px, 4vw, 54px); }
 .product-details dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 4vw, 56px); margin: 0; }
-.product-details dt { font: 400 clamp(21px, 2.4vw, 33px)/1.18 var(--serif); }
+.product-details dt { font: 400 clamp(21px, 2.4vw, 33px)/1.18 var(--display-type); }
 .product-details dd { margin: 9px 0 0; color: var(--muted); }
 @media (max-width: 700px) {
   .product-details dl { grid-template-columns: 1fr; }
@@ -309,11 +309,11 @@
   gap: 18px clamp(28px, 7vw, 122px);
   padding-block: clamp(56px, 10vw, 162px) clamp(50px, 8vw, 128px);
 }
-.editorial-intro h1 { font: 350 clamp(40px, 5.4vw, 80px)/1.05 var(--display-type, var(--serif)); text-wrap: pretty; }
-.editorial-intro p { max-width: 31ch; color: var(--ink); font: 400 clamp(22px, 2.6vw, 34px)/1.25 var(--serif); }
+.editorial-intro h1 { font: 400 clamp(40px, 5.4vw, 80px)/1.05 var(--display-type); text-wrap: pretty; }
+.editorial-intro p { max-width: 31ch; color: var(--ink); font: 400 clamp(22px, 2.6vw, 34px)/1.25 var(--display-type); }
 .catalog-intro { background: #f0ede7; }
 .catalog-intro .editorial-intro { align-items: center; padding-block: clamp(26px, 4vw, 64px); }
-.catalog-intro h1 { font: 350 clamp(40px, 5.8vw, 84px)/1.05 var(--display-type, var(--serif)); }
+.catalog-intro h1 { font: 400 clamp(40px, 5.8vw, 84px)/1.05 var(--display-type); }
 .catalog-intro p { font-size: clamp(19px, 2vw, 31px); }
 .about-visual { padding-bottom: var(--section-gap); }
 .about-visual img { aspect-ratio: 2 / 1; object-fit: cover; }
@@ -321,7 +321,7 @@
 .about-value { min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: clamp(28px, 5vw, 84px); padding: clamp(22px, 3vw, 48px); background: #ece8df; }
 .about-value:nth-child(2) { background: #263a33; color: #fff7ea; }
 .about-value:nth-child(3) { background: #ded3c0; }
-.about-value h2 { font: 350 clamp(32px, 4vw, 62px)/1.1 var(--display-type, var(--serif)); }
+.about-value h2 { font: 400 clamp(32px, 4vw, 62px)/1.1 var(--display-type); }
 .about-value p { max-width: 38ch; }
 .project-catalog .project-gallery { --mask-duration: 650ms; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(27px, 4vw, 64px) clamp(16px, 2.4vw, 38px); }
 .project-catalog .project-tile { min-width: 0; display: block; }
@@ -337,7 +337,7 @@
 .project-catalog .project-tile-copy > span {
   grid-column: 1;
   grid-row: 2;
-  font: 350 clamp(20px, 2.1vw, 34px)/1.18 var(--display-type, var(--serif));
+  font: 400 clamp(20px, 2.1vw, 34px)/1.18 var(--display-type);
   text-wrap: pretty;
   overflow-wrap: anywhere;
 }
@@ -369,7 +369,7 @@
 .contact-layout { display: grid; grid-template-columns: minmax(0, .78fr) minmax(0, 1.1fr); gap: 32px clamp(30px, 8vw, 125px); padding-block: 42px 100px; }
 .contact-layout img { aspect-ratio: 5 / 4; object-fit: cover; }
 .contact-layout address { font-style: normal; margin-block: 18px 12px; }
-.contact-layout .inquiry-section h2 { margin-bottom: 24px; font: 350 clamp(28px, 3.4vw, 52px)/1.1 var(--display-type, var(--serif)); }
+.contact-layout .inquiry-section h2 { margin-bottom: 24px; font: 400 clamp(28px, 3.4vw, 52px)/1.1 var(--display-type); }
 .contact-layout .inquiry-form { max-width: none; gap: 20px; }
 .contact-layout .inquiry-form label { font-size: 13px; }
 .contact-layout .inquiry-form :is(input, textarea, select) {
@@ -381,7 +381,7 @@
   color: inherit;
   background: transparent;
   min-height: 44px;
-  font: 400 clamp(16px, 1.35vw, 19px)/1.35 var(--sans);
+  font: 400 clamp(16px, 1.35vw, 19px)/1.35 var(--text-type);
 }
 .contact-layout button.action { background: transparent; color: inherit; border: 0; border-bottom: 1px solid; padding: 0; cursor: pointer; }
 

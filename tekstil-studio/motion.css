@@ -4,9 +4,9 @@
   --ease-hover: cubic-bezier(.25, .1, .25, 1);
   --intro-header: 400ms;
   --intro-curtain: 1250ms;
-  --intro-title: 760ms;
-  --intro-title-delay: 270ms;
-  --intro-title-stagger: 170ms;
+  --intro-title: 1600ms;
+  --intro-title-delay: 380ms;
+  --intro-title-stagger: 660ms;
   --reveal-duration: 900ms;
   --reveal-distance: 40px;
   --reveal-trigger: 12%;
@@ -102,8 +102,8 @@
   }
   .js .portfolio-entrance .hero-scroll-shade { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: #15120e; opacity: var(--motion-hero-shade, 0); }
   .js .hero-title-word { opacity: var(--motion-caption-alpha, 1); transform: translateY(var(--motion-caption-y, 0px)); }
-  .hero-title-word > span { animation: motion-word-in var(--intro-title) var(--ease-out) calc(var(--intro-title-delay) + var(--hero-word-index, 0) * var(--intro-title-stagger)) both; }
-  .portfolio-film-copy { transition: opacity 950ms var(--ease-out); }
+  .hero-title-word > span { animation: motion-word-in var(--intro-title) cubic-bezier(.30, 0, .38, 1) calc(var(--intro-title-delay) + var(--hero-word-index, 0) * var(--intro-title-stagger)) both; }
+  .portfolio-film-copy { transition: opacity 1500ms ease-in-out; }
   .hero-title-finished .portfolio-film-copy { opacity: 0; }
   .js .portfolio-overview { --reveal-distance: 23px; --reveal-duration: 720ms; --mask-duration: 880ms; }
   .js .portfolio-overview-copy > :nth-child(2) { --motion-item: 1; }
@@ -153,7 +153,7 @@
   }
   .inquiry-form label > .motion-field-label { transition: transform var(--field-duration) var(--ease-hover); }
 
-  @keyframes motion-word-in { from { transform: translateY(.42em); opacity: 0; } }
+  @keyframes motion-word-in { from { transform: translateY(.25em); opacity: 0; } }
   @keyframes motion-up { from { opacity: 0; transform: translateY(var(--reveal-distance)); } }
   @keyframes motion-opacity { from { opacity: 0; } }
   @keyframes motion-hero-curtain {
